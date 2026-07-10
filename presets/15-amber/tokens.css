@@ -1,0 +1,189 @@
+/* ============================================================
+ * presets/15-amber/tokens.css — 15 · Amber (inspired by Kakao)
+ * 원본 스펙: presets/15-amber/SPEC.md (§2~§7)
+ * 규약: :root = a 변형 라이트 / [data-theme="dark"] 다크 오버라이드
+ *       [data-variant="b"] = 색 토큰만 오버라이드 (오렌지 계열, hue 35)
+ * 데모 HTML: <html data-preset="15" data-variant="a">
+ * 불변식: 노랑(primary)은 면 전용, 그 위 텍스트는 항상 near-black(§2.3)
+ * ============================================================ */
+
+:root {
+  /* ---------- §2 색 (a 변형, 라이트) ---------- */
+  --color-bg: #FFFFFF;
+  --color-surface: #F5F6F7;
+  --color-surface-raised: #FFFFFF;
+  --color-text: #17181A;              /* bg 대비 17.77:1 */
+  --color-text-sub: #565B62;          /* bg 대비 6.84:1 */
+  --color-text-tertiary: #71767E;     /* bg 대비 4.57:1 — 라이트 surface 위 본문 금지(§2.3) */
+  --color-primary: #FFE000;           /* 앰버 노랑 — near-black 대비 13.17:1, 흰색 1.36:1(흰 글씨 금지) */
+  --color-primary-text: #1A1A1C;      /* 노랑 위 텍스트·아이콘 (항상 near-black) */
+  --color-primary-pressed: #F2CE00;   /* near-black 대비 11.26:1 */
+  --color-primary-soft: #FFF6C4;      /* 연노랑 배경 */
+  --color-primary-soft-text: #1A1A1C; /* soft 대비 15.91:1 */
+  --color-primary-vivid: #FFD400;     /* 그래픽 전용 채움, 라이트 bg 대비 1.43:1 → near-black 윤곽 필수(§2.3) */
+  --color-accent: #8A6A00;            /* 텍스트로 쓰는 앰버(딥골드), bg 대비 5.07:1 / surface 4.69:1 */
+  --color-danger: #D92100;            /* bg 대비 5.04:1 */
+  --color-danger-soft: #FDECE8;
+  --color-success: #157F52;           /* bg 대비 5.01:1 */
+  --color-success-soft: #E4F4EB;
+  --color-border: #E7E9EC;
+  --color-dim: rgba(23, 24, 26, 0.55);
+  --color-frame-backdrop: #ECEEF0;    /* 데스크톱 400px 프레임 밖 배경(§4) */
+
+  /* ---------- §3 타이포그래피 ---------- */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', system-ui,
+                 'Malgun Gothic', 'Noto Sans KR', 'Segoe UI', Roboto, sans-serif;
+
+  --font-size-display-1: 32px;   /* 800 / 1.25 / -0.02em — 온보딩 헤드라인·프로필 대형 이름 */
+  --font-size-display-2: 26px;   /* 700 / 1.3  / -0.02em — 빈 상태 제목·큰 강조 */
+  --font-size-title-1: 22px;     /* 700 / 1.35 / -0.01em — 화면 타이틀 */
+  --font-size-title-2: 18px;     /* 700 / 1.4  / -0.01em — 섹션·시트 제목·이름 강조 */
+  --font-size-body-1: 16px;      /* 400 / 1.5  / -0.005em — 메시지·리스트 주 텍스트 (이름/버튼은 600/700) */
+  --font-size-body-2: 14px;      /* 400 / 1.55 / -0.005em — 보조 본문·상태 메시지 */
+  --font-size-caption: 13px;     /* 400 / 1.5  / 0 — 타임스탬프·라벨 */
+  --font-size-micro: 12px;       /* 600 / 1.45 / 0.01em — 탭바 라벨·뱃지·카운트 (최소) */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --line-height-display-1: 1.25;
+  --line-height-display-2: 1.3;
+  --line-height-title-1: 1.35;
+  --line-height-title-2: 1.4;
+  --line-height-body-1: 1.5;
+  --line-height-body-2: 1.55;
+  --line-height-caption: 1.5;
+  --line-height-micro: 1.45;
+
+  --letter-spacing-display: -0.02em;
+  --letter-spacing-title: -0.01em;
+  --letter-spacing-body: -0.005em;
+  --letter-spacing-caption: 0;
+  --letter-spacing-micro: 0.01em;
+
+  /* ---------- §4 간격 · 레이아웃 ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  --layout-screen-padding: 16px;      /* 화면 좌우 기본 패딩 (메신저 밀도) */
+  --layout-section-gap: 24px;         /* 섹션 간 */
+  --layout-card-padding: 16px;        /* 카드 내부 */
+  --layout-frame-width: 400px;        /* 데스크톱 중앙 프레임(§4) */
+  --size-appbar: 56px;
+  --size-tabbar: 56px;
+  --size-cta: 52px;                   /* 하단 고정 CTA 버튼 높이 */
+  --size-input: 52px;                 /* 입력 필드·채팅 입력 바 높이 */
+  --size-touch-min: 44px;             /* 최소 터치 타깃 */
+  --size-list-row: 64px;              /* 채팅방·친구 리스트 행 min-height */
+  --size-avatar: 48px;                /* 기본 아바타 */
+  --size-bubble-max: 72%;             /* 말풍선 최대폭 */
+
+  /* ---------- §5 형태 ---------- */
+  --radius-xs: 4px;    /* 말풍선 꼬리 코너 전용 */
+  --radius-sm: 8px;    /* 작은 썸네일·인풋 내부 */
+  --radius-md: 12px;   /* 버튼·입력·카드·작은 아바타 */
+  --radius-lg: 16px;   /* 말풍선(3코너)·큰 카드·아바타(둥근사각) */
+  --radius-xl: 20px;   /* 검색바·채팅 입력·바텀시트 상단 */
+  --radius-2xl: 24px;  /* 데스크톱 프레임·대형 아바타·대형 모달 */
+  --radius-full: 999px;/* 필 뱃지·시스템 메시지·카운트·토글·필터 칩 */
+
+  /* 말풍선 비대칭 radius (§6.11) */
+  --radius-bubble-mine: 16px 16px 4px 16px;   /* 내 말풍선: 우하단 꼬리 */
+  --radius-bubble-other: 16px 16px 16px 4px;  /* 상대 말풍선: 좌하단 꼬리 */
+
+  --shadow-0: none;
+  --shadow-1: 0 1px 3px rgba(20, 20, 20, 0.08);   /* sticky 앱바·탭바·입력 바 */
+  --shadow-2: 0 4px 16px rgba(20, 20, 20, 0.14);  /* 시트·메뉴·토스트·FAB */
+  --shadow-3: 0 12px 40px rgba(20, 20, 20, 0.20); /* 데스크톱 앱 프레임 */
+
+  /* ---------- §7 모션 ---------- */
+  --motion-instant: 0ms;
+  --motion-quick: 120ms;    /* press 반응 */
+  --motion-fast: 180ms;     /* fade·색 전환·딤 */
+  --motion-base: 240ms;     /* 전환·시트·복귀·탭 */
+  --motion-emphasis: 320ms; /* 메시지 전송·진입 강조 */
+  --motion-stagger: 32ms;   /* 리스트 스태거 간격(최대 10개) */
+
+  --ease-out-soft: cubic-bezier(0.2, 0.6, 0.25, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.6, 0, 0.2, 1);
+}
+
+/* ============================================================
+ * 다크 오버라이드 (a 변형) — §2.2
+ * 노랑(primary)과 그 위 near-black 텍스트는 라이트와 동일 유지.
+ * 텍스트로 쓰는 앰버(accent)만 밝은 앰버로 교체.
+ * ============================================================ */
+:root[data-theme="dark"] {
+  --color-bg: #17181B;
+  --color-surface: #212328;
+  --color-surface-raised: #2A2D33;
+  --color-text: #ECEEF1;              /* bg 대비 15.27:1 */
+  --color-text-sub: #A0A6AE;          /* surface 대비 6.41:1 */
+  --color-text-tertiary: #8A9098;     /* bg 대비 5.51:1, surface 대비 4.88:1 */
+  --color-primary: #FFE000;           /* 노랑 유지 — near-black 대비 13.17:1 */
+  --color-primary-text: #1A1A1C;      /* 다크에서도 노랑 위엔 near-black */
+  --color-primary-pressed: #EBCF00;   /* near-black 대비 11.14:1 */
+  --color-primary-soft: #3A3410;      /* 어두운 앰버 배경 */
+  --color-primary-soft-text: #FFDE4D; /* soft 대비 9.42:1 */
+  --color-primary-vivid: #FFD400;     /* bg 대비 12.40:1 */
+  --color-accent: #FFD24D;            /* 밝은 앰버 텍스트, bg 대비 12.32:1 / surface 10.91:1 */
+  --color-danger: #FF6B57;            /* bg 대비 6.33:1 */
+  --color-danger-soft: #3A1E19;
+  --color-success: #45C98A;           /* bg 대비 8.43:1 */
+  --color-success-soft: #123024;
+  --color-border: #33363C;
+  --color-dim: rgba(0, 0, 0, 0.6);
+  --color-frame-backdrop: #000000;
+
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.55);
+  --shadow-3: 0 12px 40px rgba(0, 0, 0, 0.65);
+}
+
+/* ============================================================
+ * b 변형 (오렌지, hue 35) — 색 토큰만 오버라이드 (§2.4)
+ * 간격·타이포·radius·모션은 절대 건드리지 않는다.
+ * Amber 불변식 유지: 밝은 따뜻한 점 + near-black 텍스트.
+ * ============================================================ */
+:root[data-variant="b"] {
+  --color-primary: #FF9500;           /* near-black 대비 7.90:1, 흰색 2.20:1(흰 글씨 금지) */
+  --color-primary-text: #1A1A1C;
+  --color-primary-pressed: #F08600;   /* near-black 대비 6.72:1 */
+  --color-primary-soft: #FFEBD1;
+  --color-primary-soft-text: #7A3E00; /* soft 대비 7.17:1 */
+  --color-primary-vivid: #FF9500;     /* 그래픽 전용, 라이트 bg 대비 2.20:1 → near-black 윤곽 필수 */
+  --color-accent: #A85A00;            /* 텍스트 앰버(딥오렌지), bg 대비 5.09:1 / surface 4.70:1 */
+}
+
+:root[data-variant="b"][data-theme="dark"] {
+  --color-primary: #FF9500;           /* 오렌지 유지 — near-black 대비 7.90:1 */
+  --color-primary-text: #1A1A1C;
+  --color-primary-pressed: #FFAA3D;   /* near-black 대비 상승(밝은 press) */
+  --color-primary-soft: #3A2510;
+  --color-primary-soft-text: #FFB454; /* soft 대비 8.20:1 */
+  --color-primary-vivid: #FF9500;     /* bg 대비 8.07:1 */
+  --color-accent: #FFB454;            /* 밝은 오렌지 텍스트, bg 대비 10.07:1 / surface 8.92:1 */
+}
+
+/* ============================================================
+ * prefers-reduced-motion — 전역 (§7)
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 150ms !important;
+    transition-property: opacity !important;
+  }
+}

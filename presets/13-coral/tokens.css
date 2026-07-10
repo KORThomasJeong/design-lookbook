@@ -1,0 +1,194 @@
+/* ============================================================
+ * presets/13-coral/tokens.css — 13 · Coral (inspired by Airbnb DLS "Cereal")
+ * 원본 스펙: presets/13-coral/SPEC.md (§2~§7)
+ * 이 파일의 모든 수치는 독립 해석이며 어떤 상표의 공식 값도 아니다.
+ * 규약: :root = a 변형 라이트 / [data-theme="dark"] 다크 오버라이드
+ *       [data-variant="b"] = 색 토큰만 오버라이드 (teal-forward, hue 174)
+ * 데모 HTML: <html data-preset="13" data-variant="a">
+ * ============================================================ */
+
+:root {
+  /* ---------- §2 색 (a 변형, 라이트) — 코랄-레드 + 틸 ---------- */
+  --color-bg: #FFFFFF;
+  --color-surface: #F7F5F3;             /* 따뜻한 오프화이트, text 대비 14.63:1 */
+  --color-surface-raised: #FFFFFF;      /* 카드가 surface 위에 뜰 때 */
+  --color-text: #222222;                /* bg 대비 15.91:1 */
+  --color-text-sub: #585858;            /* bg 7.11:1 / surface 6.54:1 */
+  --color-text-tertiary: #6A6A6A;       /* bg 5.41:1 / surface 4.97:1 (§2.3 제약) */
+
+  --color-primary: #D02730;             /* 코랄-레드 hue356, 흰 텍스트 5.23:1 / surface 4.81:1 */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #AE1F27;     /* 흰 텍스트 6.94:1 */
+  --color-primary-soft: #FFF0EF;        /* 연한 코랄 배경 */
+  --color-primary-soft-text: #BD1D27;   /* soft 대비 5.63:1 */
+  --color-primary-vivid: #FF5A5F;       /* 시그니처 밝은 코랄, 그래픽 전용, bg 3.05:1 */
+
+  --color-accent: #00857A;              /* 틸(보색), 그래픽 전용, bg 4.53:1 / surface 4.17:1 */
+
+  --color-danger: #C13515;              /* 번트 오렌지-레드 hue11, bg 5.54:1 / surface 5.10:1 */
+  --color-danger-soft: #FDECE7;
+  --color-success: #17742E;             /* 그린 hue137, bg 5.88:1 / surface 5.40:1 */
+  --color-success-soft: #E7F4EB;
+
+  --color-border: #DDDDDD;              /* 헤어라인 (유일 허용 선) */
+  --color-border-soft: #EBEBEB;         /* 더 옅은 구분 */
+  --color-dim: rgba(34, 34, 34, 0.48);  /* 모달 뒤 딤(스크림) */
+  --color-frame-backdrop: #EBE7E3;      /* 데스크톱 프레임 밖 배경(§4) */
+
+  /* 별점(호스트 평점) 채움색 — 텍스트와 동일 잉크(§6 rating) */
+  --color-star: #222222;
+
+  /* ---------- §3 타이포그래피 ---------- */
+  --font-family: 'Airbnb Cereal VF', 'Airbnb Cereal', Circular, -apple-system,
+                 BlinkMacSystemFont, system-ui, 'Segoe UI', 'Helvetica Neue',
+                 'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', sans-serif;
+
+  --font-size-display: 32px;    /* 600 / 1.15 / -0.02em — 확인·히어로 큰 제목 */
+  --font-size-title-1: 26px;    /* 600 / 1.2  / -0.01em — 화면 타이틀 */
+  --font-size-title-2: 22px;    /* 600 / 1.25 / -0.01em — 섹션 헤더·숙소명 */
+  --font-size-title-3: 18px;    /* 600 / 1.3  / 0 — 카드 제목·리스트 헤더 */
+  --font-size-body-1: 16px;     /* 400 / 1.5  / 0 — 본문 (버튼 라벨은 16/500) */
+  --font-size-body-2: 15px;     /* 400 / 1.47 / 0 — 보조 본문·설명 */
+  --font-size-caption: 13px;    /* 500 / 1.4  / 0 — 라벨·메타·별점 옆 */
+  --font-size-micro: 12px;      /* 600 / 1.3  / 0.01em — 뱃지·탭 라벨 (최소) */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-display: 1.15;
+  --line-height-title-1: 1.2;
+  --line-height-title-2: 1.25;
+  --line-height-title-3: 1.3;
+  --line-height-body-1: 1.5;
+  --line-height-body-2: 1.47;
+  --line-height-caption: 1.4;
+  --line-height-micro: 1.3;
+
+  --letter-spacing-display: -0.02em;
+  --letter-spacing-title: -0.01em;
+  --letter-spacing-body: 0;
+  --letter-spacing-micro: 0.01em;
+
+  /* ---------- §4 간격 · 레이아웃 ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  --layout-screen-padding: 24px;        /* 화면 좌우 기본 패딩(넉넉) */
+  --layout-section-gap: 32px;           /* 섹션 간(큰 전환 48px) */
+  --layout-card-padding: 16px;          /* 사진 카드 하단 콘텐츠 패딩 */
+  --layout-content-padding: 24px;       /* 글 위주 카드·상세 블록 패딩 */
+  --layout-frame-width: 428px;          /* 데스크톱 중앙 프레임 */
+  --size-appbar: 64px;
+  --size-tabbar: 64px;                  /* + env(safe-area-inset-bottom) */
+  --size-cta: 52px;                     /* 하단 고정 CTA 버튼 높이 */
+  --size-touch-min: 44px;
+  --size-list-row: 56px;
+
+  /* ---------- §5 형태 ---------- */
+  --radius-xs: 4px;    /* 인라인 태그·작은 뱃지 */
+  --radius-sm: 8px;    /* 버튼·입력·작은 컨트롤 */
+  --radius-md: 12px;   /* 사진·썸네일·칩(사각) */
+  --radius-lg: 16px;   /* 카드·토스트 */
+  --radius-xl: 24px;   /* 큰 카드·모달·바텀시트 상단·데스크톱 프레임 */
+  --radius-full: 9999px; /* 필 검색바·칩·아바타·토글 */
+
+  --shadow-0: none;    /* 기본 — 카드는 헤어라인/여백으로 분리 */
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04); /* sticky 앱바·CTA 바 */
+  --shadow-2: 0 0 0 1px rgba(0,0,0,0.02), 0 2px 6px rgba(0,0,0,0.04), 0 4px 8px rgba(0,0,0,0.10); /* 카드 hover·플로팅 검색 (시그니처 3층) */
+  --shadow-3: 0 0 0 1px rgba(0,0,0,0.05), 0 6px 16px rgba(0,0,0,0.12), 0 12px 28px rgba(0,0,0,0.12); /* 모달·바텀시트·데스크톱 프레임 */
+
+  /* ---------- §7 모션 ---------- */
+  --motion-fast: 150ms;   /* press·색/그림자 전환 */
+  --motion-base: 250ms;   /* 진입·이미지 줌·페이지 전환 */
+  --motion-slow: 400ms;   /* 바텀시트·성공 전환 */
+  --motion-stagger: 60ms; /* 카드 그리드 스태거(최대 6개) */
+
+  --ease-out: cubic-bezier(0.32, 0.72, 0, 1);     /* 진입·시트 — 조용히 정착(오버슈트 없음) */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);  /* 색·그림자·press */
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);  /* 위치 이동 */
+}
+
+/* ============================================================
+ * 다크 오버라이드 (a 변형) — §2.2 (따뜻한 잉크 블랙)
+ * ============================================================ */
+:root[data-theme="dark"] {
+  --color-bg: #1A1617;
+  --color-surface: #242021;
+  --color-surface-raised: #2E2A2B;
+  --color-text: #F3EEEC;                /* bg 15.59:1 */
+  --color-text-sub: #B2ABA8;            /* bg 7.93:1 / surface 7.12:1 */
+  --color-text-tertiary: #948C89;       /* bg 5.44:1 / surface 4.89:1 */
+
+  --color-primary: #D02730;             /* 라이트와 동일 유지, 흰 텍스트 5.23:1 (bg 대비 3.43:1로 부상) */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #AE1F27;
+  --color-primary-soft: #2E1C1D;
+  --color-primary-soft-text: #FF8A8E;   /* soft 7.14:1 / bg 텍스트 7.92:1 — 다크의 코랄 텍스트 */
+  --color-primary-vivid: #FF6B70;       /* 그래픽, bg 6.48:1 */
+
+  --color-accent: #3AD4C4;              /* 그래픽, bg 9.73:1 */
+
+  --color-danger: #F0673E;              /* bg 5.73:1 / surface 5.15:1 */
+  --color-danger-soft: #3A1E16;
+  --color-success: #3DD07A;             /* bg 8.97:1 / surface 8.06:1 */
+  --color-success-soft: #14301F;
+
+  --color-border: #3A3536;
+  --color-border-soft: #302B2C;
+  --color-dim: rgba(0, 0, 0, 0.60);
+  --color-frame-backdrop: #0E0B0C;
+  --color-star: #F3EEEC;
+
+  --shadow-1: 0 1px 2px rgba(0,0,0,0.50), 0 2px 8px rgba(0,0,0,0.35);
+  --shadow-2: 0 0 0 1px rgba(0,0,0,0.40), 0 2px 6px rgba(0,0,0,0.45), 0 4px 8px rgba(0,0,0,0.55);
+  --shadow-3: 0 0 0 1px rgba(0,0,0,0.50), 0 6px 16px rgba(0,0,0,0.60), 0 12px 28px rgba(0,0,0,0.65);
+}
+
+/* ============================================================
+ * b 변형 (teal-forward, hue 174) — 색 토큰만 오버라이드 (§2.4)
+ * a의 코랄/틸 짝을 뒤집는다: primary=틸, accent=코랄.
+ * 간격·타이포·radius·모션은 절대 건드리지 않는다.
+ * 뉴트럴·danger·success는 a에서 상속한다.
+ * ============================================================ */
+:root[data-variant="b"] {
+  --color-primary: #007A6E;             /* 틸, 흰 텍스트 5.24:1 / surface 4.87:1 */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #005C53;     /* 흰 텍스트 7.91:1 */
+  --color-primary-soft: #E1F4F0;
+  --color-primary-soft-text: #006357;   /* soft 6.30:1 */
+  --color-primary-vivid: #00A699;       /* 그래픽, bg 3.04:1 */
+  --color-accent: #FF5A5F;              /* 코랄(보색), 그래픽, bg 3.05:1 */
+}
+
+:root[data-variant="b"][data-theme="dark"] {
+  --color-primary: #2CC4B0;             /* primary-text 대비 7.44:1 */
+  --color-primary-text: #062521;        /* b 다크는 짙은 청록 텍스트(§2.4 방식2) */
+  --color-primary-pressed: #4FD6C4;     /* primary-text 대비 9.08:1 */
+  --color-primary-soft: #122C28;
+  --color-primary-soft-text: #3ED6C2;   /* soft 8.19:1 */
+  --color-primary-vivid: #3ED6C2;       /* bg 9.74:1 */
+  --color-accent: #FF6B70;              /* bg 6.48:1 */
+}
+
+/* ============================================================
+ * prefers-reduced-motion — 전역(§7)
+ * transform/그림자 애니메이션 제거, opacity 전환만 유지.
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+    transition-property: opacity !important;
+    scroll-behavior: auto !important;
+  }
+}

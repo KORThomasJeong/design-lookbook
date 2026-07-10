@@ -1,0 +1,220 @@
+/* presets/10-slate/tokens.css
+ * 10 · Slate — inspired by GitHub Primer (독립 해석, 공식 값 아님)
+ * :root = a 변형(라이트) / [data-theme="dark"] = 다크 오버라이드
+ * [data-variant="b"] = 바이올렛 단일 액센트 (색 토큰만) / 다크+b 별도 블록
+ * 모든 수치의 근거는 SPEC.md 참조. 외부 리소스 로드 없음(시스템 폰트만).
+ */
+
+:root {
+  /* ─── §2 색: a 변형 라이트 ─── */
+  --color-bg: #ffffff;              /* 화면 배경 (canvas) */
+  --color-surface: #f6f8fa;         /* 박스 헤더·코드블록·리스트 hover·인셋 */
+  --color-surface-raised: #ffffff;  /* 흰 박스 본문 */
+  --color-surface-overlay: #ffffff; /* 드롭다운·메뉴·팝오버 */
+  --color-code-bg: #f6f8fa;         /* 인라인/블록 코드 배경 */
+
+  --color-text: #1f2328;            /* 본문·제목 */
+  --color-text-sub: #59636e;        /* 보조 본문·메타(muted) */
+  --color-text-tertiary: #6e7781;   /* 캡션·타임스탬프(subtle, 제약 §2.3) */
+  --color-text-on-emphasis: #ffffff;/* 순색 배경 위 텍스트 */
+
+  --color-primary: #1f883d;         /* primary(merge/confirm) 버튼 배경 */
+  --color-primary-text: #ffffff;
+  --color-primary-hover: #1a7f37;   /* interact 시 어두워짐(바운스 없음) */
+  --color-primary-pressed: #197935;
+
+  --color-accent: #0969da;          /* 링크·포커스링·선택 강조 */
+  --color-accent-emphasis: #0969da; /* 파란 solid 버튼 배경 */
+  --color-accent-soft: #ddf4ff;     /* 선택 행·정보 배경 */
+  --color-accent-soft-text: #0969da;
+
+  --color-danger: #d1242f;          /* 위험 텍스트·아이콘 */
+  --color-danger-emphasis: #cf222e; /* 삭제 버튼 solid 배경 */
+  --color-danger-soft: #ffebe9;     /* 에러 배경·삭제 diff */
+  --color-danger-text: #ffffff;
+
+  --color-success: #1a7f37;         /* 성공 텍스트·아이콘·open 상태 */
+  --color-success-emphasis: #1f883d;/* open 상태 solid 배지 */
+  --color-success-soft: #dafbe1;
+
+  --color-attention: #9a6700;       /* 경고 텍스트 */
+  --color-attention-emphasis: #bf8700;
+  --color-attention-soft: #fff8c5;
+
+  --color-done: #8250df;            /* merged PR·완료 상태(보라) */
+  --color-done-emphasis: #8250df;
+  --color-done-soft: #fbefff;
+
+  --color-border: #d1d9e0;          /* 박스·컨트롤 테두리 */
+  --color-border-muted: #d8dee4;    /* 리스트 행 구분선 */
+  --color-overlay-backdrop: rgba(31, 35, 40, 0.35);
+
+  --color-diff-add-bg: #e6ffec;     /* diff 추가 행 */
+  --color-diff-del-bg: #ffebe9;     /* diff 삭제 행 */
+
+  /* ─── §3 타이포 ─── */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo",
+                 "Noto Sans KR", "Malgun Gothic", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "SF Mono", "Menlo", "Consolas",
+               "Liberation Mono", "D2Coding", monospace;
+
+  --text-display: 32px;   /* 페이지 히어로·blankslate 제목 */
+  --text-title-1: 24px;   /* 저장소명·페이지 타이틀 */
+  --text-title-2: 20px;   /* 섹션 헤더 */
+  --text-title-3: 16px;   /* 박스 헤더·카드 제목 */
+  --text-body: 14px;      /* 기본 본문(밀도의 기준) */
+  --text-small: 12px;     /* 메타·타임스탬프·카운터 */
+  --text-code: 12px;      /* 코드(mono) */
+
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;   /* 최대 굵기 — 700+ 금지 */
+
+  --lh-tight: 1.25;     /* 제목 */
+  --lh-default: 1.5;    /* 본문 */
+  --lh-code: 1.45;      /* 코드 */
+  --ls-tight: -0.01em;  /* display/title-1 */
+
+  /* ─── §4 간격·레이아웃 ─── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  --container-max: 1280px;    /* 데스크톱 최대 폭 */
+  --container-narrow: 768px;  /* 이슈 상세 등 읽기 폭 */
+  --gutter: 16px;             /* 화면 좌우 기본 패딩(모바일) */
+
+  --control-sm: 28px;         /* 소형 버튼·카운터 높이 */
+  --control-md: 32px;         /* 기본 버튼·입력 높이 */
+  --control-lg: 40px;         /* 큰 버튼·검색 높이 */
+  --row-min-height: 40px;     /* 리스트 행 최소 높이 */
+  --appbar-height: 64px;      /* 상단 글로벌 헤더 */
+  --subnav-height: 48px;      /* 언더라인 탭 바 */
+  --tap-min: 44px;            /* 모바일 터치 히트 영역 */
+
+  /* ─── §5 형태 ─── */
+  --radius-sm: 4px;   /* 라벨(사각)·작은 배지 */
+  --radius-md: 6px;   /* 버튼·입력·박스·카드(기본) */
+  --radius-lg: 8px;   /* 큰 박스·탭 컨테이너 */
+  --radius-xl: 12px;  /* 다이얼로그·모바일 시트 */
+  --radius-full: 999px; /* 아바타·카운터·필 라벨·상태 배지·토글 */
+
+  --border-width: 1px;
+
+  --shadow-0: none;
+  --shadow-1: 0 1px 0 rgba(31, 35, 40, 0.04);      /* 버튼 resting */
+  --shadow-2: 0 3px 6px rgba(31, 35, 40, 0.15);    /* 드롭다운·메뉴·팝오버 */
+  --shadow-3: 0 8px 24px rgba(31, 35, 40, 0.20);   /* 다이얼로그·오버레이 */
+  --shadow-field: inset 0 1px 0 rgba(31, 35, 40, 0.06); /* 입력 내부 */
+
+  /* ─── §7 모션 ─── */
+  --motion-instant: 80ms;  /* hover 색/배경/테두리 */
+  --motion-fast: 160ms;    /* 메뉴 페이드·토글·툴팁 */
+  --motion-base: 240ms;    /* 다이얼로그·패널 슬라이드 */
+  --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* ─── 다크 오버라이드 (a 변형) ─── */
+:root[data-theme="dark"] {
+  --color-bg: #0d1117;
+  --color-surface: #161b22;
+  --color-surface-raised: #161b22;
+  --color-surface-overlay: #1c2128;
+  --color-code-bg: #161b22;
+
+  --color-text: #e6edf3;
+  --color-text-sub: #9198a1;
+  --color-text-tertiary: #7d8590;
+  --color-text-on-emphasis: #ffffff;
+
+  --color-primary: #238636;
+  --color-primary-text: #ffffff;
+  --color-primary-hover: #1f7a31;
+  --color-primary-pressed: #1a6e2b;
+
+  --color-accent: #4493f8;
+  --color-accent-emphasis: #1f6feb;
+  --color-accent-soft: #12253f;
+  --color-accent-soft-text: #4493f8;
+
+  --color-danger: #f85149;
+  --color-danger-emphasis: #da3633;
+  --color-danger-soft: #2d1214;
+  --color-danger-text: #ffffff;
+
+  --color-success: #3fb950;
+  --color-success-emphasis: #238636;
+  --color-success-soft: #12261e;
+
+  --color-attention: #d29922;
+  --color-attention-emphasis: #9e6a03;
+  --color-attention-soft: #272115;
+
+  --color-done: #a371f7;
+  --color-done-emphasis: #8957e5;
+  --color-done-soft: #2b1a4d;
+
+  --color-border: #30363d;
+  --color-border-muted: #21262d;
+  --color-overlay-backdrop: rgba(1, 4, 9, 0.5);
+
+  --color-diff-add-bg: #0f2417;
+  --color-diff-del-bg: #2d1214;
+
+  --shadow-1: 0 1px 0 rgba(1, 4, 9, 0.20);
+  --shadow-2: 0 3px 6px rgba(1, 4, 9, 0.30);
+  --shadow-3: 0 8px 24px rgba(1, 4, 9, 0.40);
+  --shadow-field: inset 0 1px 0 rgba(1, 4, 9, 0.20);
+}
+
+/* ─── 변형 b: 바이올렛 단일 액센트 (라이트) — 색 토큰만 ─── */
+:root[data-variant="b"] {
+  --color-primary: #8250df;
+  --color-primary-hover: #6639ba;
+  --color-primary-pressed: #5a32a3;
+
+  --color-accent: #8250df;
+  --color-accent-emphasis: #8250df;
+  --color-accent-soft: #fbefff;
+  --color-accent-soft-text: #8250df;
+
+  /* b에서 merged 상태는 파랑으로 이동해 보라(브랜드)와 분리 */
+  --color-done: #0969da;
+  --color-done-emphasis: #0969da;
+  --color-done-soft: #ddf4ff;
+}
+
+/* ─── 변형 b: 다크 ─── */
+:root[data-theme="dark"][data-variant="b"] {
+  --color-primary: #8957e5;
+  --color-primary-hover: #7c4ddb;
+  --color-primary-pressed: #6e40c9;
+
+  --color-accent: #a371f7;
+  --color-accent-emphasis: #8957e5;
+  --color-accent-soft: #2b1a4d;
+  --color-accent-soft-text: #a371f7;
+
+  --color-done: #4493f8;
+  --color-done-emphasis: #1f6feb;
+  --color-done-soft: #12253f;
+}
+
+/* ─── §7 prefers-reduced-motion 전역 ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 80ms !important;
+    transition-property: opacity, background-color, border-color, color !important;
+    scroll-behavior: auto !important;
+  }
+}

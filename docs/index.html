@@ -180,6 +180,54 @@
   .screens a:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
   .screens a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
+  /* ── spec-draft 카드 (데모 없음, 스펙만) ─────────── */
+  .section-label {
+    grid-column: 1 / -1;
+    margin: 40px 0 0; padding-bottom: 4px;
+    display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  }
+  .section-label h2 {
+    margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.01em;
+  }
+  .section-label .note { font-size: 13px; color: var(--text-sub); }
+
+  /* 데모 카드와 구분: 프리뷰 좌상단 상태 뱃지 + 점선 스펙 링크 */
+  .badge-draft {
+    position: absolute; top: 10px; right: 12px; z-index: 1;
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    letter-spacing: .04em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    color: var(--text-sub); border: 1px solid var(--border);
+    backdrop-filter: blur(4px);
+  }
+  .card.draft .preview::after {
+    content: ""; position: absolute; inset: 0;
+    background: repeating-linear-gradient(-45deg,
+      transparent 0 9px, rgba(128,128,128,.05) 9px 10px);
+    pointer-events: none;
+  }
+  .specrow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 2px; }
+  .spec-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; line-height: 1;
+    padding: 6px 11px; border-radius: 999px;
+    background: color-mix(in srgb, var(--text-sub) 13%, transparent);
+    color: var(--text-sub);
+  }
+  .spec-tag svg { width: 13px; height: 13px; }
+  .spec-link {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 7px 12px; min-height: 40px;
+    border: 1px dashed var(--border); border-radius: 9px;
+    background: transparent; color: var(--text); text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    transition: border-color .15s ease, background-color .15s ease;
+  }
+  .spec-link svg { width: 15px; height: 15px; flex: none; color: var(--text-sub); }
+  .spec-link:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  .spec-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
   footer {
     margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);
     color: var(--text-sub); font-size: 13px; line-height: 1.6;
@@ -200,7 +248,7 @@
       design-lookbook
     </span>
     <h1>design-lookbook</h1>
-    <p class="lead">AI가 참조하는 번호 기반 디자인 컨셉 라이브러리. 각 프리셋은 토큰 · 컴포넌트 규칙 · 레이아웃 레시피 · 모션 · 보이스&amp;톤까지 담은 풀 세트이며, 아래 카드에서 컨셉당 5화면 데모를 바로 열 수 있다. <code>3번으로 만들어줘</code>가 작동하는 이유.</p>
+    <p class="lead">AI가 참조하는 번호 기반 디자인 컨셉 라이브러리. 각 프리셋은 토큰 · 컴포넌트 규칙 · 레이아웃 레시피 · 모션 · 보이스&amp;톤까지 담은 풀 세트이며, 완성된 컨셉은 아래 카드에서 컨셉당 5화면 데모를 바로 열 수 있고, 스펙이 준비된 컨셉은 SPEC.md로 이어진다. <code>3번으로 만들어줘</code>가 작동하는 이유.</p>
     <p class="repo-note">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
       <span>GitHub 저장소의 <code>docs/</code> 폴더가 GitHub Pages로 배포되는 이 갤러리다. 스펙 원본(<code>presets/&lt;번호&gt;-&lt;코드네임&gt;/SPEC.md</code>·<code>tokens.css</code>)이 source of truth이며, 갤러리는 그 레퍼런스 구현이다.</span>
@@ -358,6 +406,514 @@
           <li><a href="4-obsidian/screen-4.html"><span class="idx">4</span> 배포 로그</a></li>
           <li><a href="4-obsidian/screen-5.html"><span class="idx">5</span> 팀 설정</a></li>
         </ul>
+      </div>
+    </article>
+
+    <div class="section-label">
+      <h2>스펙 준비 완료 <span class="note">— spec-draft · 데모는 추후 추가</span></h2>
+    </div>
+
+    <!-- 5 Clay (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#FDF8FF; --pv-surface:#F3EDFA; --pv-primary:#6B4FA1; --pv-ctatext:#FFFFFF; --pv-text:#1D1B20;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">5</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">5</span>
+          <span class="titles">
+            <span class="codename">Clay</span>
+            <span class="inspired">inspired by Google Material 3 (Material You)</span>
+          </span>
+        </div>
+        <p class="mood">하나의 소스 컬러가 화면 전체에 스며든 톤 팔레트. 부드러운 큰 라운드, 채워진·토널 버튼, 표현적으로 감속하는 모션.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#FDF8FF"></span><span class="hex">#FDF8FF</span></span>
+          <span class="swatch"><span class="chip" style="background:#F3EDFA"></span><span class="hex">#F3EDFA</span></span>
+          <span class="swatch"><span class="chip" style="background:#6B4FA1"></span><span class="hex">#6B4FA1</span></span>
+          <span class="swatch"><span class="chip" style="background:#9C4368"></span><span class="hex">#9C4368</span></span>
+          <span class="swatch"><span class="chip" style="background:#B3261E"></span><span class="hex">#B3261E</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">머티리얼풍</span><span class="alias">안드로이드풍</span><span class="alias">구글풍</span><span class="alias">머티리얼유풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/5-clay/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 6 Glass (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#F2F2F7; --pv-surface:#FFFFFF; --pv-primary:#0068D6; --pv-ctatext:#FFFFFF; --pv-text:#1C1C1E;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">6</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">6</span>
+          <span class="titles">
+            <span class="codename">Glass</span>
+            <span class="inspired">inspired by Apple Human Interface Guidelines (iOS)</span>
+          </span>
+        </div>
+        <p class="mood">반투명 유리처럼 맑고 차분한 iOS 감성. 넉넉한 여백, 좌측 큰 타이틀, inset 그룹 리스트, 재질이 흐르듯 전환되는 절제된 스프링.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#F2F2F7"></span><span class="hex">#F2F2F7</span></span>
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#0068D6"></span><span class="hex">#0068D6</span></span>
+          <span class="swatch"><span class="chip" style="background:#5A4BD4"></span><span class="hex">#5A4BD4</span></span>
+          <span class="swatch"><span class="chip" style="background:#D70015"></span><span class="hex">#D70015</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">애플풍</span><span class="alias">iOS풍</span><span class="alias">쿠퍼티노풍</span><span class="alias">아이폰풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/6-glass/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 7 Quartz (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#F5F5F5; --pv-surface:#FFFFFF; --pv-primary:#1268E6; --pv-ctatext:#FFFFFF; --pv-text:#141414;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">7</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">7</span>
+          <span class="titles">
+            <span class="codename">Quartz</span>
+            <span class="inspired">inspired by Ant Design</span>
+          </span>
+        </div>
+        <p class="mood">정보 밀도 높은 엔터프라이즈 콘솔. 파랑 primary, 6px 각진 라운드, border로 나눈 촘촘하지만 부드러운 밀도, 폼·테이블·태그가 주인공.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#F5F5F5"></span><span class="hex">#F5F5F5</span></span>
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#1268E6"></span><span class="hex">#1268E6</span></span>
+          <span class="swatch"><span class="chip" style="background:#0E9488"></span><span class="hex">#0E9488</span></span>
+          <span class="swatch"><span class="chip" style="background:#D92D20"></span><span class="hex">#D92D20</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">앤트풍</span><span class="alias">엔터프라이즈풍</span><span class="alias">관리자콘솔풍</span><span class="alias">B2B어드민풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/7-quartz/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 8 Canvas (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#F1F1F1; --pv-surface:#FFFFFF; --pv-primary:#008060; --pv-ctatext:#FFFFFF; --pv-text:#1A1A1A;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">8</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">8</span>
+          <span class="titles">
+            <span class="codename">Canvas</span>
+            <span class="inspired">inspired by Shopify Polaris</span>
+          </span>
+        </div>
+        <p class="mood">신뢰감 있는 커머스 어드민. 흰/회색 작업 표면, 카드로 나뉜 섹션, 초록 primary 액션, 밀도 있고 실용적인 판매자 대시보드.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#F1F1F1"></span><span class="hex">#F1F1F1</span></span>
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#008060"></span><span class="hex">#008060</span></span>
+          <span class="swatch"><span class="chip" style="background:#2C6ECB"></span><span class="hex">#2C6ECB</span></span>
+          <span class="swatch"><span class="chip" style="background:#C70A24"></span><span class="hex">#C70A24</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">폴라리스풍</span><span class="alias">쇼피파이풍</span><span class="alias">커머스어드민풍</span><span class="alias">판매자콘솔풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/8-canvas/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 9 Prism (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#F4F4F4; --pv-surface:#FFFFFF; --pv-primary:#3B63FB; --pv-ctatext:#FFFFFF; --pv-text:#1E1E1E;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">9</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">9</span>
+          <span class="titles">
+            <span class="codename">Prism</span>
+            <span class="inspired">inspired by Adobe Spectrum</span>
+          </span>
+        </div>
+        <p class="mood">크리에이티브 프로 툴. 뉴트럴 그레이 캔버스 위 절제된 UI, 정밀한 t-shirt 스케일, 파랑 accent, 다크가 기본인 작업 환경.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#F4F4F4"></span><span class="hex">#F4F4F4</span></span>
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#3B63FB"></span><span class="hex">#3B63FB</span></span>
+          <span class="swatch"><span class="chip" style="background:#0E8B80"></span><span class="hex">#0E8B80</span></span>
+          <span class="swatch"><span class="chip" style="background:#D73220"></span><span class="hex">#D73220</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">스펙트럼풍</span><span class="alias">어도비풍</span><span class="alias">크리에이티브툴풍</span><span class="alias">디자인툴풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/9-prism/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 10 Slate (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#FFFFFF; --pv-surface:#F6F8FA; --pv-primary:#1F883D; --pv-ctatext:#FFFFFF; --pv-text:#1F2328;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">10</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">10</span>
+          <span class="titles">
+            <span class="codename">Slate</span>
+            <span class="inspired">inspired by GitHub Primer</span>
+          </span>
+        </div>
+        <p class="mood">개발자 협업 플랫폼. 뉴트럴 그레이 + 파란 링크, 초록 머지 버튼, 촘촘한 리스트·타임라인, 색 라벨과 mono 병기, 절제된 즉각 모션.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#F6F8FA"></span><span class="hex">#F6F8FA</span></span>
+          <span class="swatch"><span class="chip" style="background:#1F883D"></span><span class="hex">#1F883D</span></span>
+          <span class="swatch"><span class="chip" style="background:#0969DA"></span><span class="hex">#0969DA</span></span>
+          <span class="swatch"><span class="chip" style="background:#D1242F"></span><span class="hex">#D1242F</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">깃허브풍</span><span class="alias">프라이머풍</span><span class="alias">개발자툴풍</span><span class="alias">코드호스팅풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/10-slate/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 11 Asphalt (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#FFFFFF; --pv-surface:#F6F6F6; --pv-primary:#000000; --pv-ctatext:#FFFFFF; --pv-text:#000000;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">11</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">11</span>
+          <span class="titles">
+            <span class="codename">Asphalt</span>
+            <span class="inspired">inspired by Uber Base</span>
+          </span>
+        </div>
+        <p class="mood">도시의 아스팔트. 흑백 대비를 끝까지 밀어붙인 대담함, 검정 pill 버튼, 큰 700 타이포, 지도 위 기능적 위계. 포인트색은 딱 하나.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#F6F6F6"></span><span class="hex">#F6F6F6</span></span>
+          <span class="swatch"><span class="chip" style="background:#000000"></span><span class="hex">#000000</span></span>
+          <span class="swatch"><span class="chip" style="background:#276EF1"></span><span class="hex">#276EF1</span></span>
+          <span class="swatch"><span class="chip" style="background:#E11900"></span><span class="hex">#E11900</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">우버풍</span><span class="alias">베이스풍</span><span class="alias">모빌리티풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/11-asphalt/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 12 Ink (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#F6F9FC; --pv-surface:#FFFFFF; --pv-primary:#635BFF; --pv-ctatext:#FFFFFF; --pv-text:#1A1F36;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">12</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">12</span>
+          <span class="titles">
+            <span class="codename">Ink</span>
+            <span class="inspired">inspired by Stripe</span>
+          </span>
+        </div>
+        <p class="mood">결제 인프라의 차분한 자신감. 뉴트럴 슬레이트 위 인디고 한 점, 정교한 데이터 밀도, 깔끔한 표와 차트, 소리 없이 정착하는 모션.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#F6F9FC"></span><span class="hex">#F6F9FC</span></span>
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#635BFF"></span><span class="hex">#635BFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#0A96B4"></span><span class="hex">#0A96B4</span></span>
+          <span class="swatch"><span class="chip" style="background:#0E7D57"></span><span class="hex">#0E7D57</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">스트라이프풍</span><span class="alias">결제대시보드풍</span><span class="alias">핀테크대시보드풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/12-ink/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 13 Coral (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#FFFFFF; --pv-surface:#F7F5F3; --pv-primary:#D02730; --pv-ctatext:#FFFFFF; --pv-text:#222222;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">13</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">13</span>
+          <span class="titles">
+            <span class="codename">Coral</span>
+            <span class="inspired">inspired by Airbnb DLS (Cereal)</span>
+          </span>
+        </div>
+        <p class="mood">따뜻한 여행/숙박 마켓플레이스. 사진이 주인공, 코랄-레드 포인트 하나, 넉넉한 여백, 둥근 모서리, 사람 냄새 나는 카피.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#F7F5F3"></span><span class="hex">#F7F5F3</span></span>
+          <span class="swatch"><span class="chip" style="background:#D02730"></span><span class="hex">#D02730</span></span>
+          <span class="swatch"><span class="chip" style="background:#00857A"></span><span class="hex">#00857A</span></span>
+          <span class="swatch"><span class="chip" style="background:#C13515"></span><span class="hex">#C13515</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">에어비앤비풍</span><span class="alias">여행풍</span><span class="alias">따뜻한풍</span><span class="alias">숙박풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/13-coral/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 14 Enamel (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#FBF7EF; --pv-surface:#F1EADB; --pv-primary:#2AC1BC; --pv-ctatext:#FFFFFF; --pv-text:#2B2B2B;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">14</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">14</span>
+          <span class="titles">
+            <span class="codename">Enamel</span>
+            <span class="inspired">inspired by 배달의민족 (Baemin)</span>
+          </span>
+        </div>
+        <p class="mood">크림 종이 위 밝은 민트 큰 버튼과 먹색 굵은 글씨. 뉴트로 간판(을지로 법랑) 감성에 장난기와 위트를 얹은 따뜻한 대중 배달앱.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#FBF7EF"></span><span class="hex">#FBF7EF</span></span>
+          <span class="swatch"><span class="chip" style="background:#F1EADB"></span><span class="hex">#F1EADB</span></span>
+          <span class="swatch"><span class="chip" style="background:#2AC1BC"></span><span class="hex">#2AC1BC</span></span>
+          <span class="swatch"><span class="chip" style="background:#E5451F"></span><span class="hex">#E5451F</span></span>
+          <span class="swatch"><span class="chip" style="background:#CF2A26"></span><span class="hex">#CF2A26</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">배민풍</span><span class="alias">배달의민족풍</span><span class="alias">뉴트로풍</span><span class="alias">을지로풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/14-enamel/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 15 Amber (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#FFFFFF; --pv-surface:#F5F6F7; --pv-primary:#FFE000; --pv-ctatext:#191919; --pv-text:#191919;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">15</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">15</span>
+          <span class="titles">
+            <span class="codename">Amber</span>
+            <span class="inspired">inspired by Kakao</span>
+          </span>
+        </div>
+        <p class="mood">친근한 한국 메신저·플랫폼. 밝은 앰버 노랑 포인트에 검정 텍스트, 둥근 말풍선과 리스트, 누구나 쉽게 읽는 대중적 명료함.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#F5F6F7"></span><span class="hex">#F5F6F7</span></span>
+          <span class="swatch"><span class="chip" style="background:#FFE000"></span><span class="hex">#FFE000</span></span>
+          <span class="swatch"><span class="chip" style="background:#8A6A00"></span><span class="hex">#8A6A00</span></span>
+          <span class="swatch"><span class="chip" style="background:#D92100"></span><span class="hex">#D92100</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">카카오풍</span><span class="alias">노란풍</span><span class="alias">메신저풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/15-amber/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 16 Jade (spec-draft) -->
+    <article class="card draft" style="--pv-bg:#FFFFFF; --pv-surface:#F4F5F7; --pv-primary:#007A3D; --pv-ctatext:#FFFFFF; --pv-text:#1A1A1A;">
+      <div class="preview">
+        <span class="badge-draft">spec</span>
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">16</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">16</span>
+          <span class="titles">
+            <span class="codename">Jade</span>
+            <span class="inspired">inspired by Naver</span>
+          </span>
+        </div>
+        <p class="mood">신뢰감 있는 대중 포털. 초록 액션, 흰 배경, 정보 밀도 높은 리스트·피드, 검색이 주인공.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#F4F5F7"></span><span class="hex">#F4F5F7</span></span>
+          <span class="swatch"><span class="chip" style="background:#007A3D"></span><span class="hex">#007A3D</span></span>
+          <span class="swatch"><span class="chip" style="background:#03C75A"></span><span class="hex">#03C75A</span></span>
+          <span class="swatch"><span class="chip" style="background:#D42432"></span><span class="hex">#D42432</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">네이버풍</span><span class="alias">초록풍</span><span class="alias">포털풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <div class="specrow">
+          <span class="spec-tag">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3v4a1 1 0 0 0 1 1h4"></path><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"></path></svg>
+            스펙 완료 · 데모 준비 중
+          </span>
+          <a class="spec-link" href="https://github.com/KORThomasJeong/design-lookbook/blob/master/presets/16-jade/SPEC.md">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+            SPEC.md 보기
+          </a>
+        </div>
       </div>
     </article>
 

@@ -1,0 +1,201 @@
+/* ============================================================
+ * presets/6-glass/tokens.css — 6 · Glass (inspired by Apple HIG, iOS)
+ * 원본 스펙: presets/6-glass/SPEC.md (§2~§7)
+ * 규약: :root = a 변형 라이트 / [data-theme="dark"] 다크 오버라이드
+ *       [data-variant="b"] = 색 토큰만 오버라이드 (틸 계열, hue 187)
+ * 데모 HTML: <html data-preset="6" data-variant="a">
+ * 상표 미사용. 모든 수치는 독립 해석이며 공식 값이 아니다.
+ * ============================================================ */
+
+:root {
+  /* ---------- §2 색 (a 변형, 라이트 — 블루) ---------- */
+  --color-bg: #F2F2F7;                /* 그룹 배경. text 대비 15.25:1 */
+  --color-surface: #FFFFFF;           /* 카드·셀 면(글래스 불투명 등가). text 17.01:1 */
+  --color-surface-raised: #FFFFFF;    /* 시트·네비 재질 등가. text 17.01:1 */
+  --color-fill: #E3E3E8;              /* systemFill 등가: 키패드 키·세그먼트 트랙 */
+  --color-text: #1C1C1E;              /* label. bg 15.25:1 */
+  --color-text-sub: #6C6C70;          /* secondaryLabel(AA 보정). bg 4.69:1 / surface 5.23:1 */
+  --color-text-tertiary: #8A8A8E;     /* tertiaryLabel. UI·대형 전용 3:1 (bg 3.08 / surface 3.44) */
+  --color-primary: #0068D6;           /* tint 필. 흰 텍스트 5.31:1 / bg 위 텍스트 4.76:1 */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #0050A8;   /* press 필. 흰 텍스트 7.74:1 */
+  --color-primary-soft: #E4F0FF;      /* 선택 셀·정보 박스 배경 */
+  --color-primary-soft-text: #0060C4; /* soft 위 텍스트 5.25:1 */
+  --color-primary-vivid: #0A84FF;     /* 그래픽 전용(아이콘·글로우). bg 3.27:1 — 본문 텍스트 금지 */
+  --color-accent: #5A4BD4;            /* 인디고 보조 tint. 흰 텍스트 6.19:1 / bg 5.55:1 */
+  --color-danger: #D70015;            /* 파괴적·에러. 흰 텍스트 5.38:1 / bg 4.83:1 */
+  --color-danger-soft: #FFE5E7;       /* 에러 배경. danger 텍스트 4.52:1 */
+  --color-success: #1C7A34;           /* 완료·긍정. 흰 텍스트 5.41:1 / bg 4.85:1 */
+  --color-success-soft: #E3F5E9;      /* 성공 배경. success 텍스트 4.77:1 */
+  --color-separator: #C6C6C8;         /* 헤어라인 구분선(장식·비필수, §2.3 면제) */
+  --color-border-strong: #B8B8BD;     /* 입력 외곽 등 필요 시(예외) */
+  --color-dim: rgba(0, 0, 0, 0.40);   /* 모달 뒤 딤 */
+  --color-frame-backdrop: #E3E3E8;    /* 데스크톱 프레임 밖 배경(§4) */
+
+  /* 글래스 재질(§5): 반투명 면 + blur. 접히면 아래 불투명 등가로 폴백 */
+  --glass-surface: rgba(255, 255, 255, 0.72);  /* 카드 재질. 합성 등가 ≈ #FBFBFD */
+  --glass-nav: rgba(248, 248, 250, 0.80);      /* 네비/탭바 재질. 합성 등가 ≈ #F6F6F9 */
+  --glass-blur: saturate(180%) blur(20px);     /* regular material */
+  --glass-blur-strong: saturate(180%) blur(40px); /* thick material(시트) */
+
+  /* ---------- §3 타이포그래피 ---------- */
+  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui,
+                 'Segoe UI', Roboto, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+
+  --font-size-large-title: 34px; /* 700 / 1.21 / +0.011em — 대시보드 큰 타이틀 */
+  --font-size-title-1: 28px;     /* 700 / 1.21 / +0.007em — 화면 큰 타이틀 */
+  --font-size-title-2: 22px;     /* 700 / 1.27 / +0.003em — 섹션 헤더 */
+  --font-size-title-3: 20px;     /* 600 / 1.25 / +0.002em — 카드·서브섹션 제목 */
+  --font-size-headline: 17px;    /* 600 / 1.29 / -0.024em — 리스트 강조·버튼 라벨 */
+  --font-size-body: 17px;        /* 400 / 1.29 / -0.024em — 본문·리스트 주 텍스트 */
+  --font-size-subhead: 15px;     /* 400 / 1.33 / -0.016em — 보조 본문·설명 */
+  --font-size-footnote: 13px;    /* 400 / 1.38 / -0.006em — 그룹 헤더·각주 */
+  --font-size-caption-1: 12px;   /* 400 / 1.33 / 0 — 캡션·타임스탬프 */
+  --font-size-caption-2: 11px;   /* 500 / 1.18 / +0.006em — 탭바 라벨(최소, 이보다 작게 금지) */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-large-title: 1.21;
+  --line-height-title-1: 1.21;
+  --line-height-title-2: 1.27;
+  --line-height-title-3: 1.25;
+  --line-height-headline: 1.29;
+  --line-height-body: 1.29;
+  --line-height-subhead: 1.33;
+  --line-height-footnote: 1.38;
+  --line-height-caption-1: 1.33;
+  --line-height-caption-2: 1.18;
+
+  --tracking-large-title: 0.011em;
+  --tracking-title: 0.004em;
+  --tracking-body: -0.024em;    /* SF 17pt 트래킹 */
+  --tracking-subhead: -0.016em;
+  --tracking-footnote: -0.006em;
+  --tracking-caption: 0em;
+
+  /* ---------- §4 간격 · 레이아웃 ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  --layout-screen-padding: 16px;      /* 콘텐츠 좌우 마진(iOS 표준) */
+  --layout-group-inset: 16px;         /* inset grouped 리스트 좌우 인셋 */
+  --layout-section-gap: 32px;         /* 그룹 간 리듬 */
+  --layout-card-padding: 16px;        /* 셀·카드 내부 */
+  --layout-frame-width: 402px;        /* 데스크톱 중앙 프레임(iPhone 폭) */
+  --size-navbar: 44px;                /* 네비바(large title 확장 시 +52px) */
+  --size-tabbar: 49px;                /* 탭바(+ safe-area) */
+  --size-cta: 50px;                   /* 하단 고정 CTA 버튼 높이 */
+  --size-touch-min: 44px;             /* 최소 터치 타깃 */
+  --size-list-row: 44px;              /* 리스트 셀 min-height */
+  --hairline: 0.5px;                  /* 헤어라인 두께 */
+
+  /* ---------- §5 형태 ---------- */
+  --radius-sm: 8px;    /* 칩·세그먼트·키패드 키 */
+  --radius-md: 12px;   /* 버튼·입력·리스트 셀 */
+  --radius-lg: 16px;   /* 카드·inset grouped 컨테이너·토스트 */
+  --radius-xl: 20px;   /* 큰 카드·알림 모달 */
+  --radius-2xl: 28px;  /* 바텀시트 상단·데스크톱 앱 프레임 */
+  --radius-full: 999px;
+
+  --shadow-0: none;
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.08);   /* 살짝 뜬 필 버튼·팝오버 */
+  --shadow-2: 0 8px 30px rgba(0, 0, 0, 0.12);  /* 바텀시트·팝오버·토스트 */
+  --shadow-3: 0 20px 60px rgba(0, 0, 0, 0.24); /* 데스크톱 앱 프레임·알림 */
+
+  /* ---------- §7 모션 ---------- */
+  --motion-quick: 200ms;  /* press 반응 */
+  --motion-fast: 300ms;   /* fade·색 전환·네비 push */
+  --motion-base: 400ms;   /* 진입·large title 축소 */
+  --motion-slow: 500ms;   /* 시트 프레젠트·성공 체크 */
+  --motion-stagger: 30ms; /* 리스트 스태거 간격(최대 10개) */
+
+  --ease-standard: cubic-bezier(0.25, 0.1, 0.25, 1); /* iOS 기본 이징 */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);         /* 진입·전환 */
+  --ease-spring: cubic-bezier(0.34, 1.35, 0.64, 1);   /* 절제된 오버슈트 복귀 */
+}
+
+/* ============================================================
+ * 다크 오버라이드 (a 변형) — §2.2 · 순검정 기반
+ * ============================================================ */
+:root[data-theme="dark"] {
+  --color-bg: #000000;                /* text 21.00:1 */
+  --color-surface: #1C1C1E;           /* text 17.01:1 */
+  --color-surface-raised: #2C2C2E;    /* text 13.94:1 */
+  --color-fill: #2C2C2E;
+  --color-text: #FFFFFF;
+  --color-text-sub: #AEAEB4;          /* surface 7.71:1 / raised 6.31:1 */
+  --color-text-tertiary: #8A8A8E;     /* surface 4.95:1 — UI·대형 */
+  --color-primary: #0A6EE0;           /* 흰 텍스트 4.86:1 (CTA 필) */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #0A5CC4;   /* 흰 텍스트 6.29:1 */
+  --color-primary-soft: #0A2647;
+  --color-primary-soft-text: #5AB0FF; /* soft 위 6.58:1 — 다크의 파란 텍스트 */
+  --color-primary-vivid: #0A84FF;     /* 그래픽·아이콘 tint. bg 5.76:1 / surface 4.66:1 */
+  --color-accent: #9E93FF;            /* bg 8.07:1 / surface 6.54:1 */
+  --color-danger: #FF6961;            /* bg 7.45:1 / surface 6.03:1 */
+  --color-danger-soft: #3A1D1D;       /* danger 텍스트 5.42:1 */
+  --color-success: #32D158;           /* bg 10.40:1 / surface 8.42:1 */
+  --color-success-soft: #0D3A1E;      /* success 텍스트 6.34:1 */
+  --color-separator: #38383A;
+  --color-border-strong: #48484A;
+  --color-dim: rgba(0, 0, 0, 0.50);
+  --color-frame-backdrop: #000000;
+
+  --glass-surface: rgba(44, 44, 46, 0.72);   /* 합성 등가 ≈ #202021, text 16.28:1 */
+  --glass-nav: rgba(28, 28, 30, 0.80);
+  --glass-blur: saturate(160%) blur(20px);
+  --glass-blur-strong: saturate(160%) blur(40px);
+
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.40);
+  --shadow-2: 0 8px 30px rgba(0, 0, 0, 0.60);
+  --shadow-3: 0 20px 60px rgba(0, 0, 0, 0.70);
+}
+
+/* ============================================================
+ * b 변형 (틸, hue 187) — 색 토큰만 오버라이드 (§2.4)
+ * 간격·타이포·radius·모션은 절대 건드리지 않는다.
+ * ============================================================ */
+:root[data-variant="b"] {
+  --color-primary: #007680;           /* 흰 텍스트 5.38:1 / bg 4.82:1 */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #005860;   /* 흰 텍스트 대비 상향 */
+  --color-primary-soft: #DDF2F4;
+  --color-primary-soft-text: #006670; /* soft 위 5.77:1 */
+  --color-primary-vivid: #0A99A8;     /* 그래픽 전용. bg 3.07:1 */
+  --color-accent: #3A6EA5;            /* 스틸블루 보조. 흰 텍스트 5.31:1 / bg 4.76:1 */
+}
+
+:root[data-variant="b"][data-theme="dark"] {
+  --color-primary: #00838F;           /* 흰 텍스트 4.52:1 (CTA 필) */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #006A73;   /* 흰 텍스트 6.35:1 */
+  --color-primary-soft: #052A30;
+  --color-primary-soft-text: #54C9DA; /* soft 위 7.78:1 / surface 8.71:1 */
+  --color-primary-vivid: #40C8E0;     /* bg 10.56:1 */
+  --color-accent: #7FB0E6;            /* bg 9.26:1 */
+}
+
+/* ============================================================
+ * prefers-reduced-motion — 전역 (§7)
+ * transform/scale/blur 전환 제거, opacity만 유지
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 150ms !important;
+    transition-property: opacity !important;
+    scroll-behavior: auto !important;
+  }
+}

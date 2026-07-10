@@ -1,0 +1,193 @@
+/* ============================================================
+ * presets/9-prism/tokens.css — 9 · Prism (inspired by Adobe Spectrum)
+ * 원본 스펙: presets/9-prism/SPEC.md (§2~§7)
+ * 규약: :root = a 변형 라이트 / [data-theme="dark"] 다크 오버라이드
+ *       [data-variant="b"] = 색 토큰만 오버라이드 (바이올렛 계열, hue 262)
+ * 데모 HTML: <html data-preset="9" data-variant="a">
+ * 주의: 모든 수치는 Adobe Spectrum을 참조한 독립 해석이며 공식 값이 아니다.
+ * ============================================================ */
+
+:root {
+  /* ---------- §2 색 (a 변형, 라이트) — 뉴트럴 그레이 캔버스 + 블루 accent ---------- */
+  --color-bg: #F4F4F4;                 /* 앱 셸/툴바 배경 (패널이 얹히는 바닥) */
+  --color-surface: #FFFFFF;            /* 패널·트레이·카드·인풋 표면 */
+  --color-surface-raised: #FFFFFF;     /* 팝오버·모달 (그림자로 분리) */
+  --color-surface-sunken: #E9E9E9;     /* 인풋 트랙·비활성 탭·눌린 well */
+  --color-canvas: #C9C9C9;             /* 아트보드 페이스트보드(그래픽 배경, 텍스트 금지) */
+  --color-text: #1F1F1F;               /* 본문·주 텍스트 (surface 16.48:1) */
+  --color-text-sub: #545454;           /* 보조 라벨 (surface 7.57:1) */
+  --color-text-tertiary: #707070;      /* 캡션·플레이스홀더 (surface 4.95:1, §2.3 제약) */
+  --color-border: #D5D5D5;             /* 장식용 구분선 (대비 요구 없음) */
+  --color-border-strong: #7E7E7E;      /* 컨트롤 외곽선 (UI 3:1, surface 4.06:1) */
+  --color-primary: #3B63FB;            /* 인터랙티브 채움·선택 (흰 텍스트 4.81:1) */
+  --color-primary-text: #FFFFFF;
+  --color-primary-hover: #274DEA;      /* hover·press 채움 (흰 텍스트 6.30:1) */
+  --color-primary-soft: #E6ECFF;       /* 선택 틴트·quiet 버튼 배경 */
+  --color-primary-soft-text: #1D3ECF;  /* soft 위 텍스트·링크 (soft 6.74:1, surface 7.95:1) */
+  --color-accent: #0E8B80;             /* 2차 그래픽·차트 2계열 (그래픽 전용, bg 3.80:1) */
+  --color-danger: #D73220;             /* 파괴적 액션·에러 (흰 텍스트 4.81:1) */
+  --color-danger-soft: #FDECEA;
+  --color-success: #05834E;            /* 완료·유효 (흰 텍스트 4.81:1) */
+  --color-success-soft: #E6F5EC;
+  --color-warning: #C24E00;            /* 주의·비파괴 경고 (surface 4.79:1) */
+  --color-warning-soft: #FBEDE2;
+  --color-overlay: rgba(20, 20, 20, 0.55); /* 모달 뒤 스크림 */
+
+  /* ---------- §3 타이포그래피 ---------- */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui,
+                 'Helvetica Neue', Arial, 'Apple SD Gothic Neo', 'Noto Sans KR',
+                 'Malgun Gothic', sans-serif;
+  --font-family-mono: ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono',
+                      Menlo, Consolas, monospace;
+
+  --font-size-display:   36px;  /* 700 / 1.2  / -0.01em — 온보딩·빈 캔버스 큰 안내 */
+  --font-size-heading-l: 28px;  /* 700 / 1.25 / -0.01em — 모달 제목·환경설정 페이지 제목 */
+  --font-size-heading-m: 22px;  /* 700 / 1.3  / -0.01em — 섹션 헤더 */
+  --font-size-heading-s: 18px;  /* 600 / 1.35 / 0        — 패널 그룹 제목·다이얼로그 제목 */
+  --font-size-body-lg:   16px;  /* 500 / 1.5  / 0        — 강조 본문·리스트 주 텍스트 */
+  --font-size-body:      14px;  /* 400 / 1.5  / 0        — 기본 UI 텍스트(base)·버튼 라벨은 600 */
+  --font-size-caption:   12px;  /* 500 / 1.35 / 0        — 필드 라벨·값·탭 라벨 */
+  --font-size-micro:     11px;  /* 600 / 1.3  / 0.01em   — 툴 라벨·상태바·최소 크기 */
+
+  --font-weight-regular:  400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  --line-height-display:   1.2;
+  --line-height-heading-l: 1.25;
+  --line-height-heading-m: 1.3;
+  --line-height-heading-s: 1.35;
+  --line-height-body-lg:   1.5;
+  --line-height-body:      1.5;
+  --line-height-caption:   1.35;
+  --line-height-micro:     1.3;
+
+  --letter-spacing-heading: -0.01em;
+  --letter-spacing-body:    0;
+  --letter-spacing-micro:   0.01em;
+
+  /* ---------- §4 간격 · 레이아웃 (t-shirt 정밀 스케일) ---------- */
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 6px;
+  --space-4: 8px;
+  --space-5: 12px;
+  --space-6: 16px;
+  --space-7: 20px;
+  --space-8: 24px;
+  --space-9: 32px;
+  --space-10: 40px;
+  --space-11: 48px;
+  --space-12: 64px;
+
+  --layout-screen-padding: 16px;       /* 모바일 화면 좌우 기본 패딩 */
+  --layout-panel-padding: 12px;        /* 패널 내부 패딩 */
+  --layout-section-gap: 24px;          /* 패널 내 그룹 간 간격 */
+  --layout-rail-width: 48px;           /* 데스크톱 좌측 툴 레일 */
+  --layout-panel-width: 264px;         /* 데스크톱 우측 속성 패널 */
+  --size-topbar: 48px;                 /* 상단 앱바/메뉴바 */
+  --size-toolbar: 48px;                /* 컨텍스트 툴바 */
+  --size-statusbar: 24px;              /* 하단 상태바 */
+  --size-tabbar: 48px;                 /* 모바일 하단 탭바(+safe-area) */
+  --size-touch-min: 44px;              /* 최소 터치 타깃 */
+  --size-list-row: 32px;               /* 밀집 리스트 행 min-height(데스크톱) */
+  --size-list-row-touch: 44px;         /* 모바일 리스트 행 min-height */
+
+  --control-height-s:  24px;           /* 컴팩트 필드·태그 */
+  --control-height-m:  32px;           /* 기본 버튼·인풋·셀렉트(default) */
+  --control-height-l:  40px;           /* 강조 버튼·모바일 인풋 */
+  --control-height-xl: 48px;           /* 모바일 주 CTA·툴바 버튼 */
+
+  /* ---------- §5 형태 (정밀·낮은 radius) ---------- */
+  --radius-sm: 4px;    /* 인풋·스와치·작은 버튼·태그 */
+  --radius-md: 6px;    /* 기본 버튼·셀렉트·리스트 아이템 */
+  --radius-lg: 8px;    /* 패널·팝오버·카드·툴바 그룹 */
+  --radius-xl: 16px;   /* 모달·바텀 트레이·온보딩 카드 */
+  --radius-full: 999px;/* 아바타·토글 노브·컬러 휠·라디오 */
+
+  --border-width: 1px;
+  --border-width-strong: 2px;          /* focus 링·활성 탭 밑줄 */
+
+  --shadow-0: none;                                              /* 도킹된 패널: 그림자 없음(1px 보더/bg 단차로 분리) */
+  --shadow-1: 0 1px 4px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.10); /* 팝오버·드롭다운·툴팁 */
+  --shadow-2: 0 8px 32px rgba(0,0,0,0.20);                       /* 모달·바텀 트레이 */
+  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-primary); /* 2px 갭 + 2px 링 */
+
+  /* ---------- §7 모션 (즉각적·절제됨, 오버슈트 없음) ---------- */
+  --motion-micro: 80ms;   /* hover·press 상태 색 전환 */
+  --motion-fast: 130ms;   /* 탭·토글·아코디언 */
+  --motion-base: 190ms;   /* 패널·팝오버 진입 */
+  --motion-slow: 300ms;   /* 트레이·모달 슬라이드 */
+
+  --ease-in-out: cubic-bezier(0.45, 0, 0.40, 1); /* 기본 — 위치/표면 이동 */
+  --ease-out: cubic-bezier(0, 0, 0.40, 1);       /* 진입 */
+  --ease-in: cubic-bezier(0.50, 0, 1, 1);        /* 퇴장 */
+}
+
+/* ============================================================
+ * 다크 오버라이드 (a 변형) — §2.2. 크리에이티브 툴의 기본 작업 환경
+ * ============================================================ */
+:root[data-theme="dark"] {
+  --color-bg: #1E1E1E;                 /* 앱 셸 */
+  --color-surface: #262626;            /* 패널·툴바 */
+  --color-surface-raised: #303030;     /* 팝오버·모달 */
+  --color-surface-sunken: #161616;     /* 인풋 트랙·well */
+  --color-canvas: #101010;             /* 페이스트보드(가장 어두운 바닥) */
+  --color-text: #F2F2F2;               /* 본문 (surface 13.52:1) */
+  --color-text-sub: #B8B8B8;           /* 보조 (surface 7.63:1) */
+  --color-text-tertiary: #8A8A8A;      /* 캡션 (bg 4.83:1, §2.3 제약) */
+  --color-border: #393939;             /* 장식용 구분선 */
+  --color-border-strong: #7A7A7A;      /* 컨트롤 외곽선 (surface 3.53:1) */
+  --color-primary: #3B63FB;            /* 라이트와 동일 유지 (흰 텍스트 4.81:1) */
+  --color-primary-text: #FFFFFF;
+  --color-primary-hover: #274DEA;      /* 흰 텍스트 6.30:1 */
+  --color-primary-soft: #1B2A5C;
+  --color-primary-soft-text: #9BB6FF;  /* soft 6.87:1, bg 8.36:1 — 다크의 파란 텍스트 */
+  --color-accent: #1FC7B6;             /* 그래픽 전용 (bg 7.86:1) */
+  --color-danger: #FF6756;             /* surface 5.28:1 */
+  --color-danger-soft: #3A1D1A;
+  --color-success: #14BE70;            /* surface 6.22:1 */
+  --color-success-soft: #10281E;
+  --color-warning: #F37500;            /* surface 5.30:1 */
+  --color-warning-soft: #3A2410;
+  --color-overlay: rgba(0, 0, 0, 0.60);
+
+  --shadow-1: 0 1px 4px rgba(0,0,0,0.40), 0 4px 12px rgba(0,0,0,0.36);
+  --shadow-2: 0 8px 32px rgba(0,0,0,0.55);
+  --focus-ring: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-primary);
+}
+
+/* ============================================================
+ * b 변형 (바이올렛, hue 262) — 색 토큰만 오버라이드 (§2.4)
+ * 간격·타이포·radius·모션은 절대 건드리지 않는다.
+ * accent(teal)는 a와 공유 — b는 primary 6종 세트만 교체.
+ * ============================================================ */
+:root[data-variant="b"] {
+  --color-primary: #6E3FE0;            /* 흰 텍스트 6.09:1 */
+  --color-primary-text: #FFFFFF;
+  --color-primary-hover: #5A28C4;      /* 흰 텍스트 8.28:1 */
+  --color-primary-soft: #EDE7FD;
+  --color-primary-soft-text: #5320B0;  /* soft 7.93:1 */
+}
+
+:root[data-variant="b"][data-theme="dark"] {
+  --color-primary: #6E3FE0;            /* 흰 텍스트 6.09:1 (라이트와 동일 유지) */
+  --color-primary-text: #FFFFFF;
+  --color-primary-hover: #5A28C4;      /* 흰 텍스트 8.28:1 */
+  --color-primary-soft: #2A1D5C;
+  --color-primary-soft-text: #C3B0FF;  /* soft 7.68:1, bg 8.71:1 */
+}
+
+/* ============================================================
+ * prefers-reduced-motion 전역 — transform/슬라이드 제거, opacity만 유지
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 80ms !important;
+    transition-property: opacity, background-color, border-color, color, box-shadow !important;
+    scroll-behavior: auto !important;
+  }
+}

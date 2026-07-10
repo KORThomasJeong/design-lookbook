@@ -31,6 +31,20 @@ https://raw.githubusercontent.com/KORThomasJeong/design-lookbook/main/presets/3-
 | 2 | Steel | Carbon풍 — 엔터프라이즈 데이터 콘솔 |
 | 3 | Jelly | 토스풍 — 모바일 핀테크/커머스 |
 | 4 | Obsidian | Linear/Vercel풍 — 다크 모던 SaaS |
+| 5 | Clay | 머티리얼풍 — 톤 팔레트 안드로이드 소비자 앱 |
+| 6 | Glass | iOS풍 — 반투명 유리감의 소비자 앱 |
+| 7 | Quartz | 앤트풍 — 정보 밀도 높은 B2B 관리자 콘솔 |
+| 8 | Canvas | 폴라리스풍 — 커머스 어드민/백오피스 |
+| 9 | Prism | 스펙트럼풍 — 다크 기본 크리에이티브 툴 |
+| 10 | Slate | 깃허브풍 — 개발자 협업/코드 호스팅 |
+| 11 | Asphalt | 우버풍 — 흑백 대비의 모빌리티 서비스 |
+| 12 | Ink | 스트라이프풍 — 핀테크 결제 대시보드 |
+| 13 | Coral | 에어비앤비풍 — 사진 중심 여행/숙박 마켓 |
+| 14 | Enamel | 배민풍 — 뉴트로 감성 대중 배달앱 |
+| 15 | Amber | 카카오풍 — 노란 포인트의 대중 메신저 |
+| 16 | Jade | 네이버풍 — 검색 중심 대중 포털 |
+
+> 1~4는 complete(5화면 데모 有), 5~16은 spec-draft(스펙 완료, 데모는 추후).
 
 색 변형은 `3-a`, `3-b`, 규칙 안 랜덤 팔레트는 `3-r212` 형식. 전체 목록·상태는 [presets/INDEX.md](presets/INDEX.md).
 

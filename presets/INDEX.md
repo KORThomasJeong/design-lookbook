@@ -9,14 +9,28 @@
 | 2 | Steel | IBM Carbon | 카본풍, IBM풍, 엔터프라이즈풍 | a | complete | 데이터 운영 콘솔: 대시보드 / 데이터 테이블 / 상세 드로어 / 잡 모니터링 / 권한 관리 |
 | 3 | Jelly | Toss (toss.im) | 토스풍, 핀테크풍 | a | complete | 개인 금융 앱: 홈(자산) / 송금 입력 / 송금 확인·완료 / 소비 내역 / 혜택·설정 |
 | 4 | Obsidian | Linear + Vercel | 리니어풍, 버셀풍, 다크 SaaS풍, 스타트업풍 | a | complete | 개발자 SaaS: 랜딩 / 이슈 보드 / 이슈 상세 / 배포 로그 / 팀 설정 |
+| 5 | Clay | Google Material 3 (Material You) | 머티리얼풍, 안드로이드풍, 구글풍, 머티리얼유풍 | a | spec-draft | 가상 노트 앱: 홈 목록 / 노트 편집 / 검색 / 설정 / 프로필 |
+| 6 | Glass | Apple Human Interface Guidelines (iOS) | 애플풍, iOS풍, 쿠퍼티노풍, 아이폰풍 | a | spec-draft | 가상 설정/피트니스 앱: 대시보드 / 그룹 설정 리스트 / 상세 / 모달 시트 / 알림 |
+| 7 | Quartz | Ant Design | 앤트풍, 엔터프라이즈풍, 관리자콘솔풍, B2B어드민풍 | a | spec-draft | 가상 관리자 콘솔: 대시보드 / 사용자 만들기(폼) / 사용자 목록(테이블) / 사용자 상세 / 계정 설정 |
+| 8 | Canvas | Shopify Polaris | 폴라리스풍, 쇼피파이풍, 커머스어드민풍, 판매자콘솔풍 | a | spec-draft | 가상 커머스 어드민: 홈(매출 요약) / 주문 목록 / 주문 상세 / 상품 등록 / 설정 |
+| 9 | Prism | Adobe Spectrum | 스펙트럼풍, 어도비풍, 크리에이티브툴풍, 디자인툴풍 | a | spec-draft | 가상 디자인 툴: 캔버스+패널 / 에셋 라이브러리 / 속성 편집 / 내보내기 / 환경설정 |
+| 10 | Slate | GitHub Primer | 깃허브풍, 프라이머풍, 개발자툴풍, 코드호스팅풍 | a | spec-draft | 가상 코드 협업: 저장소 홈 / 이슈 목록 / 이슈 상세(타임라인) / PR diff / 설정 |
+| 11 | Asphalt | Uber Base | 우버풍, 베이스풍, 모빌리티풍 | a | spec-draft | 가상 이동 서비스: 홈(지도+목적지) / 차량 선택 / 이동 중 / 결제·영수증 / 이용 기록 |
+| 12 | Ink | Stripe | 스트라이프풍, 결제대시보드풍, 핀테크대시보드풍 | a | spec-draft | 가상 결제 대시보드: 홈(잔액·매출 차트) / 결제 내역 테이블 / 거래 상세 / 정산 / API 설정 |
+| 13 | Coral | Airbnb DLS (Cereal) | 에어비앤비풍, 여행풍, 따뜻한풍, 숙박풍 | a | spec-draft | 가상 숙소 예약: 탐색(카드 그리드) / 숙소 상세 / 예약 폼 / 예약 확인 / 여행 목록 |
+| 14 | Enamel | 배달의민족 (Baemin) | 배민풍, 배달의민족풍, 뉴트로풍, 을지로풍 | a | spec-draft | 가상 배달 앱: 홈(카테고리+추천) / 가게 목록 / 메뉴·장바구니 / 주문/결제 / 주문 현황 |
+| 15 | Amber | Kakao | 카카오풍, 노란풍, 메신저풍 | a | spec-draft | 가상 메신저: 채팅 목록 / 대화방 / 프로필 / 더보기(서비스 그리드) / 설정 |
+| 16 | Jade | Naver | 네이버풍, 초록풍, 포털풍 | a | spec-draft | 가상 포털/서비스: 홈(검색+피드) / 검색 결과 / 콘텐츠 상세 / 로그인 / 마이페이지 |
 
-코드네임은 재질 시리즈: Frost(반투명 아크릴) / Steel(산업적 정밀함) / Jelly(말랑한 물성) / Obsidian(잦은 다크, 날카로운 디테일).
+코드네임은 재질 시리즈: Frost(반투명 아크릴) / Steel(산업적 정밀함) / Jelly(말랑한 물성) / Obsidian(잦은 다크, 날카로운 디테일) / Clay(톤으로 스며드는 점토) / Glass(맑은 반투명 유리) / Quartz(정연한 석영 결정) / Canvas(실용적 작업 천) / Prism(빛을 다루는 프리즘) / Slate(담담한 회색 석판) / Asphalt(도시의 검은 포장) / Ink(번지지 않는 잉크) / Coral(따뜻한 산호빛) / Enamel(을지로 법랑 간판) / Amber(밝게 굳은 호박) / Jade(신뢰의 초록 옥).
 
 상태: `planned`(번호만 예약) → `spec-draft`(SPEC.md 작성 중/완료, 데모 없음) → `complete`(스펙+토큰+5화면 데모+갤러리 등록).
 
 ## 진행 계획
 
 수직 슬라이스: **3번 Jelly를 complete까지 먼저** → "3번으로 만들어줘" 실전 검증 → SPEC-FORMAT 확정 → 1, 2, 4번 병렬 제작.
+
+5~16번은 spec-draft(스펙 완료, 데모 미제작) — 데모는 W5로 추가.
 
 ## 랜덤 변형 명명
 
