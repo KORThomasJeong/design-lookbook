@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="1" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>모임 — 일정 · Frost 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-4 일정 주간 캘린더 (§9) — 주 헤더 + 타임라인(모바일)/주간 그리드(데스크톱) */
+
+/* 주 이동 네비 */
+.week-nav {
+  display: flex; align-items: center; gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.week-label { flex: 1; text-align: center; font: var(--text-body-strong); font-variant-numeric: tabular-nums; }
+
+/* 요일·날짜 헤더 (60px 시간축 정렬 + 7열) */
+.day-head {
+  display: grid; grid-template-columns: 60px repeat(7, 1fr);
+  align-items: start;
+  margin-top: var(--space-4);
+}
+.day-head .axis-pad { grid-column: 1; }
+.day-cell {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-1);
+  padding: var(--space-1) 0;
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  transition: background-color var(--motion-fast) var(--ease-fluent);
+}
+.day-cell:hover { background: var(--color-surface-2); }
+.day-cell .dow { font: var(--text-caption); color: var(--color-text-sub); }
+.day-cell .dnum {
+  width: 28px; height: 28px; display: grid; place-items: center;
+  border-radius: var(--radius-full);
+  font: var(--text-body-strong); font-variant-numeric: tabular-nums;
+}
+.day-cell.today .dnum { background: var(--color-primary); color: var(--color-primary-text); }
+.day-cell.selected { background: var(--color-primary-subtle); }
+.day-cell.selected .dow { color: var(--color-primary); font-weight: 600; }
+
+/* 이벤트 블록 (§9) */
+.cal-event {
+  position: absolute; left: 0; right: var(--space-2);
+  min-height: 20px; overflow: hidden;
+  background: var(--color-primary-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--space-1) var(--space-2) var(--space-1) var(--space-3);
+}
+.cal-event::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  border-radius: var(--radius-full); background: var(--color-primary);
+}
+.cal-event .evt-title { font: var(--text-body-strong); overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.cal-event .evt-time { font: var(--text-caption); color: var(--color-text-sub); font-variant-numeric: tabular-nums; }
+.cal-event.evt-success { background: var(--color-success-subtle); }
+.cal-event.evt-success::before { background: var(--color-success); }
+
+/* 현재 시각선 (§9) — 1px danger 가로선 + 좌측 원 */
+.now-line { position: absolute; left: 0; right: 0; height: 0; border-top: 1px solid var(--color-danger); z-index: 2; }
+.now-line::before {
+  content: ""; position: absolute; left: 0; top: 0;
+  width: 8px; height: 8px; border-radius: var(--radius-full);
+  background: var(--color-danger); transform: translate(-4px, -4px);
+}
+
+/* 모바일 타임라인 */
+.cal-mobile { margin-top: var(--space-4); }
+.day-title { font: var(--text-body-strong); }
+.day-title .cnt { color: var(--color-text-sub); font-weight: 400; }
+.timeline {
+  display: grid; grid-template-columns: 60px 1fr;
+  margin-top: var(--space-4);
+}
+.time-axis .hour {
+  height: var(--hour-h);
+  font: var(--text-caption); color: var(--color-text-sub);
+  text-align: right; padding-right: var(--space-2);
+  font-variant-numeric: tabular-nums;
+}
+.track { position: relative; border-left: 1px solid var(--color-border); }
+.track .grid-line { height: var(--hour-h); border-top: 1px solid var(--color-border); }
+.track .grid-line:first-child { border-top: none; }
+.track .empty-day {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font: var(--text-caption); color: var(--color-text-sub);
+}
+
+/* 데스크톱 주간 그리드 */
+.cal-desktop { display: none; }
+@media (min-width: 1024px) {
+  .cal-mobile { display: none; }
+  .cal-desktop {
+    display: grid; grid-template-columns: 60px repeat(7, 1fr);
+    margin-top: var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-2);
+    overflow: hidden;
+  }
+  .cal-desktop .axis-col .hour {
+    height: var(--hour-h);
+    font: var(--text-caption); color: var(--color-text-sub);
+    text-align: right; padding: var(--space-1) var(--space-2) 0 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .cal-desktop .col { position: relative; border-left: 1px solid var(--color-border); }
+  .cal-desktop .col .grid-line { height: var(--hour-h); border-top: 1px solid var(--color-border); }
+  .cal-desktop .col .grid-line:first-child { border-top: none; }
+  /* 데스크톱은 그리드 위 헤더가 자체 요일 표기를 가지므로 상단 day-head 숨김 */
+  .day-head { display: none; }
+  .week-nav { max-width: 480px; }
+}
+.dow-cell { font: var(--text-caption); color: var(--color-text-sub); text-align: center; padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border); }
+.dow-cell .dnum {
+  display: inline-grid; place-items: center; width: 24px; height: 24px; margin-left: var(--space-1);
+  border-radius: var(--radius-full); font: var(--text-body-strong); color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+.dow-cell.today .dnum { background: var(--color-primary); color: var(--color-primary-text); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 100ms !important;
+    transition-property: opacity, background-color, color !important;
+  }
+}
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<aside class="sidebar acrylic">
+  <a class="side-brand" href="screen-1.html"><span class="brand-mark t-strong" aria-hidden="true">모</span>모임</a>
+  <nav class="side-nav" aria-label="주 메뉴">
+    <a class="side-item" href="screen-1.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5 10 4l6 5.5V16a1 1 0 0 1-1 1h-3v-4H8v4H5a1 1 0 0 1-1-1z"/></svg>
+      홈</a>
+    <a class="side-item" href="screen-2.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+      문서</a>
+    <a class="side-item" href="screen-4.html" aria-current="page">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="13" height="12" rx="1"/><path d="M3.5 8.5h13M7 3v3M13 3v3"/></svg>
+      일정</a>
+    <a class="side-item" href="screen-5.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a4.5 4.5 0 0 1 4.5 4.5c0 2.8.9 3.9 1.5 4.5H4c.6-.6 1.5-1.7 1.5-4.5A4.5 4.5 0 0 1 10 3.5z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+      알림 설정</a>
+  </nav>
+  <div class="side-foot">
+    <span class="avatar avatar-28" aria-hidden="true">지</span>
+    <div>
+      <div class="t-strong">김지연</div>
+      <div class="t-caption sub">그로스팀</div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="appbar acrylic">
+    <h1 class="appbar-title">일정</h1>
+    <div class="appbar-spacer"></div>
+    <button class="btn btn-secondary" id="btn-today" type="button">오늘</button>
+    <button class="btn btn-primary" type="button" onclick="frostSheet.open('new-event')">일정 추가</button>
+  </header>
+
+  <main class="content page-enter">
+    <nav class="week-nav" aria-label="주 이동">
+      <button class="icon-btn" id="btn-prev" type="button" aria-label="지난 주">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l-6 6 6 6"/></svg>
+      </button>
+      <span class="week-label" id="week-label" aria-live="polite">7월 6일 – 12일</span>
+      <button class="icon-btn" id="btn-next" type="button" aria-label="다음 주">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4l6 6-6 6"/></svg>
+      </button>
+    </nav>
+
+    <!-- 모바일: 요일 선택 헤더 -->
+    <div class="day-head" id="day-head" role="tablist" aria-label="요일 선택">
+      <span class="axis-pad" aria-hidden="true"></span>
+      <!-- 7개 요일 버튼은 JS가 그린다 -->
+    </div>
+
+    <!-- 모바일: 선택한 하루 타임라인 -->
+    <section class="cal-mobile" aria-label="선택한 날의 일정">
+      <p class="day-title" id="day-title">7월 10일 금요일 <span class="cnt">· 4건</span></p>
+      <div class="timeline">
+        <div class="time-axis" id="time-axis" aria-hidden="true"></div>
+        <div class="track" id="track-mobile"></div>
+      </div>
+    </section>
+
+    <!-- 데스크톱: 주간 7열 그리드 -->
+    <section class="cal-desktop" id="cal-desktop" aria-label="주간 일정 그리드">
+      <!-- JS가 시간축 열 + 7개 요일 열을 그린다 -->
+    </section>
+  </main>
+</div>
+
+<!-- 일정 추가 모달/바텀시트 (§6.7) -->
+<div class="scrim" id="new-event-scrim" onclick="frostSheet.close('new-event')"></div>
+<section class="sheet modal-desktop" id="new-event" role="dialog" aria-modal="true" aria-labelledby="new-event-title">
+  <div class="grabbar" aria-hidden="true"></div>
+  <h2 class="t-subtitle" id="new-event-title">일정 추가</h2>
+  <form id="new-event-form" style="margin-top: var(--space-4); display: flex; flex-direction: column; gap: var(--space-4);">
+    <div class="field">
+      <label class="field-label" for="ev-title">제목</label>
+      <input class="input" id="ev-title" type="text" placeholder="예: 2분기 회고" required>
+    </div>
+    <div class="field">
+      <label class="field-label" for="ev-date">날짜</label>
+      <select class="select" id="ev-date">
+        <option>7월 10일 금요일</option>
+        <option>7월 11일 토요일</option>
+        <option>7월 12일 일요일</option>
+      </select>
+    </div>
+    <div class="field">
+      <label class="field-label" for="ev-time">시작 시간</label>
+      <select class="select" id="ev-time">
+        <option>09:00</option><option>10:00</option><option>11:00</option>
+        <option>13:00</option><option>14:00</option><option>15:00</option><option>16:00</option>
+      </select>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" type="button" onclick="frostSheet.close('new-event')">취소</button>
+      <button class="btn btn-primary" type="submit">추가</button>
+    </div>
+  </form>
+</section>
+
+<nav class="tabbar acrylic" aria-label="하단 탭">
+  <a class="tab" href="screen-1.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5 10 4l6 5.5V16a1 1 0 0 1-1 1h-3v-4H8v4H5a1 1 0 0 1-1-1z"/></svg>
+    <span>홈</span></a>
+  <a class="tab" href="screen-2.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+    <span>문서</span></a>
+  <a class="tab" href="screen-4.html" aria-current="page">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="13" height="12" rx="1"/><path d="M3.5 8.5h13M7 3v3M13 3v3"/></svg>
+    <span>일정</span></a>
+  <a class="tab" href="screen-5.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a4.5 4.5 0 0 1 4.5 4.5c0 2.8.9 3.9 1.5 4.5H4c.6-.6 1.5-1.7 1.5-4.5A4.5 4.5 0 0 1 10 3.5z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+    <span>알림</span></a>
+</nav>
+
+<script>
+(function () {
+  'use strict';
+  var HOUR = 48;        /* 시간 행 높이 = --hour-h (48px) */
+  var START = 8, END = 18;  /* 08:00 ~ 18:00 */
+  var DOW = ['일', '월', '화', '수', '목', '금', '토'];
+  var TODAY = new Date(2026, 6, 10);   /* 2026-07-10 금 */
+
+  /* 이벤트 데이터 — 'M-D' 키. cat 'success'는 개인/휴식, 기본은 회의 */
+  var EVENTS = {
+    '7-6':  [{t:'10:00',dur:90,title:'스프린트 계획'},{t:'14:00',dur:60,title:'디자인 리뷰'}],
+    '7-7':  [{t:'09:30',dur:30,title:'데일리 스탠드업'},{t:'13:00',dur:60,title:'고객 인터뷰'}],
+    '7-8':  [{t:'11:00',dur:30,title:'1:1 박서준'},{t:'16:00',dur:60,title:'채용 면접'}],
+    '7-9':  [{t:'10:00',dur:60,title:'주간 회의'},{t:'15:00',dur:90,title:'문서 정리',cat:'success'}],
+    '7-10': [{t:'09:00',dur:30,title:'데일리 스탠드업'},{t:'11:00',dur:60,title:'2분기 회고'},
+             {t:'12:00',dur:60,title:'팀 점심',cat:'success'},{t:'15:00',dur:60,title:'문서 정리 타임',cat:'success'}]
+  };
+
+  var weekOffset = 0;
+  var selectedIdx = 4;   /* 기본 선택 = 금요일 */
+
+  function mondayOf(offset) {
+    var d = new Date(2026, 6, 6);   /* 이번 주 월요일 */
+    d.setDate(d.getDate() + offset * 7);
+    return d;
+  }
+  function key(d) { return (d.getMonth() + 1) + '-' + d.getDate(); }
+  function isToday(d) { return d.getFullYear() === 2026 && d.getMonth() === 6 && d.getDate() === 10; }
+  function pos(time) { var p = time.split(':'); return ((+p[0] - START) * 60 + (+p[1])) / 60 * HOUR; }
+
+  var daysOfWeek = function () {
+    var mon = mondayOf(weekOffset), arr = [];
+    for (var i = 0; i < 7; i++) { var d = new Date(mon); d.setDate(mon.getDate() + i); arr.push(d); }
+    return arr;
+  };
+
+  /* 시간축 (모바일) */
+  function buildAxis(el, cls) {
+    el.innerHTML = '';
+    for (var h = START; h < END; h++) {
+      var c = document.createElement('div');
+      c.className = cls;
+      c.textContent = (h < 10 ? '0' : '') + h + ':00';
+      el.appendChild(c);
+    }
+  }
+
+  /* 트랙 하나(하루) 렌더 */
+  function renderTrack(track, d, showEmptyLabel) {
+    track.innerHTML = '';
+    for (var h = START; h < END; h++) {
+      var line = document.createElement('div');
+      line.className = 'grid-line';
+      track.appendChild(line);
+    }
+    var evs = EVENTS[key(d)] || [];
+    if (!evs.length && showEmptyLabel) {
+      var e = document.createElement('div');
+      e.className = 'empty-day';
+      e.textContent = '일정이 없어요';
+      track.appendChild(e);
+    }
+    evs.forEach(function (ev) {
+      var box = document.createElement('div');
+      box.className = 'cal-event' + (ev.cat === 'success' ? ' evt-success' : '');
+      box.style.top = pos(ev.t) + 'px';
+      box.style.height = (ev.dur / 60 * HOUR) + 'px';
+      box.innerHTML = '<div class="evt-title"></div><div class="evt-time"></div>';
+      box.querySelector('.evt-title').textContent = ev.title;
+      box.querySelector('.evt-time').textContent = ev.t;
+      track.appendChild(box);
+    });
+    if (isToday(d)) {
+      var now = document.createElement('div');
+      now.className = 'now-line';
+      now.setAttribute('aria-label', '현재 시각');
+      now.style.top = pos('14:10') + 'px';
+      track.appendChild(now);
+    }
+  }
+
+  /* 모바일 요일 헤더 */
+  function buildDayHead() {
+    var head = document.getElementById('day-head');
+    head.querySelectorAll('.day-cell').forEach(function (n) { n.remove(); });
+    daysOfWeek().forEach(function (d, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'day-cell' + (isToday(d) ? ' today' : '') + (i === selectedIdx ? ' selected' : '');
+      b.setAttribute('role', 'tab');
+      b.setAttribute('aria-selected', String(i === selectedIdx));
+      b.innerHTML = '<span class="dow">' + DOW[d.getDay()] + '</span><span class="dnum">' + d.getDate() + '</span>';
+      b.addEventListener('click', function () { selectedIdx = i; renderMobile(); });
+      head.appendChild(b);
+    });
+  }
+
+  function renderMobile() {
+    buildDayHead();
+    var d = daysOfWeek()[selectedIdx];
+    var evs = EVENTS[key(d)] || [];
+    var title = document.getElementById('day-title');
+    title.innerHTML = (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ' + DOW[d.getDay()] + '요일 ' +
+      '<span class="cnt">· ' + evs.length + '건</span>';
+    renderTrack(document.getElementById('track-mobile'), d, true);
+  }
+
+  /* 데스크톱 주간 그리드 */
+  function renderDesktop() {
+    var grid = document.getElementById('cal-desktop');
+    grid.innerHTML = '';
+    var axis = document.createElement('div');
+    axis.className = 'axis-col';
+    var pad = document.createElement('div'); pad.className = 'dow-cell'; pad.innerHTML = '&nbsp;';
+    axis.appendChild(pad);
+    buildAxis(axis, 'hour');
+    grid.appendChild(axis);
+
+    daysOfWeek().forEach(function (d) {
+      var col = document.createElement('div');
+      col.className = 'col';
+      var head = document.createElement('div');
+      head.className = 'dow-cell' + (isToday(d) ? ' today' : '');
+      head.innerHTML = DOW[d.getDay()] + '<span class="dnum">' + d.getDate() + '</span>';
+      col.appendChild(head);
+      var track = document.createElement('div');
+      track.className = 'track'; track.style.borderLeft = 'none';
+      renderTrack(track, d, false);
+      col.appendChild(track);
+      grid.appendChild(col);
+    });
+  }
+
+  function updateLabel() {
+    var days = daysOfWeek(), a = days[0], b = days[6];
+    var lbl = (a.getMonth() + 1) + '월 ' + a.getDate() + '일 – ' +
+      (b.getMonth() === a.getMonth() ? '' : (b.getMonth() + 1) + '월 ') + b.getDate() + '일';
+    document.getElementById('week-label').textContent = lbl;
+  }
+
+  function renderAll() { updateLabel(); renderMobile(); renderDesktop(); }
+
+  buildAxis(document.getElementById('time-axis'), 'hour');
+
+  document.getElementById('btn-prev').addEventListener('click', function () { weekOffset--; renderAll(); });
+  document.getElementById('btn-next').addEventListener('click', function () { weekOffset++; renderAll(); });
+  document.getElementById('btn-today').addEventListener('click', function () {
+    weekOffset = 0; selectedIdx = 4; renderAll();
+  });
+  document.getElementById('new-event-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var t = document.getElementById('ev-title');
+    if (!t.value.trim()) { t.focus(); return; }
+    frostSheet.close('new-event');
+    frostToast('일정을 추가했어요');
+    t.value = '';
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>

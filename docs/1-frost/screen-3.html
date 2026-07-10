@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="1" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>모임 — 2분기 계획 · Frost 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 문서 편집 (§9) — 아크릴은 앱바 + 서식 툴바 2곳만 (§10-7) */
+.doc-title {
+  font: var(--text-subtitle);
+  border-radius: var(--radius-md);
+  padding: var(--space-1) var(--space-2);
+  min-width: 0;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+}
+.doc-title:focus { outline: none; box-shadow: inset 0 -2px 0 var(--color-primary); }
+.save-status { font: var(--text-caption); color: var(--color-text-sub); white-space: nowrap; }
+
+/* 서식 툴바 — 앱바 아래 sticky */
+.fmt-toolbar {
+  position: sticky; top: var(--appbar-h); z-index: 45;
+  height: var(--toolbar-h);
+  display: flex; align-items: center; gap: var(--space-1);
+  padding: 0 var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+.fmt-toolbar .icon-btn { width: 44px; height: var(--toolbar-h); }
+.fmt-divider { width: 1px; height: 20px; background: var(--color-border); margin: 0 var(--space-2); }
+
+.edit-layout { display: block; }
+.doc-body {
+  max-width: 720px; margin: 0 auto;
+  padding: var(--space-6) var(--space-4);
+  padding-bottom: calc(var(--space-16) + var(--space-16) + env(safe-area-inset-bottom));
+}
+.doc-body > * + * { margin-top: var(--space-4); }
+.doc-body h2 { font: var(--text-title-3); letter-spacing: var(--tracking-title); margin-top: var(--space-8); }
+.doc-body p { font: var(--text-body); max-width: 72ch; }
+.doc-body ul { list-style: disc; padding-left: var(--space-5); display: flex; flex-direction: column; gap: var(--space-2); }
+.doc-body [contenteditable]:focus { outline: none; background: var(--color-primary-subtle); border-radius: var(--radius-sm); }
+
+/* 댓글 — 데스크톱 우측 패널 / 모바일 바텀시트 */
+.comments-panel { display: none; }
+.comment { display: flex; gap: var(--space-3); }
+.comment + .comment { margin-top: var(--space-4); }
+.comment-head { display: flex; align-items: baseline; gap: var(--space-2); }
+.comment-body { font: var(--text-body); margin-top: var(--space-1); }
+.comment-form { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
+.comment-form .input { flex: 1; }
+
+/* 모바일 하단 고정 댓글 입력 (§9) — 아크릴 아님(상한 준수), 불투명 표면 */
+.comment-dock {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  display: flex; gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+}
+.comment-dock .input { flex: 1; height: 40px; }
+.comment-dock .btn { height: 40px; padding: 0 var(--space-3); }
+
+@media (min-width: 1024px) {
+  .edit-layout { display: flex; align-items: flex-start; }
+  .doc-area { flex: 1; min-width: 0; }
+  .doc-body { padding-bottom: var(--space-16); }
+  .comments-panel {
+    display: block;
+    width: 320px; flex: none;
+    min-height: calc(100vh - var(--appbar-h) - var(--toolbar-h));
+    border-left: 1px solid var(--color-border);
+    padding: var(--space-5);
+  }
+  .comment-dock { display: none; }
+  .mobile-only { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 100ms !important;
+    transition-property: opacity, background-color, color !important;
+  }
+}
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="appbar acrylic">
+  <a class="icon-btn" href="screen-2.html" aria-label="문서 목록으로">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l-6 6 6 6"/></svg>
+  </a>
+  <h1 class="doc-title" id="doc-title" contenteditable="true" spellcheck="false" aria-label="문서 제목">2분기 계획</h1>
+  <span class="save-status" id="save-status">저장됨</span>
+  <div class="appbar-spacer"></div>
+  <button class="icon-btn mobile-only" type="button" aria-label="댓글 보기" onclick="frostSheet.open('comment-sheet')">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h12a1 1 0 0 1 1 1v7.5a1 1 0 0 1-1 1H9.5L6 16.5v-3H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg>
+  </button>
+  <button class="btn btn-primary" type="button" onclick="frostToast('링크를 복사했어요')">공유</button>
+</header>
+
+<div class="fmt-toolbar acrylic" role="toolbar" aria-label="서식">
+  <button class="icon-btn" type="button" aria-label="굵게" aria-pressed="false" data-fmt>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><text x="10" y="14.5" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">B</text></svg>
+  </button>
+  <button class="icon-btn" type="button" aria-label="기울임" aria-pressed="false" data-fmt>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><text x="10" y="14.5" text-anchor="middle" font-size="13" font-style="italic" fill="currentColor">I</text></svg>
+  </button>
+  <span class="fmt-divider" aria-hidden="true"></span>
+  <button class="icon-btn" type="button" aria-label="제목 스타일" aria-pressed="false" data-fmt>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><text x="10" y="14.5" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">H</text></svg>
+  </button>
+  <button class="icon-btn" type="button" aria-label="글머리 목록" aria-pressed="false" data-fmt>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5.5h9M7 10h9M7 14.5h9"/><path d="M4 5.5h.01M4 10h.01M4 14.5h.01"/></svg>
+  </button>
+  <span class="fmt-divider" aria-hidden="true"></span>
+  <button class="icon-btn" type="button" aria-label="링크 넣기" onclick="frostToast('링크를 넣었어요')">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12l4-4"/><path d="M7 14l-1.2 1.2a2.55 2.55 0 0 1-3.6-3.6L4.6 9.2"/><path d="M13 6l1.2-1.2a2.55 2.55 0 0 1 3.6 3.6L15.4 10.8"/></svg>
+  </button>
+</div>
+
+<div class="edit-layout">
+  <main class="doc-area page-enter">
+    <article class="doc-body" id="doc-body">
+      <p class="t-caption sub">박서준 · 마지막 수정 10분 전</p>
+      <p contenteditable="true" spellcheck="false">2분기 목표는 신규 팀 온보딩 시간을 절반으로 줄이는 것이에요. 아래 세 갈래로 나눠 진행해요.</p>
+      <h2>1. 온보딩 문서 정비</h2>
+      <p contenteditable="true" spellcheck="false">흩어져 있는 가이드를 ‘온보딩 가이드’ 문서 하나로 합쳐요. 최유나 님이 7월 24일까지 초안을 만들어요.</p>
+      <ul>
+        <li contenteditable="true" spellcheck="false">계정·권한 신청 절차 정리</li>
+        <li contenteditable="true" spellcheck="false">첫 주 체크리스트 작성</li>
+        <li contenteditable="true" spellcheck="false">팀 용어집 30개 항목 추가</li>
+      </ul>
+      <h2>2. 버디 제도 시범 운영</h2>
+      <p contenteditable="true" spellcheck="false">신규 입사자마다 버디를 한 명씩 붙여요. 8월 입사 예정자 2명에게 먼저 적용하고, 첫 달 회고에서 유지 여부를 정해요.</p>
+      <h2>3. 지표</h2>
+      <p contenteditable="true" spellcheck="false">온보딩 완료까지 걸린 날짜를 매주 기록해요. 기준선은 지난 분기 평균 14일, 목표는 7일이에요.</p>
+    </article>
+  </main>
+
+  <!-- 데스크톱 댓글 패널 -->
+  <aside class="comments-panel" aria-label="댓글">
+    <h2 class="t-subtitle">댓글 3</h2>
+    <div class="section" style="margin-top: var(--space-4);" id="comment-list-desktop">
+      <div class="comment">
+        <span class="avatar avatar-24" aria-hidden="true">하</span>
+        <div class="row-main">
+          <div class="comment-head"><span class="t-strong">이하은</span><span class="t-caption sub">1시간 전</span></div>
+          <p class="comment-body">버디 제도 좋아요. 첫 주 체크리스트에 버디 소개 항목도 넣어 주세요</p>
+        </div>
+      </div>
+      <div class="comment">
+        <span class="avatar avatar-24" aria-hidden="true">민</span>
+        <div class="row-main">
+          <div class="comment-head"><span class="t-strong">정민호</span><span class="t-caption sub">40분 전</span></div>
+          <p class="comment-body">지표 기준선 14일 출처가 궁금해요. 회고 문서에 링크로 남겨 둘게요</p>
+        </div>
+      </div>
+      <div class="comment">
+        <span class="avatar avatar-24" aria-hidden="true">서</span>
+        <div class="row-main">
+          <div class="comment-head"><span class="t-strong">박서준</span><span class="t-caption sub">10분 전</span></div>
+          <p class="comment-body">용어집 항목은 문서팀과 나눠서 진행해요</p>
+        </div>
+      </div>
+    </div>
+    <form class="comment-form" id="comment-form-desktop">
+      <input class="input" type="text" placeholder="댓글을 남겨 보세요" aria-label="댓글 입력">
+      <button class="btn btn-primary" type="submit">남기기</button>
+    </form>
+  </aside>
+</div>
+
+<!-- 모바일 댓글 바텀시트 (§6.7) -->
+<div class="scrim" id="comment-sheet-scrim" onclick="frostSheet.close('comment-sheet')"></div>
+<section class="sheet" id="comment-sheet" role="dialog" aria-modal="true" aria-label="댓글">
+  <div class="grabbar" aria-hidden="true"></div>
+  <h2 class="t-subtitle">댓글 3</h2>
+  <div style="margin-top: var(--space-4);" id="comment-list-mobile">
+    <div class="comment">
+      <span class="avatar avatar-24" aria-hidden="true">하</span>
+      <div class="row-main">
+        <div class="comment-head"><span class="t-strong">이하은</span><span class="t-caption sub">1시간 전</span></div>
+        <p class="comment-body">버디 제도 좋아요. 첫 주 체크리스트에 버디 소개 항목도 넣어 주세요</p>
+      </div>
+    </div>
+    <div class="comment">
+      <span class="avatar avatar-24" aria-hidden="true">민</span>
+      <div class="row-main">
+        <div class="comment-head"><span class="t-strong">정민호</span><span class="t-caption sub">40분 전</span></div>
+        <p class="comment-body">지표 기준선 14일 출처가 궁금해요. 회고 문서에 링크로 남겨 둘게요</p>
+      </div>
+    </div>
+    <div class="comment">
+      <span class="avatar avatar-24" aria-hidden="true">서</span>
+      <div class="row-main">
+        <div class="comment-head"><span class="t-strong">박서준</span><span class="t-caption sub">10분 전</span></div>
+        <p class="comment-body">용어집 항목은 문서팀과 나눠서 진행해요</p>
+      </div>
+    </div>
+  </div>
+  <div class="sheet-actions">
+    <button class="btn btn-ghost" type="button" onclick="frostSheet.close('comment-sheet')">닫기</button>
+  </div>
+</section>
+
+<!-- 모바일 하단 고정 댓글 입력 -->
+<form class="comment-dock mobile-only" id="comment-form-mobile">
+  <input class="input" type="text" placeholder="댓글을 남겨 보세요" aria-label="댓글 입력">
+  <button class="btn btn-primary" type="submit" aria-label="댓글 남기기">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3 3 8.5l5.5 2L11 16z"/><path d="M17 3 8.5 10.5"/></svg>
+  </button>
+</form>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 저장 상태 — 입력 시 "저장 중…" → 잠시 뒤 "저장됨" */
+  var status = document.getElementById('save-status');
+  var timer = null;
+  function markDirty() {
+    status.textContent = '저장 중…';
+    clearTimeout(timer);
+    timer = setTimeout(function () { status.textContent = '저장됨'; }, 800);
+  }
+  document.getElementById('doc-body').addEventListener('input', markDirty);
+  document.getElementById('doc-title').addEventListener('input', markDirty);
+
+  /* 서식 버튼 — 토글 표시(데모) */
+  document.querySelectorAll('[data-fmt]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var on = btn.getAttribute('aria-pressed') === 'true';
+      btn.setAttribute('aria-pressed', String(!on));
+      btn.classList.toggle('is-on', !on);
+    });
+  });
+
+  /* 댓글 남기기 — 목록에 추가 + 토스트 */
+  function bindCommentForm(formId, listId) {
+    var form = document.getElementById(formId);
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = form.querySelector('input');
+      var text = input.value.trim();
+      if (!text) { input.focus(); return; }
+      ['comment-list-desktop', 'comment-list-mobile'].forEach(function (id) {
+        var list = document.getElementById(id);
+        if (!list) return;
+        var item = document.createElement('div');
+        item.className = 'comment';
+        item.innerHTML =
+          '<span class="avatar avatar-24" aria-hidden="true">지</span>' +
+          '<div class="row-main"><div class="comment-head"><span class="t-strong">김지연</span>' +
+          '<span class="t-caption sub">방금</span></div><p class="comment-body"></p></div>';
+        item.querySelector('.comment-body').textContent = text;
+        list.appendChild(item);
+      });
+      input.value = '';
+      frostToast('댓글을 남겼어요');
+    });
+  }
+  bindCommentForm('comment-form-desktop');
+  bindCommentForm('comment-form-mobile');
+})();
+</script>
+</body>
+</html>

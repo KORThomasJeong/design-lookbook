@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="3" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지갑 — 전체 · Jelly 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 혜택 · 설정 (§9) */
+.profile { display: flex; align-items: center; gap: var(--space-3); padding-top: var(--space-4); }
+.profile .row-main { display: flex; flex-direction: column; }
+.benefits { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); margin-top: var(--space-6); }
+.benefit { display: block; }
+.benefit-ico { color: var(--color-primary-vivid); margin-bottom: var(--space-3); }
+.benefit-title { margin-bottom: var(--space-1); }
+.divider { margin-top: var(--space-7); }
+.set-list { margin-top: var(--space-6); }
+.set-row .set-ico { color: var(--color-text-sub); }
+.set-ctl { margin-left: auto; flex: none; }
+.chev { margin-left: auto; flex: none; color: var(--color-text-tertiary); }
+.logout { margin-top: var(--space-6); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <span class="appbar-wordmark">전체</span>
+    <span class="appbar-spacer"></span>
+  </header>
+
+  <main class="scroll scroll-pad-tab page-enter">
+    <button class="row profile" type="button" onclick="jToast('내 정보는 준비 중이에요')">
+      <span class="avatar avatar-48" aria-hidden="true">지</span>
+      <span class="row-main"><span class="t-body1 w700">김지원</span><span class="t-caption sub">내 정보</span></span>
+      <svg class="chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+
+    <section class="benefits" aria-label="혜택">
+      <button class="card benefit" type="button" onclick="jToast('초대 링크를 복사했어요')">
+        <span class="benefit-ico" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M4 13h16M12 9v11"/><path d="M12 9C12 6.5 10.5 5 9 5.5S9.5 9 12 9zM12 9c0-2.5 1.5-4 3-3.5S14.5 9 12 9z"/></svg></span>
+        <p class="t-body2 w700 benefit-title">친구 초대</p>
+        <p class="t-caption sub">초대하면 5,000원</p>
+      </button>
+      <button class="card benefit" type="button" onclick="jToast('이번 주 미션을 확인했어요')">
+        <span class="benefit-ico" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4v16"/><path d="M6 4.5h11l-2 3.5 2 3.5H6"/></svg></span>
+        <p class="t-body2 w700 benefit-title">이번 주 미션</p>
+        <p class="t-caption sub">3번 결제하면 커피</p>
+      </button>
+    </section>
+
+    <hr class="divider" aria-hidden="true">
+
+    <section class="set-list" aria-label="설정">
+      <button class="row set-row" type="button" onclick="jToast('알림 설정을 열었어요')">
+        <span class="set-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span>
+        <span class="row-title">알림 설정</span>
+        <svg class="chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+
+      <button class="row set-row" type="button" data-toggle aria-label="화면 잠금">
+        <span class="set-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span>
+        <span class="row-title">화면 잠금</span>
+        <span class="switch set-ctl" role="switch" aria-checked="true"></span>
+      </button>
+
+      <button class="row set-row" id="darkRow" type="button" aria-label="다크 모드">
+        <span class="set-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13a8 8 0 1 1-9-9 6 6 0 0 0 9 9z"/></svg></span>
+        <span class="row-title">다크 모드</span>
+        <span class="switch set-ctl" id="darkSwitch" role="switch" aria-checked="false"></span>
+      </button>
+
+      <button class="row set-row" type="button" onclick="jToast('고객센터로 연결할게요')">
+        <span class="set-ico" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13v-1a7 7 0 0 1 14 0v1"/><rect x="3" y="13" width="4" height="6" rx="1.5"/><rect x="17" y="13" width="4" height="6" rx="1.5"/><path d="M19 19a4 4 0 0 1-4 3h-2"/></svg></span>
+        <span class="row-title">고객센터</span>
+        <svg class="chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </section>
+
+    <button class="btn btn-ghost logout" type="button" onclick="jToast('다음에 또 만나요')">로그아웃</button>
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+      <span class="tab-label">홈</span></a>
+    <a class="tab" href="screen-2.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8h10l-3-3"/><path d="M17 16H7l3 3"/></svg>
+      <span class="tab-label">송금</span></a>
+    <a class="tab" href="screen-4.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-2.5-1.5L13 20l-2.5-1.5L8 20 6 18.5z"/><path d="M9 9h6M9 13h4"/></svg>
+      <span class="tab-label">내역</span></a>
+    <a class="tab" href="screen-5.html" aria-current="page">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>
+      <span class="tab-label">전체</span></a>
+  </nav>
+
+</div>
+
+<script>
+(function () {
+  var html = document.documentElement;
+  var store = 'lookbook-3';
+  function save() {
+    try {
+      var s = JSON.parse(localStorage.getItem(store) || '{}');
+      s.theme = html.getAttribute('data-theme');
+      localStorage.setItem(store, JSON.stringify(s));
+    } catch (e) {}
+  }
+  var darkRow = document.getElementById('darkRow');
+  var darkSwitch = document.getElementById('darkSwitch');
+  function paint() { darkSwitch.setAttribute('aria-checked', html.getAttribute('data-theme') === 'dark' ? 'true' : 'false'); }
+  darkRow.addEventListener('click', function () {
+    html.setAttribute('data-theme', html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    paint(); save();
+  });
+  paint();
+
+  document.querySelectorAll('[data-toggle]').forEach(function (row) {
+    var sw = row.querySelector('.switch');
+    row.addEventListener('click', function () {
+      sw.setAttribute('aria-checked', sw.getAttribute('aria-checked') === 'true' ? 'false' : 'true');
+    });
+  });
+})();
+</script>
+</body>
+</html>

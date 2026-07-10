@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="3" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지갑 — 홈 · Jelly 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-1 홈 (§9) — 총자산 + 계좌 리스트 + 이번 달 소비 */
+.home-top { padding-top: var(--space-6); }
+.asset-label { margin-bottom: var(--space-2); }
+.asset-delta { margin-top: var(--space-1); }
+.acct-title { font-size: var(--font-size-body-2); font-weight: var(--font-weight-medium); }
+.acct-list .row:first-child { padding-top: 0; }
+.card-cta { margin-top: var(--space-4); }
+.spend-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: var(--space-4); }
+/* 카테고리 미니 막대 (2계열, §9) */
+.bar { display: flex; height: 12px; border-radius: var(--radius-full); overflow: hidden; gap: var(--space-1); }
+.bar > span { display: block; height: 100%; }
+.bar-legend { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
+.leg { display: inline-flex; align-items: center; gap: var(--space-2); }
+.dot { width: 8px; height: 8px; border-radius: var(--radius-full); flex: none; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <span class="appbar-wordmark">지갑</span>
+    <span class="appbar-spacer"></span>
+    <button class="icon-btn" type="button" aria-label="알림" onclick="jToast('아직 새 소식이 없어요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+    </button>
+  </header>
+
+  <main class="scroll scroll-pad-tab page-enter">
+    <section class="home-top" aria-label="총자산">
+      <p class="t-caption sub asset-label">지원님의 자산</p>
+      <p class="t-display2 num" data-count="2040000" data-from="1920000" data-suffix="원">1,920,000원</p>
+      <p class="t-caption pos asset-delta w600">지난달보다 +120,000원</p>
+    </section>
+
+    <section class="section" aria-label="내 계좌">
+      <div class="card">
+        <ul class="acct-list stagger">
+          <li><a class="row" href="screen-2.html">
+            <span class="ico-circle w700" aria-hidden="true">지</span>
+            <span class="row-main"><span class="acct-title">지갑페이 머니</span><span class="row-sub">충전 · 결제</span></span>
+            <span class="row-amt num">320,000원</span></a></li>
+          <li><a class="row" href="screen-2.html">
+            <span class="ico-circle w700" aria-hidden="true">국</span>
+            <span class="row-main"><span class="acct-title">국민 입출금</span><span class="row-sub">내 통장 1234</span></span>
+            <span class="row-amt num">1,240,000원</span></a></li>
+          <li><a class="row" href="screen-2.html">
+            <span class="ico-circle w700" aria-hidden="true">카</span>
+            <span class="row-main"><span class="acct-title">카카오뱅크 세이프박스</span><span class="row-sub">비상금 5678</span></span>
+            <span class="row-amt num">480,000원</span></a></li>
+        </ul>
+        <a class="btn btn-secondary card-cta" href="screen-2.html">송금</a>
+      </div>
+    </section>
+
+    <section class="section" aria-label="이번 달 소비">
+      <div class="spend-head">
+        <h2 class="t-title2">이번 달 소비</h2>
+        <a class="t-body2 w600" style="color: var(--color-primary-soft-text)" href="screen-4.html">자세히</a>
+      </div>
+      <p class="t-display2 num" style="font-size: var(--font-size-title-2)">842,000원</p>
+      <div class="bar" role="img" aria-label="식비 45%, 쇼핑 30%, 나머지 25%" style="margin-top: var(--space-4)">
+        <span style="width: 45%; background: var(--color-primary-vivid)"></span>
+        <span style="width: 30%; background: var(--color-accent)"></span>
+        <span style="width: 25%; background: var(--color-border)"></span>
+      </div>
+      <div class="bar-legend t-caption sub">
+        <span class="leg"><span class="dot" style="background: var(--color-primary-vivid)"></span>식비 378,000원</span>
+        <span class="leg"><span class="dot" style="background: var(--color-accent)"></span>쇼핑 252,000원</span>
+        <span class="leg"><span class="dot" style="background: var(--color-border)"></span>기타 212,000원</span>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html" aria-current="page">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+      <span class="tab-label">홈</span></a>
+    <a class="tab" href="screen-2.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 8h10l-3-3"/><path d="M17 16H7l3 3"/></svg>
+      <span class="tab-label">송금</span></a>
+    <a class="tab" href="screen-4.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-2.5-1.5L13 20l-2.5-1.5L8 20 6 18.5z"/><path d="M9 9h6M9 13h4"/></svg>
+      <span class="tab-label">내역</span></a>
+    <a class="tab" href="screen-5.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>
+      <span class="tab-label">전체</span></a>
+  </nav>
+
+</div>
+</body>
+</html>

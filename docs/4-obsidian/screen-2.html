@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="4" data-variants="a,b" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>보드 — 궤도 Gwedo · Obsidian 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-2 이슈 보드 (§9) */
+.board-head { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6); }
+.board-head .spacer { flex: 1; }
+.col-ind { display: none; }
+@media (max-width: 767px) {
+  .kanban { scroll-snap-type: x mandatory; margin: 0 calc(-1 * var(--space-5)); padding: 0 var(--space-5) var(--space-4); }
+  .kcol { scroll-snap-align: start; width: 84vw; }
+  .col-ind { display: flex; margin-bottom: var(--space-5); }
+  .review-col { display: none; }
+}
+</style>
+</head>
+<body>
+<header class="appbar">
+  <a href="screen-1.html" class="brand"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.4"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="13.2" cy="5" r="1" fill="currentColor" stroke="none"/></svg><span>궤도</span></a>
+  <nav class="breadcrumb t-body" aria-label="위치"><span class="sep">/</span><a href="screen-2.html">코어 플랫폼</a></nav>
+  <span class="spacer"></span>
+  <button class="search-trigger hide-mobile" onclick="gwOpen('palette')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg><span class="st-label">검색</span><span class="kbd">⌘K</span></button>
+  <button class="icon-btn show-mobile" onclick="gwOpen('palette')" aria-label="검색"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg></button>
+  <span class="avatar" title="김서진">서</span>
+</header>
+
+<div class="app-shell">
+  <nav class="sidebar" aria-label="주 메뉴">
+    <a class="nav-item" aria-current="page" href="screen-2.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="4" height="11" rx="1"/><rect x="7" y="2.5" width="4" height="7" rx="1"/><rect x="12" y="2.5" width="2" height="11" rx="1"/></svg>보드</a>
+    <a class="nav-item" href="screen-3.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.6" fill="currentColor" stroke="none"/></svg>이슈</a>
+    <a class="nav-item" href="screen-4.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l4 4-4 8-4-8z"/><circle cx="8" cy="6" r="1.2" fill="currentColor" stroke="none"/></svg>배포</a>
+    <a class="nav-item" href="screen-5.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.5v2M8 12.5v2M14.5 8h-2M3.5 8h-2M12.6 3.4l-1.4 1.4M4.8 11.2l-1.4 1.4M12.6 12.6l-1.4-1.4M4.8 4.8L3.4 3.4"/></svg>설정</a>
+    <div class="nav-foot t-caption"><span class="kbd">⌘K</span><span>커맨드</span></div>
+  </nav>
+
+  <main class="content">
+    <div class="board-head">
+      <h1 class="t-title">보드</h1>
+      <span class="spacer"></span>
+      <span class="chip hide-mobile">담당: 나<button class="chip-x" aria-label="필터 제거"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></span>
+      <span class="chip hide-mobile">라벨: bug<button class="chip-x" aria-label="필터 제거"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></span>
+      <button class="btn btn-primary" onclick="gwOpen('new-issue')">이슈 만들기<span class="kbd">C</span></button>
+    </div>
+
+    <div class="segment col-ind" role="tablist" aria-label="칼럼 선택">
+      <button aria-pressed="true">백로그</button>
+      <button aria-pressed="false">진행 중</button>
+      <button aria-pressed="false">완료</button>
+    </div>
+
+    <div class="kanban">
+      <!-- 백로그 -->
+      <section class="kcol" aria-label="백로그">
+        <div class="kcol-head"><span class="status-dot sd-backlog"></span><span class="mlabel">백로그</span><span class="count mono t-micro">6</span><span class="spacer"></span><button class="icon-btn" onclick="gwOpen('new-issue')" aria-label="백로그에 이슈 추가"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3v10M3 8h10"/></svg></button></div>
+        <div class="kcards">
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-148</div><div class="t-body clamp2">웹훅 재시도 큐가 5xx에서 이벤트를 유실</div><div class="kcard-foot"><span class="prio-urgent" title="긴급"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2.5l5.5 9.5H2.5z"/><path d="M8 6.5v2.5M8 10.6v.1"/></svg></span><span class="badge badge-label">bug</span><span class="spacer"></span><span class="avatar sm" title="박도현">도</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-147</div><div class="t-body clamp2">SSO 그룹 → 역할 매핑 문서화</div><div class="kcard-foot"><span class="prio-med" title="중간"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V8M8 11V6M12 11v-1"/></svg></span><span class="badge badge-label">docs</span><span class="spacer"></span><span class="avatar sm" title="이수민">수</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-145</div><div class="t-body clamp2">대시보드 초기 로딩 스켈레톤 추가</div><div class="kcard-foot"><span class="prio-low" title="낮음"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11v-1M8 11V9M12 11V8"/></svg></span><span class="spacer"></span><span class="avatar sm" title="정하늘">하</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-144</div><div class="t-body clamp2">API 요청 속도 제한 헤더 노출</div><div class="kcard-foot"><span class="prio-high" title="높음"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V7M8 11V4M12 11V9"/></svg></span><span class="badge badge-label">api</span><span class="spacer"></span><span class="avatar sm" title="박도현">도</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-143</div><div class="t-body clamp2">감사 로그 CSV 내보내기 범위 필터</div><div class="kcard-foot"><span class="prio-med" title="중간"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V8M8 11V6M12 11v-1"/></svg></span><span class="spacer"></span><span class="avatar sm" title="김서진">서</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-140</div><div class="t-body clamp2">웹 폰트 서브셋으로 LCP 개선</div><div class="kcard-foot"><span class="prio-low" title="낮음"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11v-1M8 11V9M12 11V8"/></svg></span><span class="badge badge-label">perf</span><span class="spacer"></span><span class="avatar sm" title="이수민">수</span></div></a>
+        </div>
+      </section>
+
+      <!-- 진행 중 -->
+      <section class="kcol" aria-label="진행 중">
+        <div class="kcol-head"><span class="status-dot sd-progress"></span><span class="mlabel">진행 중</span><span class="count mono t-micro">3</span><span class="spacer"></span><button class="icon-btn" onclick="gwOpen('new-issue')" aria-label="진행 중에 이슈 추가"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3v10M3 8h10"/></svg></button></div>
+        <div class="kcards">
+          <a href="screen-3.html" class="kcard selected"><div class="kcard-id mono t-micro">GWD-142</div><div class="t-body clamp2">배포 롤백을 원클릭으로</div><div class="kcard-foot"><span class="prio-high" title="높음"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V7M8 11V4M12 11V9"/></svg></span><span class="badge badge-label">feature</span><span class="spacer"></span><span class="avatar sm" title="김서진">서</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-141</div><div class="t-body clamp2">p50 지연 40ms 목표로 캐시 계층 조정</div><div class="kcard-foot"><span class="prio-high" title="높음"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V7M8 11V4M12 11V9"/></svg></span><span class="badge badge-label">perf</span><span class="spacer"></span><span class="avatar sm" title="정하늘">하</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-138</div><div class="t-body clamp2">커맨드 팔레트 최근 항목 기억</div><div class="kcard-foot"><span class="prio-med" title="중간"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V8M8 11V6M12 11v-1"/></svg></span><span class="spacer"></span><span class="avatar sm" title="박도현">도</span></div></a>
+        </div>
+      </section>
+
+      <!-- 완료 -->
+      <section class="kcol" aria-label="완료">
+        <div class="kcol-head"><span class="status-dot sd-done"></span><span class="mlabel">완료</span><span class="count mono t-micro">12</span><span class="spacer"></span><button class="icon-btn" onclick="gwOpen('new-issue')" aria-label="완료에 이슈 추가"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3v10M3 8h10"/></svg></button></div>
+        <div class="kcards">
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-139</div><div class="t-body clamp2">API 키 스코프를 읽기/쓰기로 분리</div><div class="kcard-foot"><span class="prio-high" title="높음"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V7M8 11V4M12 11V9"/></svg></span><span class="badge badge-label">api</span><span class="spacer"></span><span class="avatar sm" title="김서진">서</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-137</div><div class="t-body clamp2">감사 로그 내보내기 v1</div><div class="kcard-foot"><span class="prio-med" title="중간"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V8M8 11V6M12 11v-1"/></svg></span><span class="spacer"></span><span class="avatar sm" title="이수민">수</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-136</div><div class="t-body clamp2">온보딩 체크리스트 상태 저장</div><div class="kcard-foot"><span class="prio-low" title="낮음"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11v-1M8 11V9M12 11V8"/></svg></span><span class="spacer"></span><span class="avatar sm" title="정하늘">하</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-134</div><div class="t-body clamp2">Slack 배포 알림 채널 지정</div><div class="kcard-foot"><span class="prio-med" title="중간"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V8M8 11V6M12 11v-1"/></svg></span><span class="badge badge-label">infra</span><span class="spacer"></span><span class="avatar sm" title="박도현">도</span></div></a>
+          <a href="screen-3.html" class="kcard"><div class="kcard-id mono t-micro">GWD-131</div><div class="t-body clamp2">2FA 복구 코드 재발급</div><div class="kcard-foot"><span class="prio-high" title="높음"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V7M8 11V4M12 11V9"/></svg></span><span class="badge badge-label">security</span><span class="spacer"></span><span class="avatar sm" title="김서진">서</span></div></a>
+        </div>
+      </section>
+
+      <!-- 검토 (빈 상태, 데스크톱 전용) -->
+      <section class="kcol review-col" aria-label="검토">
+        <div class="kcol-head"><span class="status-dot sd-review"></span><span class="mlabel">검토</span><span class="count mono t-micro">0</span><span class="spacer"></span></div>
+        <div class="card" style="padding:0">
+          <div class="empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5h16M4 12h16M4 19h9"/></svg>
+            <div class="e-title t-body">검토할 이슈가 없습니다.</div>
+            <div class="e-desc t-caption">진행 중 카드가 준비되면 여기로 옮겨집니다.</div>
+            <button class="btn btn-secondary" onclick="gwOpen('new-issue')">이슈 만들기<span class="kbd">C</span></button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="주 메뉴">
+  <a href="screen-2.html" aria-current="page"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="3" width="5" height="14" rx="1"/><rect x="9" y="3" width="5" height="9" rx="1"/><rect x="15.5" y="3" width="2" height="14" rx="1"/></svg>보드</a>
+  <a href="screen-3.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="2" fill="currentColor" stroke="none"/></svg>이슈</a>
+  <a href="screen-4.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2.5l5 5-5 10-5-10z"/></svg>배포</a>
+  <a href="screen-5.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="2.8"/><path d="M10 2v2.5M10 15.5V18M18 10h-2.5M4.5 10H2"/></svg>설정</a>
+</nav>
+
+<!-- 커맨드 팔레트 (§6.7) -->
+<div class="scrim" id="palette" role="dialog" aria-modal="true" aria-label="커맨드 팔레트">
+  <div class="palette">
+    <div class="palette-input">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+      <input type="text" placeholder="명령 또는 이슈 검색…" aria-label="검색" oninput="void 0" onfocus="gwPaletteNav(this)">
+    </div>
+    <div class="palette-list">
+      <a class="palette-row active" onclick="gwOpen('new-issue');return false" href="#"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3v10M3 8h10"/></svg><span>이슈 만들기</span><span class="spacer"></span><span class="kbd">C</span></a>
+      <a class="palette-row" href="screen-3.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/></svg><span>GWD-142 배포 롤백을 원클릭으로</span></a>
+      <a class="palette-row" href="screen-4.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l4 4-4 8-4-8z"/></svg><span>프로덕션 재배포</span><span class="spacer"></span><span class="kbd">R</span></a>
+      <a class="palette-row" href="screen-5.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.5v2M8 12.5v2M14.5 8h-2M3.5 8h-2"/></svg><span>팀 설정 열기</span></a>
+    </div>
+    <div class="palette-foot"><span class="mono t-micro">↑↓ 이동 · ↵ 실행 · esc 닫기</span></div>
+  </div>
+</div>
+
+<!-- 이슈 만들기 모달 (§6.7) -->
+<div class="scrim center" id="new-issue" role="dialog" aria-modal="true" aria-labelledby="ni-title">
+  <div class="modal">
+    <div class="modal-head"><h2 class="t-heading" id="ni-title">이슈 만들기</h2></div>
+    <div class="modal-body">
+      <div class="field" style="margin-bottom:var(--space-5)"><label for="ni-t">제목</label><input class="input" id="ni-t" placeholder="무엇을 해결하나요?"></div>
+      <div class="field"><label for="ni-d">설명</label><textarea class="input" id="ni-d" rows="3" placeholder="재현 절차, 기대 동작…"></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="gwClose('new-issue')">취소</button>
+      <button class="btn btn-primary" onclick="gwClose('new-issue');gwToast('GWD-149를 만들었습니다.','백로그에 추가됨','success')">만들기<span class="kbd">⇧⏎</span></button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>

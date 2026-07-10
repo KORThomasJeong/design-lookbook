@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="2" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>데이터셋 · 관제 Gwanje — Steel 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js"></script>
+</head>
+<body>
+
+<header class="appbar">
+  <a class="appbar-brand" href="screen-1.html">관제 Gwanje <span class="crumb">▸ 콘솔</span></a>
+  <div class="appbar-actions">
+    <button type="button" class="icon-btn" aria-label="알림">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3a4.5 4.5 0 0 0-4.5 4.5c0 3-1.5 5-1.5 5h12s-1.5-2-1.5-5A4.5 4.5 0 0 0 10 3z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+    </button>
+    <button type="button" class="icon-btn" aria-label="계정">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="7" r="3.5"/><path d="M3.5 17c1-3 3.5-4.5 6.5-4.5s5.5 1.5 6.5 4.5"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="주 메뉴">
+    <a class="sidenav-item" href="screen-1.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="6" height="6"/><rect x="11" y="3" width="6" height="6"/><rect x="3" y="11" width="6" height="6"/><rect x="11" y="11" width="6" height="6"/></svg>
+      대시보드</a>
+    <a class="sidenav-item" href="screen-2.html" aria-current="page">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 3 6.5 10 10l7-3.5L10 3z"/><path d="M3 10.5 10 14l7-3.5"/><path d="M3 14 10 17.5 17 14"/></svg>
+      데이터셋</a>
+    <a class="sidenav-item" href="screen-4.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 10.5h4l2-6 4 11 2-5h4"/></svg>
+      잡</a>
+    <a class="sidenav-item" href="screen-5.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 2.5 4 5v4.5c0 3.5 2.5 6.5 6 7.5 3.5-1 6-4 6-7.5V5l-6-2.5z"/></svg>
+      권한</a>
+    <div class="sidenav-foot t-caption">관제 콘솔 v2.4.1 · kr-1</div>
+  </nav>
+
+  <main class="content">
+    <div class="page-head">
+      <h1 class="t-title">데이터셋</h1>
+      <button type="button" class="btn btn-primary btn-lead" id="btnRegister">데이터셋 등록
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3.5v9M3.5 8h9"/></svg>
+      </button>
+    </div>
+
+    <div class="tbl">
+      <!-- 툴바 48px: 검색 + 필터 칩 + 열 설정 (§6.11) -->
+      <div class="tbl-toolbar">
+        <div class="search">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>
+          <input type="search" class="input" id="q" placeholder="이름으로 검색" aria-label="데이터셋 이름 검색">
+        </div>
+        <div class="chip-row" id="chips">
+          <span class="chip">상태: 활성
+            <button type="button" class="chip-x" aria-label="상태 필터 제거">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6"/></svg>
+            </button></span>
+          <span class="chip">리전: kr-1
+            <button type="button" class="chip-x" aria-label="리전 필터 제거">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 3l6 6M9 3l-6 6"/></svg>
+            </button></span>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm push">열 설정</button>
+
+        <!-- 2행 이상 체크 시 툴바를 치환하는 일괄 액션 바 -->
+        <div class="bulk-bar" id="bulkBar" hidden>
+          <span class="t-body" id="bulkCount" aria-live="polite">0건 선택됨</span>
+          <button type="button" class="btn btn-onprimary btn-sm" id="bulkExport">내보내기</button>
+          <button type="button" class="btn btn-onprimary btn-sm" id="bulkDelete">삭제</button>
+          <button type="button" class="btn btn-onprimary btn-sm push" id="bulkClear">선택 해제</button>
+        </div>
+      </div>
+
+      <div class="tbl-scroll">
+        <table class="dt sticky-first" id="dsTable">
+          <thead>
+            <tr>
+              <th class="col-check"><input type="checkbox" class="cb" id="cbAll" aria-label="전체 선택"></th>
+              <th aria-sort="none"><button type="button" class="th-sort" data-key="name">이름
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 2.5v7M3 6.5l3 3 3-3"/></svg></button></th>
+              <th class="col-md">소유자</th>
+              <th class="col-md">리전</th>
+              <th class="col-md r" aria-sort="none"><button type="button" class="th-sort" data-key="rows">행 수
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 2.5v7M3 6.5l3 3 3-3"/></svg></button></th>
+              <th>상태</th>
+              <th class="col-md" aria-sort="none"><button type="button" class="th-sort" data-key="updated">갱신 시각
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 2.5v7M3 6.5l3 3 3-3"/></svg></button></th>
+            </tr>
+          </thead>
+          <tbody id="dsBody">
+            <tr class="rowlink" data-name="결제 정산 원장" data-rows="19842110" data-updated="2026-07-10 09:38">
+              <td class="col-check"><input type="checkbox" class="cb row-cb" aria-label="결제 정산 원장 선택"></td>
+              <td>결제 정산 원장</td><td class="col-md sub">김도현</td><td class="col-md mono">kr-1</td>
+              <td class="col-md r mono">19,842,110</td>
+              <td><span class="badge badge-success"><span class="dot" aria-hidden="true"></span>활성</span></td>
+              <td class="col-md mono sub">07-10 09:38</td>
+            </tr>
+            <tr class="rowlink" data-name="고객 이벤트 스트림" data-rows="483201554" data-updated="2026-07-10 09:35">
+              <td class="col-check"><input type="checkbox" class="cb row-cb" aria-label="고객 이벤트 스트림 선택"></td>
+              <td>고객 이벤트 스트림</td><td class="col-md sub">박서연</td><td class="col-md mono">kr-1</td>
+              <td class="col-md r mono">483,201,554</td>
+              <td><span class="badge badge-success"><span class="dot" aria-hidden="true"></span>활성</span></td>
+              <td class="col-md mono sub">07-10 09:35</td>
+            </tr>
+            <tr class="rowlink" data-name="상품 카탈로그" data-rows="1204318" data-updated="2026-07-10 08:52">
+              <td class="col-check"><input type="checkbox" class="cb row-cb" aria-label="상품 카탈로그 선택"></td>
+              <td>상품 카탈로그</td><td class="col-md sub">이준호</td><td class="col-md mono">kr-2</td>
+              <td class="col-md r mono">1,204,318</td>
+              <td><span class="badge badge-success"><span class="dot" aria-hidden="true"></span>활성</span></td>
+              <td class="col-md mono sub">07-10 08:52</td>
+            </tr>
+            <tr class="rowlink" data-name="가맹점 마스터" data-rows="88412" data-updated="2026-07-10 07:10">
+              <td class="col-check"><input type="checkbox" class="cb row-cb" aria-label="가맹점 마스터 선택"></td>
+              <td>가맹점 마스터</td><td class="col-md sub">최민지</td><td class="col-md mono">kr-1</td>
+              <td class="col-md r mono">88,412</td>
+              <td><span class="badge badge-success"><span class="dot" aria-hidden="true"></span>활성</span></td>
+              <td class="col-md mono sub">07-10 07:10</td>
+            </tr>
+            <tr class="rowlink" data-name="배송 추적 로그" data-rows="92331807" data-updated="2026-07-09 23:41">
+              <td class="col-check"><input type="checkbox" class="cb row-cb" aria-label="배송 추적 로그 선택"></td>
+              <td>배송 추적 로그</td><td class="col-md sub">정우진</td><td class="col-md mono">kr-2</td>
+              <td class="col-md r mono">92,331,807</td>
+              <td><span class="badge badge-warning"><span class="dot" aria-hidden="true"></span>점검</span></td>
+              <td class="col-md mono sub">07-09 23:41</td>
+            </tr>
+            <tr class="rowlink" data-name="환불 처리 이력" data-rows="3412556" data-updated="2026-07-09 18:20">
+              <td class="col-check"><input type="checkbox" class="cb row-cb" aria-label="환불 처리 이력 선택"></td>
+              <td>환불 처리 이력</td><td class="col-md sub">한지원</td><td class="col-md mono">kr-1</td>
+              <td class="col-md r mono">3,412,556</td>
+              <td><span class="badge badge-success"><span class="dot" aria-hidden="true"></span>활성</span></td>
+              <td class="col-md mono sub">07-09 18:20</td>
+            </tr>
+            <tr class="rowlink" data-name="마케팅 캠페인 실적" data-rows="771208" data-updated="2026-07-08 11:05">
+              <td class="col-check"><input type="checkbox" class="cb row-cb" aria-label="마케팅 캠페인 실적 선택"></td>
+              <td>마케팅 캠페인 실적</td><td class="col-md sub">오세훈</td><td class="col-md mono">kr-2</td>
+              <td class="col-md r mono">771,208</td>
+              <td><span class="badge badge-neutral"><span class="dot" aria-hidden="true"></span>중지</span></td>
+              <td class="col-md mono sub">07-08 11:05</td>
+            </tr>
+            <tr class="rowlink" data-name="레거시 주문 원장" data-rows="210449731" data-updated="2026-07-07 02:13">
+              <td class="col-check"><input type="checkbox" class="cb row-cb" aria-label="레거시 주문 원장 선택"></td>
+              <td>레거시 주문 원장</td><td class="col-md sub">김도현</td><td class="col-md mono">kr-1</td>
+              <td class="col-md r mono">210,449,731</td>
+              <td><span class="badge badge-danger"><span class="dot" aria-hidden="true"></span>오류</span></td>
+              <td class="col-md mono sub">07-07 02:13</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- 검색 결과 0건 빈 상태 (§6.10) -->
+        <div class="empty" id="emptyState" hidden>
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><ellipse cx="16" cy="7" rx="10" ry="4"/><path d="M6 7v9c0 2.2 4.5 4 10 4s10-1.8 10-4V7"/><path d="M6 16v9c0 2.2 4.5 4 10 4s10-1.8 10-4v-9"/></svg>
+          <div class="empty-title t-body">일치하는 데이터셋이 없습니다.</div>
+          <div class="empty-desc t-caption sub">검색어를 바꾸거나 필터를 해제하세요.</div>
+          <button type="button" class="btn btn-ghost btn-sm" id="btnResetSearch">검색 초기화</button>
+        </div>
+      </div>
+
+      <!-- 페이지네이션 바 48px (§6.11) -->
+      <div class="tbl-pager">
+        <span class="t-caption sub" id="pageInfo">전체 1,240건 중 <span class="mono">1–50</span></span>
+        <div class="pager-controls">
+          <select class="pg-select mono" id="pageSize" aria-label="페이지 크기">
+            <option value="50" selected>50개씩</option>
+            <option value="100">100개씩</option>
+          </select>
+          <button type="button" class="pg-btn" id="pgPrev" aria-label="이전 페이지" disabled>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3.5 5.5 8 10 12.5"/></svg>
+          </button>
+          <button type="button" class="pg-btn" id="pgNext" aria-label="다음 페이지">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 3.5 10.5 8 6 12.5"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="주 메뉴">
+  <a class="tab" href="screen-1.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="6" height="6"/><rect x="11" y="3" width="6" height="6"/><rect x="3" y="11" width="6" height="6"/><rect x="11" y="11" width="6" height="6"/></svg>
+    대시보드</a>
+  <a class="tab" href="screen-2.html" aria-current="page">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 3 6.5 10 10l7-3.5L10 3z"/><path d="M3 10.5 10 14l7-3.5"/><path d="M3 14 10 17.5 17 14"/></svg>
+    데이터셋</a>
+  <a class="tab" href="screen-4.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 10.5h4l2-6 4 11 2-5h4"/></svg>
+    잡</a>
+  <a class="tab" href="screen-5.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 2.5 4 5v4.5c0 3.5 2.5 6.5 6 7.5 3.5-1 6-4 6-7.5V5l-6-2.5z"/></svg>
+    권한</a>
+</nav>
+
+<!-- 일괄 삭제 확인 모달 (§6.7, 카피 §8) -->
+<div class="scrim" id="delScrim" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="delTitle" aria-describedby="delDesc">
+    <div class="modal-head"><h2 class="t-heading" id="delTitle">데이터셋 삭제</h2></div>
+    <div class="modal-body t-body" id="delDesc">데이터셋 2건을 삭제합니다. 적재 이력은 30일간 보관됩니다. 이 작업은 되돌릴 수 없습니다.</div>
+    <div class="modal-foot">
+      <button type="button" class="btn-half h-ghost" id="delCancel">취소</button>
+      <button type="button" class="btn-half h-danger" id="delConfirm">삭제</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var body = document.getElementById('dsBody');
+  var rows = Array.prototype.slice.call(body.querySelectorAll('tr'));
+
+  /* ── 행 클릭 → 상세 드로어 화면 (screen-3) ── */
+  rows.forEach(function (tr) {
+    tr.addEventListener('click', function (e) {
+      if (e.target.closest('input, button, a')) return;
+      location.href = 'screen-3.html';
+    });
+  });
+
+  /* ── 정렬: 클릭 즉시 재정렬, 모션 없음 (§6.11) ── */
+  var headers = document.querySelectorAll('#dsTable th[aria-sort]');
+  document.querySelectorAll('.th-sort').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var th = btn.closest('th');
+      var dir = th.getAttribute('aria-sort') === 'ascending' ? 'descending' : 'ascending';
+      headers.forEach(function (h) { h.setAttribute('aria-sort', 'none'); });
+      th.setAttribute('aria-sort', dir);
+      var key = btn.getAttribute('data-key');
+      var sorted = rows.slice().sort(function (a, b) {
+        var va = a.getAttribute('data-' + key);
+        var vb = b.getAttribute('data-' + key);
+        var cmp = key === 'rows' ? Number(va) - Number(vb) : va.localeCompare(vb, 'ko');
+        return dir === 'ascending' ? cmp : -cmp;
+      });
+      sorted.forEach(function (tr) { body.appendChild(tr); });
+    });
+  });
+
+  /* ── 검색 필터 + 빈 상태 ── */
+  var q = document.getElementById('q');
+  var emptyState = document.getElementById('emptyState');
+  function applySearch() {
+    var term = q.value.trim();
+    var visible = 0;
+    rows.forEach(function (tr) {
+      var hit = tr.getAttribute('data-name').indexOf(term) !== -1;
+      tr.hidden = !hit;
+      if (hit) visible += 1;
+    });
+    emptyState.hidden = visible > 0;
+  }
+  q.addEventListener('input', applySearch);
+  document.getElementById('btnResetSearch').addEventListener('click', function () {
+    q.value = '';
+    applySearch();
+    q.focus();
+  });
+
+  /* ── 필터 칩 제거 ── */
+  document.querySelectorAll('#chips .chip-x').forEach(function (x) {
+    x.addEventListener('click', function () { x.closest('.chip').remove(); });
+  });
+
+  /* ── 선택 → 일괄 액션 바 치환 (2행 이상) ── */
+  var bulkBar = document.getElementById('bulkBar');
+  var bulkCount = document.getElementById('bulkCount');
+  var cbAll = document.getElementById('cbAll');
+  var rowCbs = Array.prototype.slice.call(document.querySelectorAll('.row-cb'));
+  function selected() { return rowCbs.filter(function (c) { return c.checked; }); }
+  function paintSelection() {
+    var n = selected().length;
+    rowCbs.forEach(function (c) { c.closest('tr').classList.toggle('selected', c.checked); });
+    bulkBar.hidden = n < 2;
+    bulkCount.textContent = n + '건 선택됨';
+    cbAll.checked = n === rowCbs.length;
+  }
+  rowCbs.forEach(function (c) { c.addEventListener('change', paintSelection); });
+  cbAll.addEventListener('change', function () {
+    rowCbs.forEach(function (c) { c.checked = cbAll.checked; });
+    paintSelection();
+  });
+  function clearSelection() {
+    rowCbs.forEach(function (c) { c.checked = false; });
+    paintSelection();
+  }
+  document.getElementById('bulkClear').addEventListener('click', clearSelection);
+  document.getElementById('bulkExport').addEventListener('click', function () {
+    var n = selected().length;
+    gwToast('데이터셋 ' + n + '건 내보내기를 시작했습니다.', '완료되면 알림으로 알려 드립니다.');
+    clearSelection();
+  });
+
+  /* ── 일괄 삭제 확인 모달 ── */
+  var scrim = document.getElementById('delScrim');
+  var lastFocus = null;
+  function openModal() {
+    document.getElementById('delDesc').textContent =
+      '데이터셋 ' + selected().length + '건을 삭제합니다. 적재 이력은 30일간 보관됩니다. 이 작업은 되돌릴 수 없습니다.';
+    lastFocus = document.activeElement;
+    scrim.hidden = false;
+    document.getElementById('delCancel').focus();
+  }
+  function closeModal() {
+    scrim.hidden = true;
+    if (lastFocus) lastFocus.focus();
+  }
+  document.getElementById('bulkDelete').addEventListener('click', openModal);
+  document.getElementById('delCancel').addEventListener('click', closeModal);
+  scrim.addEventListener('click', function (e) { if (e.target === scrim) closeModal(); });
+  gwTrapFocus(scrim, closeModal);
+  document.getElementById('delConfirm').addEventListener('click', function () {
+    var n = selected().length;
+    closeModal();
+    clearSelection();
+    gwToast('데이터셋 ' + n + '건을 삭제했습니다.', '적재 이력은 30일간 보관됩니다.');
+  });
+
+  /* ── 페이지네이션 (전체 1,240건) ── */
+  var TOTAL = 1240;
+  var page = 1;
+  var size = 50;
+  var pageInfo = document.getElementById('pageInfo');
+  var prev = document.getElementById('pgPrev');
+  var next = document.getElementById('pgNext');
+  function paintPager() {
+    var last = Math.ceil(TOTAL / size);
+    var from = (page - 1) * size + 1;
+    var to = Math.min(page * size, TOTAL);
+    pageInfo.innerHTML = '전체 1,240건 중 <span class="mono">' +
+      from.toLocaleString('ko-KR') + '–' + to.toLocaleString('ko-KR') + '</span>';
+    prev.disabled = page <= 1;
+    next.disabled = page >= last;
+  }
+  prev.addEventListener('click', function () { page -= 1; paintPager(); });
+  next.addEventListener('click', function () { page += 1; paintPager(); });
+  document.getElementById('pageSize').addEventListener('change', function (e) {
+    size = Number(e.target.value);
+    page = 1;
+    paintPager();
+  });
+  paintPager();
+
+  /* ── 등록 버튼 (데모: 안내 토스트) ── */
+  document.getElementById('btnRegister').addEventListener('click', function () {
+    gwToast('데이터셋 등록 양식을 준비했습니다.', '스키마 파일(.json)을 업로드하면 검증이 시작됩니다.');
+  });
+})();
+</script>
+</body>
+</html>

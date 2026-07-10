@@ -1,0 +1,157 @@
+/* presets/2-steel/tokens.css
+ * Steel (inspired by IBM Carbon — 독립 해석) — 원본은 SPEC.md §2~§7
+ * :root = a 변형 라이트 / [data-theme="dark"] 오버라이드 / [data-variant="b"]는 색 토큰만
+ * 데모 HTML: <html data-preset="2" data-variant="a"> (SPEC-FORMAT.md 규약)
+ */
+
+:root {
+  /* ── §2 색 — a 변형(hue 219 파랑), 라이트 ─────────────────── */
+  --color-bg: #f4f4f4;
+  --color-surface: #ffffff;
+  --color-surface-2: #e0e0e0;
+  --color-text: #161616;
+  --color-text-sub: #525252;
+  --color-text-disabled: #c6c6c6;
+  --color-primary: #0f62fe;
+  --color-primary-hover: #0043ce;
+  --color-primary-text: #ffffff;
+  --color-accent: #0043ce;
+  --color-info: #0043ce;
+  --color-success: #24a148;
+  --color-success-text: #198038;
+  --color-warning: #f1c21b;
+  --color-warning-text: #8e6a00;
+  --color-on-warning: #161616;   /* warning 면 위 텍스트는 항상 이 값 */
+  --color-danger: #da1e28;
+  --color-danger-text: #da1e28;
+  --color-border: #e0e0e0;
+  --color-border-strong: #8d8d8d;
+  --color-focus: #0f62fe;
+  --color-overlay: rgba(22, 22, 22, 0.5);
+  /* 앱바/탭바는 라이트에서도 어두운 면 (§6.5 콘솔 시그니처) */
+  --color-appbar-bg: #161616;
+  --color-appbar-text: #f4f4f4;
+  --color-appbar-text-sub: #a8a8a8;   /* §6.6 비활성 탭/앱바 보조 텍스트 */
+  --color-appbar-border: #393939;
+  /* §9 screen-4 에러 로그 블록 — 테마 무관 다크 고정 */
+  --color-code-bg: #161616;
+  --color-code-text: #f4f4f4;
+
+  /* ── §3 타이포그래피 ───────────────────────────────────────── */
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, "Segoe UI", "Noto Sans KR", sans-serif;
+  --font-mono: "SF Mono", "Cascadia Mono", Consolas, "Roboto Mono",
+    "Noto Sans Mono CJK KR", monospace;
+
+  --type-caption-size: 12px;  --type-caption-weight: 400;  --type-caption-line: 16px;  --type-caption-tracking: 0.32px;
+  --type-label-size: 12px;    --type-label-weight: 500;    --type-label-line: 16px;    --type-label-tracking: 0.32px;
+  --type-body-size: 14px;     --type-body-weight: 400;     --type-body-line: 20px;     --type-body-tracking: 0.16px;
+  --type-body-lg-size: 16px;  --type-body-lg-weight: 400;  --type-body-lg-line: 24px;  --type-body-lg-tracking: 0;
+  --type-heading-size: 20px;  --type-heading-weight: 600;  --type-heading-line: 28px;  --type-heading-tracking: 0;
+  --type-title-size: 28px;    --type-title-weight: 600;    --type-title-line: 36px;    --type-title-tracking: 0;
+  --type-display-size: 42px;  --type-display-weight: 300;  --type-display-line: 50px;  --type-display-tracking: 0;
+
+  /* ── §4 간격 · 레이아웃 (스케일 외 값 사용 금지) ───────────── */
+  --space-0: 0;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  --layout-max-width: 1584px;
+  --layout-sidenav-width: 256px;
+  --layout-sidenav-collapsed: 48px;
+  --layout-appbar-height: 48px;
+  --layout-tabbar-height: 48px;
+  --layout-row-compact: 32px;
+  --layout-row-default: 40px;
+  --layout-row-comfy: 48px;
+  --layout-touch-target: 44px;
+
+  /* ── §5 형태 ──────────────────────────────────────────────── */
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-full: 999px;
+
+  --border-width: 1px;
+  --border-width-focus: 2px;
+
+  --shadow-0: none;
+  --shadow-1: 0 2px 6px rgba(22, 22, 22, 0.2);
+  --shadow-2: 0 4px 16px rgba(22, 22, 22, 0.28);
+
+  /* ── §7 모션 ──────────────────────────────────────────────── */
+  --motion-fast-1: 70ms;
+  --motion-fast-2: 110ms;
+  --motion-moderate: 150ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0.38, 0.9);
+  --ease-entrance: cubic-bezier(0, 0, 0.38, 0.9);
+  --ease-exit: cubic-bezier(0.2, 0, 1, 0.9);
+}
+
+/* ── 다크 오버라이드 (§2.2) ──────────────────────────────────── */
+:root[data-theme="dark"] {
+  --color-bg: #161616;
+  --color-surface: #262626;
+  --color-surface-2: #393939;
+  --color-text: #f4f4f4;
+  --color-text-sub: #a8a8a8;
+  --color-text-disabled: #525252;
+  --color-primary: #0f62fe;
+  --color-primary-hover: #0353e9;
+  --color-primary-text: #ffffff;
+  --color-accent: #78a9ff;
+  --color-info: #4589ff;
+  --color-success: #42be65;
+  --color-success-text: #42be65;
+  --color-warning: #f1c21b;
+  --color-warning-text: #f1c21b;
+  --color-on-warning: #161616;
+  --color-danger: #fa4d56;
+  --color-danger-text: #ff8389;
+  --color-border: #393939;
+  --color-border-strong: #6f6f6f;
+  --color-focus: #ffffff;
+  --color-overlay: rgba(0, 0, 0, 0.65);
+  --color-appbar-bg: #262626;
+  --color-appbar-text: #f4f4f4;
+  --color-appbar-border: #393939;
+
+  --shadow-1: 0 2px 6px rgba(0, 0, 0, 0.6);
+  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.7);
+}
+
+/* ── b 변형: hue 178 청록 — 색 토큰만 오버라이드 (§2.4) ─────── */
+:root[data-variant="b"] {
+  --color-primary: #007d79;        /* white 4.99:1 */
+  --color-primary-hover: #005d5d;
+  --color-accent: #005d5d;         /* on white 7.71:1 */
+  --color-info: #005d5d;
+  --color-focus: #007d79;
+}
+
+:root[data-variant="b"][data-theme="dark"] {
+  --color-primary: #007d79;        /* white 4.99:1 — 버튼 면은 라이트와 동일 */
+  --color-primary-hover: #005d5d;
+  --color-accent: #3ddbd9;         /* on #262626 8.89:1 */
+  --color-info: #08bdba;           /* on #161616 7.75:1 */
+  --color-focus: #ffffff;
+}
+
+/* ── §7 reduced-motion 대응 (필수) ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

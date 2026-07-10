@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="4" data-variants="a,b" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>팀 설정 — 궤도 Gwedo · Obsidian 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 팀 설정 (§9) */
+.settings-panel[hidden] { display: none; }
+.email-col { color: var(--color-text-sub); }
+.select-sm { height: 32px; width: auto; min-width: 96px; padding: 0 var(--space-6) 0 var(--space-3); }
+
+.keycard { display: flex; align-items: center; gap: var(--space-4); min-height: var(--layout-row-default); padding: var(--space-3) var(--space-4); border-bottom: var(--border-width) solid var(--color-border); }
+.keycard .kk-main { min-width: 0; }
+.keycard .kk-name { font-weight: 500; }
+.keycard .kk-meta { color: var(--color-text-sub); margin-top: var(--space-1); }
+.keycard .spacer { flex: 1; }
+.reveal-card { margin-top: var(--space-4); }
+.reveal-card .warn { color: var(--color-warning-text); margin-top: var(--space-3); }
+
+.danger-zone { margin-top: var(--space-7); border-color: color-mix(in srgb, var(--color-danger) 40%, transparent); display: flex; align-items: center; gap: var(--space-4); }
+.danger-zone .dz-main { min-width: 0; }
+.danger-zone .dz-desc { color: var(--color-text-sub); margin-top: var(--space-1); }
+.danger-zone .spacer { flex: 1; }
+
+@media (max-width: 767px) {
+  .hide-col { display: none; }
+  .keycard { flex-wrap: wrap; }
+  .keycard .kk-actions { flex-basis: 100%; display: flex; gap: var(--space-3); padding-top: var(--space-2); }
+  .danger-zone { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<header class="appbar">
+  <a href="screen-1.html" class="brand"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.4"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="13.2" cy="5" r="1" fill="currentColor" stroke="none"/></svg><span>궤도</span></a>
+  <nav class="breadcrumb t-body" aria-label="위치"><span class="sep">/</span><a href="screen-2.html">코어 플랫폼</a><span class="sep">/</span><span>설정</span></nav>
+  <span class="spacer"></span>
+  <button class="search-trigger hide-mobile" onclick="gwOpen('palette')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg><span class="st-label">검색</span><span class="kbd">⌘K</span></button>
+  <button class="icon-btn show-mobile" onclick="gwOpen('palette')" aria-label="검색"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg></button>
+  <span class="avatar" title="김서진">서</span>
+</header>
+
+<div class="app-shell">
+  <nav class="sidebar" aria-label="주 메뉴">
+    <a class="nav-item" href="screen-2.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="4" height="11" rx="1"/><rect x="7" y="2.5" width="4" height="7" rx="1"/><rect x="12" y="2.5" width="2" height="11" rx="1"/></svg>보드</a>
+    <a class="nav-item" href="screen-3.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.6" fill="currentColor" stroke="none"/></svg>이슈</a>
+    <a class="nav-item" href="screen-4.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l4 4-4 8-4-8z"/><circle cx="8" cy="6" r="1.2" fill="currentColor" stroke="none"/></svg>배포</a>
+    <a class="nav-item" aria-current="page" href="screen-5.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.5v2M8 12.5v2M14.5 8h-2M3.5 8h-2M12.6 3.4l-1.4 1.4M4.8 11.2l-1.4 1.4M12.6 12.6l-1.4-1.4M4.8 4.8L3.4 3.4"/></svg>설정</a>
+    <div class="nav-foot t-caption"><span class="kbd">⌘K</span><span>커맨드</span></div>
+  </nav>
+
+  <main class="content">
+    <h1 class="t-title page-title">팀 설정</h1>
+
+    <div class="tabs" role="tablist" aria-label="설정 영역">
+      <button class="tab" role="tab" aria-selected="true" data-target="members" onclick="gwTab(this)">멤버</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="apikeys" onclick="gwTab(this)">API 키</button>
+      <button class="tab" role="tab" aria-selected="false" data-target="billing" onclick="gwTab(this)">결제</button>
+    </div>
+
+    <!-- 멤버 패널 -->
+    <section class="settings-panel section" data-panel="members">
+      <div class="section-head">
+        <p class="mlabel">멤버 6</p>
+        <span class="spacer"></span>
+        <button class="btn btn-secondary" onclick="gwToast('초대 링크를 복사했습니다.','7일 후 만료','success')">초대</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="table">
+          <thead><tr><th>이름</th><th class="hide-col">이메일</th><th>역할</th><th class="num hide-col">마지막 활동</th><th></th></tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="name-cell"><span class="avatar sm">서</span><span class="t-body">김서진</span><span class="badge badge-label">나</span></div></td>
+              <td class="email-col mono t-caption hide-col">seojin@gwedo.app</td>
+              <td><select class="select select-sm" disabled title="소유자는 1명 이상 필요합니다." aria-label="김서진 역할"><option>소유자</option></select></td>
+              <td class="num mono t-caption hide-col">방금</td>
+              <td><button class="icon-btn row-action" aria-label="더보기"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="4" cy="8" r="1.3"/><circle cx="8" cy="8" r="1.3"/><circle cx="12" cy="8" r="1.3"/></svg></button></td>
+            </tr>
+            <tr>
+              <td><div class="name-cell"><span class="avatar sm">도</span><span class="t-body">박도현</span></div></td>
+              <td class="email-col mono t-caption hide-col">dohyun@gwedo.app</td>
+              <td><select class="select select-sm" aria-label="박도현 역할"><option selected>관리자</option><option>멤버</option></select></td>
+              <td class="num mono t-caption hide-col">12분 전</td>
+              <td><button class="icon-btn row-action" aria-label="더보기"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="4" cy="8" r="1.3"/><circle cx="8" cy="8" r="1.3"/><circle cx="12" cy="8" r="1.3"/></svg></button></td>
+            </tr>
+            <tr>
+              <td><div class="name-cell"><span class="avatar sm">수</span><span class="t-body">이수민</span></div></td>
+              <td class="email-col mono t-caption hide-col">sumin@gwedo.app</td>
+              <td><select class="select select-sm" aria-label="이수민 역할"><option>관리자</option><option selected>멤버</option></select></td>
+              <td class="num mono t-caption hide-col">3시간 전</td>
+              <td><button class="icon-btn row-action" aria-label="더보기"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="4" cy="8" r="1.3"/><circle cx="8" cy="8" r="1.3"/><circle cx="12" cy="8" r="1.3"/></svg></button></td>
+            </tr>
+            <tr>
+              <td><div class="name-cell"><span class="avatar sm">하</span><span class="t-body">정하늘</span></div></td>
+              <td class="email-col mono t-caption hide-col">haneul@gwedo.app</td>
+              <td><select class="select select-sm" aria-label="정하늘 역할"><option>관리자</option><option selected>멤버</option></select></td>
+              <td class="num mono t-caption hide-col">어제</td>
+              <td><button class="icon-btn row-action" aria-label="더보기"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="4" cy="8" r="1.3"/><circle cx="8" cy="8" r="1.3"/><circle cx="12" cy="8" r="1.3"/></svg></button></td>
+            </tr>
+            <tr>
+              <td><div class="name-cell"><span class="avatar sm">민</span><span class="t-body">최민준</span></div></td>
+              <td class="email-col mono t-caption hide-col">minjun@gwedo.app</td>
+              <td><select class="select select-sm" aria-label="최민준 역할"><option>관리자</option><option selected>멤버</option></select></td>
+              <td class="num mono t-caption hide-col">2일 전</td>
+              <td><button class="icon-btn row-action" aria-label="더보기"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="4" cy="8" r="1.3"/><circle cx="8" cy="8" r="1.3"/><circle cx="12" cy="8" r="1.3"/></svg></button></td>
+            </tr>
+            <tr>
+              <td><div class="name-cell"><span class="avatar sm">지</span><span class="t-body">한지우</span></div></td>
+              <td class="email-col mono t-caption hide-col">jiwoo@gwedo.app</td>
+              <td><select class="select select-sm" aria-label="한지우 역할"><option>관리자</option><option selected>멤버</option></select></td>
+              <td class="num mono t-caption hide-col">5일 전</td>
+              <td><button class="icon-btn row-action" aria-label="더보기"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="4" cy="8" r="1.3"/><circle cx="8" cy="8" r="1.3"/><circle cx="12" cy="8" r="1.3"/></svg></button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- API 키 패널 -->
+    <section class="settings-panel section" data-panel="apikeys" hidden>
+      <div class="section-head">
+        <p class="mlabel">API 키</p>
+        <span class="spacer"></span>
+        <button class="btn btn-secondary" onclick="gwRevealKey()">새 키 발급</button>
+      </div>
+      <div class="list" style="border-top:none">
+        <div class="keycard">
+          <div class="kk-main"><div class="kk-name t-body">프로덕션 서버</div><div class="kk-meta t-caption mono">gw_prod_••••3f2a · 발급 2026-05-14</div></div>
+          <span class="spacer"></span>
+          <div class="kk-actions">
+            <button class="btn btn-ghost" onclick="gwCopy('gw_prod_••••3f2a','키 식별자를 복사했습니다.')">복사</button>
+            <button class="btn btn-danger-ghost" onclick="gwOpen('revoke')">폐기</button>
+          </div>
+        </div>
+        <div class="keycard">
+          <div class="kk-main"><div class="kk-name t-body">CI 파이프라인</div><div class="kk-meta t-caption mono">gw_ci_••••9b71 · 발급 2026-06-02</div></div>
+          <span class="spacer"></span>
+          <div class="kk-actions">
+            <button class="btn btn-ghost" onclick="gwCopy('gw_ci_••••9b71','키 식별자를 복사했습니다.')">복사</button>
+            <button class="btn btn-danger-ghost" onclick="gwOpen('revoke')">폐기</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal-card" id="reveal-card" hidden>
+        <p class="mlabel" style="margin-bottom:var(--space-3)">새 키 — gw_prod_새 키</p>
+        <div class="terminal"><div class="ln"><span class="prompt">$</span> gw_prod_7e2c9a4f1b8d0356f2a1c4e9</div></div>
+        <p class="warn t-caption">지금 복사하세요. 다시 표시되지 않습니다.</p>
+        <div class="flex gap-3" style="margin-top:var(--space-4)">
+          <button class="btn btn-primary" onclick="gwCopy('gw_prod_7e2c9a4f1b8d0356f2a1c4e9','새 키를 복사했습니다.')">복사</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('reveal-card').hidden=true">닫기</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 결제 패널 (빈 상태 데모) -->
+    <section class="settings-panel section" data-panel="billing" hidden>
+      <div class="card" style="padding:0">
+        <div class="empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>
+          <div class="e-title t-body">아직 결제 수단이 없습니다.</div>
+          <div class="e-desc t-caption">5명까지 무료입니다. 팀이 커지면 카드를 등록하세요.</div>
+          <button class="btn btn-secondary" onclick="gwToast('결제 수단 등록은 데모에서 비활성화되어 있습니다.','','info')">카드 등록</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 위험 구역 (항상 하단) -->
+    <div class="card danger-zone">
+      <div class="dz-main">
+        <div class="t-body" style="font-weight:500">팀 삭제</div>
+        <div class="dz-desc t-caption">모든 이슈·배포 이력·API 키가 사라집니다. 이 작업은 되돌릴 수 없습니다.</div>
+      </div>
+      <span class="spacer"></span>
+      <button class="btn btn-danger" onclick="gwOpen('delete-team')">삭제</button>
+    </div>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="주 메뉴">
+  <a href="screen-2.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="3" width="5" height="14" rx="1"/><rect x="9" y="3" width="5" height="9" rx="1"/><rect x="15.5" y="3" width="2" height="14" rx="1"/></svg>보드</a>
+  <a href="screen-3.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="2" fill="currentColor" stroke="none"/></svg>이슈</a>
+  <a href="screen-4.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2.5l5 5-5 10-5-10z"/></svg>배포</a>
+  <a href="screen-5.html" aria-current="page"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="2.8"/><path d="M10 2v2.5M10 15.5V18M18 10h-2.5M4.5 10H2"/></svg>설정</a>
+</nav>
+
+<!-- 폐기 확인 모달 (§8 카피) -->
+<div class="scrim center" id="revoke" role="dialog" aria-modal="true" aria-labelledby="rv-title">
+  <div class="modal">
+    <div class="modal-head"><h2 class="t-heading" id="rv-title">API 키 폐기</h2></div>
+    <div class="modal-body">API 키 <span class="mono">gw_prod_••••3f2a</span>를 폐기합니다. 이 키를 쓰는 요청은 즉시 거부됩니다. 이 작업은 되돌릴 수 없습니다.</div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="gwClose('revoke')">취소</button>
+      <button class="btn btn-danger" onclick="gwClose('revoke');gwToast('gw_prod_••••3f2a를 폐기했습니다.','이 키의 요청은 거부됩니다','error')">폐기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 팀 삭제 확인 모달 -->
+<div class="scrim center" id="delete-team" role="dialog" aria-modal="true" aria-labelledby="dt-title">
+  <div class="modal">
+    <div class="modal-head"><h2 class="t-heading" id="dt-title">팀 삭제</h2></div>
+    <div class="modal-body">팀 <span class="mono">코어 플랫폼</span>의 모든 이슈·배포 이력·API 키가 영구 삭제됩니다. 이 작업은 되돌릴 수 없습니다.</div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="gwClose('delete-team')">취소</button>
+      <button class="btn btn-danger" onclick="gwClose('delete-team');gwToast('삭제 요청을 접수했습니다.','데모에서는 실제로 삭제되지 않습니다','info')">삭제</button>
+    </div>
+  </div>
+</div>
+
+<!-- 커맨드 팔레트 -->
+<div class="scrim" id="palette" role="dialog" aria-modal="true" aria-label="커맨드 팔레트">
+  <div class="palette">
+    <div class="palette-input">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+      <input type="text" placeholder="명령 또는 이슈 검색…" aria-label="검색" onfocus="gwPaletteNav(this)">
+    </div>
+    <div class="palette-list">
+      <a class="palette-row active" href="#" onclick="gwClose('palette');gwRevealKey();return false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3v10M3 8h10"/></svg><span>새 API 키 발급</span></a>
+      <a class="palette-row" href="screen-2.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="4" height="11" rx="1"/><rect x="7" y="2.5" width="4" height="7" rx="1"/></svg><span>보드로 이동</span><span class="spacer"></span><span class="kbd">G</span><span class="kbd">B</span></a>
+      <a class="palette-row" href="screen-4.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l4 4-4 8-4-8z"/></svg><span>프로덕션 재배포</span><span class="spacer"></span><span class="kbd">R</span></a>
+    </div>
+    <div class="palette-foot"><span class="mono t-micro">↑↓ 이동 · ↵ 실행 · esc 닫기</span></div>
+  </div>
+</div>
+
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+<script>
+/* 탭 전환 (§6.13) */
+function gwTab(btn) {
+  var tabs = btn.parentElement.querySelectorAll('.tab');
+  tabs.forEach(function (t) { t.setAttribute('aria-selected', t === btn ? 'true' : 'false'); });
+  var target = btn.getAttribute('data-target');
+  document.querySelectorAll('.settings-panel').forEach(function (p) {
+    p.hidden = p.getAttribute('data-panel') !== target;
+  });
+}
+/* 새 키 발급 → 결제 아닌 API키 탭으로 전환 후 카드 노출 */
+function gwRevealKey() {
+  var apiTab = document.querySelector('.tab[data-target="apikeys"]');
+  if (apiTab) gwTab(apiTab);
+  var c = document.getElementById('reveal-card');
+  if (c) c.hidden = false;
+}
+</script>
+</body>
+</html>

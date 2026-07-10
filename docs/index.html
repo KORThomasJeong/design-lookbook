@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>design-lookbook — 프리셋 갤러리</title>
+<style>
+  /* design-lookbook 갤러리 홈 — 순수 HTML/CSS, 외부 리소스 없음.
+     번호 기반 디자인 컨셉 라이브러리의 데모 진입점.
+     갤러리 자체 스타일은 어느 프리셋과도 겹치지 않는 담백한 뉴트럴. */
+  :root {
+    --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+                 system-ui, "Segoe UI", "Malgun Gothic", sans-serif;
+    --font-mono: "SF Mono", "Cascadia Code", Consolas, "D2Coding", monospace;
+    --bg: #f5f6f8;
+    --surface: #ffffff;
+    --text: #14171c;
+    --text-sub: #5a5f68;
+    --border: #e0e3e8;
+    --shadow: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.06);
+    --shadow-hover: 0 2px 4px rgba(0,0,0,.08), 0 16px 40px rgba(0,0,0,.12);
+    --accent: #3a5bd9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d0f12;
+      --surface: #16191e;
+      --text: #eef0f3;
+      --text-sub: #9aa0aa;
+      --border: #262a30;
+      --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+      --shadow-hover: 0 2px 4px rgba(0,0,0,.5), 0 16px 40px rgba(0,0,0,.55);
+      --accent: #8aa0ff;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f6f8; --surface: #ffffff; --text: #14171c; --text-sub: #5a5f68;
+    --border: #e0e3e8; --shadow: 0 1px 2px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.06);
+    --shadow-hover: 0 2px 4px rgba(0,0,0,.08), 0 16px 40px rgba(0,0,0,.12); --accent: #3a5bd9;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d0f12; --surface: #16191e; --text: #eef0f3; --text-sub: #9aa0aa;
+    --border: #262a30; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.4);
+    --shadow-hover: 0 2px 4px rgba(0,0,0,.5), 0 16px 40px rgba(0,0,0,.55); --accent: #8aa0ff;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 400 15px/1.55 var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 40px 20px 72px; }
+
+  /* ── 헤더 ─────────────────────────── */
+  header.hero { margin-bottom: 36px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .kicker svg { width: 16px; height: 16px; }
+  h1 {
+    margin: 12px 0 10px;
+    font-size: clamp(30px, 6vw, 42px); line-height: 1.12; font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .lead { margin: 0; max-width: 62ch; color: var(--text-sub); font-size: 16px; }
+  .lead code {
+    font-family: var(--font-mono);
+    font-size: .86em; padding: 1px 6px; border-radius: 5px;
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    color: var(--text);
+  }
+  .repo-note {
+    margin: 18px 0 0; padding: 12px 14px;
+    display: flex; align-items: flex-start; gap: 10px;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: var(--surface);
+    font-size: 13px; color: var(--text-sub); max-width: 62ch;
+  }
+  .repo-note svg { width: 17px; height: 17px; flex: none; margin-top: 1px; color: var(--text-sub); }
+  .repo-note code { font-family: var(--font-mono); font-size: .92em; color: var(--text); }
+
+  /* ── 카드 그리드 ─────────────────────── */
+  .grid { display: grid; gap: 20px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: box-shadow .18s ease, transform .18s ease;
+  }
+  .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+
+  /* CSS 미니 프리뷰 — 각 프리셋 팔레트로 렌더 (이미지 없음) */
+  .preview {
+    position: relative; height: 120px; padding: 16px;
+    display: flex; flex-direction: column; gap: 8px; justify-content: flex-end;
+    background: var(--pv-bg);
+  }
+  .preview .pv-bar {
+    position: absolute; top: 0; left: 0; right: 0; height: 34px;
+    background: var(--pv-surface);
+    border-bottom: 1px solid rgba(128,128,128,.16);
+    display: flex; align-items: center; gap: 6px; padding: 0 14px;
+  }
+  .preview .pv-dot { width: 8px; height: 8px; border-radius: 999px; background: var(--pv-primary); opacity: .9; }
+  .preview .pv-line { height: 8px; border-radius: 999px; background: var(--pv-surface); }
+  .preview .pv-line.a { width: 58%; }
+  .preview .pv-line.b { width: 38%; opacity: .7; }
+  .preview .pv-cta {
+    width: 96px; height: 26px; border-radius: 8px; background: var(--pv-primary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .preview .pv-cta span { width: 44px; height: 7px; border-radius: 999px; background: var(--pv-ctatext); opacity: .9; }
+  .preview .pv-num {
+    position: absolute; top: 40px; right: 16px;
+    font-size: 60px; font-weight: 800; line-height: 1; letter-spacing: -0.04em;
+    color: var(--pv-text); opacity: .12;
+  }
+
+  .body { padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+
+  .titlerow { display: flex; align-items: center; gap: 12px; }
+  .num {
+    font-size: 30px; font-weight: 800; line-height: 1; letter-spacing: -0.03em;
+    color: var(--accent); font-variant-numeric: tabular-nums; flex: none;
+  }
+  .titles { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .codename { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+  .inspired { font-size: 12.5px; color: var(--text-sub); }
+  .mood { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--text-sub); }
+
+  /* 색 칩 — tokens.css 실제 hex 하드코딩 */
+  .swatches { display: flex; gap: 7px; flex-wrap: wrap; }
+  .swatch { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch .chip {
+    width: 18px; height: 18px; border-radius: 6px;
+    border: 1px solid rgba(128,128,128,.28);
+  }
+  .swatch .hex {
+    font-family: var(--font-mono); font-size: 10.5px; color: var(--text-sub);
+    letter-spacing: -0.01em;
+  }
+
+  .metarow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .aliases { display: flex; flex-wrap: wrap; gap: 6px; }
+  .alias {
+    font-size: 11.5px; padding: 3px 9px; border-radius: 999px;
+    background: color-mix(in srgb, var(--text-sub) 12%, transparent);
+    color: var(--text-sub);
+  }
+  .variants { display: flex; gap: 5px; margin-left: auto; }
+  .vchip {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 600; line-height: 1;
+    padding: 4px 7px; border-radius: 6px;
+    border: 1px solid var(--border); color: var(--text-sub);
+    text-transform: uppercase;
+  }
+
+  .screens { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .screens a {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 12px; min-height: 40px;
+    border: 1px solid var(--border); border-radius: 9px;
+    background: transparent; color: var(--text); text-decoration: none;
+    font-size: 13px; font-weight: 500;
+    transition: border-color .15s ease, background-color .15s ease;
+  }
+  .screens a .idx { color: var(--accent); font-weight: 700; font-size: 12px; font-family: var(--font-mono); }
+  .screens a:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+  .screens a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  footer {
+    margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);
+    color: var(--text-sub); font-size: 13px; line-height: 1.6;
+  }
+  footer code { font-family: var(--font-mono); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <span class="kicker">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+        <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+        <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+        <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+      </svg>
+      design-lookbook
+    </span>
+    <h1>design-lookbook</h1>
+    <p class="lead">AI가 참조하는 번호 기반 디자인 컨셉 라이브러리. 각 프리셋은 토큰 · 컴포넌트 규칙 · 레이아웃 레시피 · 모션 · 보이스&amp;톤까지 담은 풀 세트이며, 아래 카드에서 컨셉당 5화면 데모를 바로 열 수 있다. <code>3번으로 만들어줘</code>가 작동하는 이유.</p>
+    <p class="repo-note">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.36 9.36 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.48-.01 2.82 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2z"/></svg>
+      <span>GitHub 저장소의 <code>docs/</code> 폴더가 GitHub Pages로 배포되는 이 갤러리다. 스펙 원본(<code>presets/&lt;번호&gt;-&lt;코드네임&gt;/SPEC.md</code>·<code>tokens.css</code>)이 source of truth이며, 갤러리는 그 레퍼런스 구현이다.</span>
+    </p>
+  </header>
+
+  <div class="grid">
+
+    <!-- 1 Frost -->
+    <article class="card" style="--pv-bg:#F3F5F8; --pv-surface:#FFFFFF; --pv-primary:#0F6CBD; --pv-ctatext:#FFFFFF; --pv-text:#1B1E23;">
+      <div class="preview">
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">1</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">1</span>
+          <span class="titles">
+            <span class="codename">Frost</span>
+            <span class="inspired">inspired by Microsoft Fluent 2</span>
+          </span>
+        </div>
+        <p class="mood">차분하고 신뢰감 있는 프로덕티비티. 반투명 아크릴 표면, 부드러운 빛과 그림자, 4px 그리드의 절제된 밀도.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#F3F5F8"></span><span class="hex">#F3F5F8</span></span>
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#0F6CBD"></span><span class="hex">#0F6CBD</span></span>
+          <span class="swatch"><span class="chip" style="background:#0A6E8A"></span><span class="hex">#0A6E8A</span></span>
+          <span class="swatch"><span class="chip" style="background:#C42B1C"></span><span class="hex">#C42B1C</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">플루언트풍</span><span class="alias">MS풍</span><span class="alias">오피스풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <ul class="screens">
+          <li><a href="1-frost/screen-1.html"><span class="idx">1</span> 홈 피드</a></li>
+          <li><a href="1-frost/screen-2.html"><span class="idx">2</span> 문서 목록</a></li>
+          <li><a href="1-frost/screen-3.html"><span class="idx">3</span> 문서 편집</a></li>
+          <li><a href="1-frost/screen-4.html"><span class="idx">4</span> 일정</a></li>
+          <li><a href="1-frost/screen-5.html"><span class="idx">5</span> 알림 설정</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 2 Steel -->
+    <article class="card" style="--pv-bg:#f4f4f4; --pv-surface:#ffffff; --pv-primary:#0f62fe; --pv-ctatext:#ffffff; --pv-text:#161616;">
+      <div class="preview">
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">2</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">2</span>
+          <span class="titles">
+            <span class="codename">Steel</span>
+            <span class="inspired">inspired by IBM Carbon</span>
+          </span>
+        </div>
+        <p class="mood">산업적 정밀함. 8px 그리드 위의 고밀도 데이터 콘솔, 직각 모서리, 파랑 단일 포인트, 즉각적이고 절제된 모션.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#f4f4f4"></span><span class="hex">#f4f4f4</span></span>
+          <span class="swatch"><span class="chip" style="background:#ffffff"></span><span class="hex">#ffffff</span></span>
+          <span class="swatch"><span class="chip" style="background:#0f62fe"></span><span class="hex">#0f62fe</span></span>
+          <span class="swatch"><span class="chip" style="background:#24a148"></span><span class="hex">#24a148</span></span>
+          <span class="swatch"><span class="chip" style="background:#da1e28"></span><span class="hex">#da1e28</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">카본풍</span><span class="alias">IBM풍</span><span class="alias">엔터프라이즈풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <ul class="screens">
+          <li><a href="2-steel/screen-1.html"><span class="idx">1</span> 대시보드</a></li>
+          <li><a href="2-steel/screen-2.html"><span class="idx">2</span> 데이터 테이블</a></li>
+          <li><a href="2-steel/screen-3.html"><span class="idx">3</span> 상세 드로어</a></li>
+          <li><a href="2-steel/screen-4.html"><span class="idx">4</span> 잡 모니터링</a></li>
+          <li><a href="2-steel/screen-5.html"><span class="idx">5</span> 권한 관리</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 3 Jelly -->
+    <article class="card" style="--pv-bg:#FFFFFF; --pv-surface:#F2F4F6; --pv-primary:#1C69E0; --pv-ctatext:#FFFFFF; --pv-text:#191F28;">
+      <div class="preview">
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">3</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">3</span>
+          <span class="titles">
+            <span class="codename">Jelly</span>
+            <span class="inspired">inspired by Toss</span>
+          </span>
+        </div>
+        <p class="mood">친근한 한국 모바일 핀테크. 크고 대담한 숫자, 넓은 호흡, 말랑한 물성, 스프링감 있는 모션.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#FFFFFF"></span><span class="hex">#FFFFFF</span></span>
+          <span class="swatch"><span class="chip" style="background:#F2F4F6"></span><span class="hex">#F2F4F6</span></span>
+          <span class="swatch"><span class="chip" style="background:#1C69E0"></span><span class="hex">#1C69E0</span></span>
+          <span class="swatch"><span class="chip" style="background:#0891A5"></span><span class="hex">#0891A5</span></span>
+          <span class="swatch"><span class="chip" style="background:#D22030"></span><span class="hex">#D22030</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">토스풍</span><span class="alias">핀테크풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <ul class="screens">
+          <li><a href="3-jelly/screen-1.html"><span class="idx">1</span> 홈(자산)</a></li>
+          <li><a href="3-jelly/screen-2.html"><span class="idx">2</span> 송금 입력</a></li>
+          <li><a href="3-jelly/screen-3.html"><span class="idx">3</span> 송금 확인·완료</a></li>
+          <li><a href="3-jelly/screen-4.html"><span class="idx">4</span> 소비 내역</a></li>
+          <li><a href="3-jelly/screen-5.html"><span class="idx">5</span> 혜택·설정</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <!-- 4 Obsidian -->
+    <article class="card" style="--pv-bg:#0a0a0c; --pv-surface:#141416; --pv-primary:#5e6ad2; --pv-ctatext:#f0f0f2; --pv-text:#f0f0f2;">
+      <div class="preview">
+        <div class="pv-bar"><span class="pv-dot"></span><span class="pv-line b"></span></div>
+        <span class="pv-num">4</span>
+        <span class="pv-line a"></span>
+        <span class="pv-cta"><span></span></span>
+      </div>
+      <div class="body">
+        <div class="titlerow">
+          <span class="num">4</span>
+          <span class="titles">
+            <span class="codename">Obsidian</span>
+            <span class="inspired">inspired by Linear + Vercel</span>
+          </span>
+        </div>
+        <p class="mood">다크 퍼스트 모던 SaaS. 잉크빛 배경 위 1px 알파 보더, 정밀한 13px 본문, 절제된 인디고 글로우, 즉각적 모션, 키보드 단축키 힌트.</p>
+        <div class="swatches">
+          <span class="swatch"><span class="chip" style="background:#0a0a0c"></span><span class="hex">#0a0a0c</span></span>
+          <span class="swatch"><span class="chip" style="background:#141416"></span><span class="hex">#141416</span></span>
+          <span class="swatch"><span class="chip" style="background:#5e6ad2"></span><span class="hex">#5e6ad2</span></span>
+          <span class="swatch"><span class="chip" style="background:#8f9aec"></span><span class="hex">#8f9aec</span></span>
+          <span class="swatch"><span class="chip" style="background:#30a46c"></span><span class="hex">#30a46c</span></span>
+        </div>
+        <div class="metarow">
+          <div class="aliases"><span class="alias">리니어풍</span><span class="alias">버셀풍</span><span class="alias">다크 SaaS풍</span><span class="alias">스타트업풍</span></div>
+          <div class="variants"><span class="vchip">a</span><span class="vchip">b</span></div>
+        </div>
+        <ul class="screens">
+          <li><a href="4-obsidian/screen-1.html"><span class="idx">1</span> 랜딩</a></li>
+          <li><a href="4-obsidian/screen-2.html"><span class="idx">2</span> 이슈 보드</a></li>
+          <li><a href="4-obsidian/screen-3.html"><span class="idx">3</span> 이슈 상세</a></li>
+          <li><a href="4-obsidian/screen-4.html"><span class="idx">4</span> 배포 로그</a></li>
+          <li><a href="4-obsidian/screen-5.html"><span class="idx">5</span> 팀 설정</a></li>
+        </ul>
+      </div>
+    </article>
+
+  </div>
+
+  <footer>
+    스펙 원본은 <code>presets/&lt;번호&gt;-&lt;코드네임&gt;/SPEC.md</code> · 이 갤러리는 그 스펙의 레퍼런스 구현이다. 각 데모 화면의 컨트롤 바에서 색 변형(A/B)과 라이트/다크를 전환할 수 있다. 색 칩의 hex는 <code>docs/&lt;번호&gt;-&lt;코드네임&gt;/tokens.css</code>에서 가져왔다.
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="1" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>모임 — 홈 · Frost 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-1 홈 피드 (§9) — 인사 블록 + 빠른 작업 칩 + 팀 활동 스트림 */
+.greeting { padding: var(--space-6) 0; }
+.greeting .date { margin-top: var(--space-1); }
+
+.quick-row {
+  display: flex; gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: var(--space-1);
+  scrollbar-width: none;
+}
+.quick-row::-webkit-scrollbar { display: none; }
+
+.card-flush { padding: 0; overflow: hidden; }
+.date-head {
+  padding: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-border);
+  font: var(--text-caption); color: var(--color-text-sub);
+}
+.date-head:first-child { border-top: none; }
+.stream .row + .row { border-top: 1px solid var(--color-border); }
+
+.today-list { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-4); }
+.today-item { display: flex; gap: var(--space-3); align-items: flex-start; }
+.today-time { font: var(--text-caption); color: var(--color-text-sub); width: 44px; flex: none; font-variant-numeric: tabular-nums; }
+.today-bar { width: 3px; height: 20px; border-radius: var(--radius-full); background: var(--color-primary); flex: none; }
+
+.home-grid { display: block; }
+.aside-col { margin-top: var(--space-8); }
+@media (min-width: 1024px) {
+  .home-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--space-6); }
+  .stream-col { grid-column: span 8; }
+  .aside-col { grid-column: span 4; margin-top: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 100ms !important;
+    transition-property: opacity, background-color, color !important;
+  }
+}
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<aside class="sidebar acrylic">
+  <a class="side-brand" href="screen-1.html"><span class="brand-mark t-strong" aria-hidden="true">모</span>모임</a>
+  <nav class="side-nav" aria-label="주 메뉴">
+    <a class="side-item" href="screen-1.html" aria-current="page">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5 10 4l6 5.5V16a1 1 0 0 1-1 1h-3v-4H8v4H5a1 1 0 0 1-1-1z"/></svg>
+      홈</a>
+    <a class="side-item" href="screen-2.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+      문서</a>
+    <a class="side-item" href="screen-4.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="13" height="12" rx="1"/><path d="M3.5 8.5h13M7 3v3M13 3v3"/></svg>
+      일정</a>
+    <a class="side-item" href="screen-5.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a4.5 4.5 0 0 1 4.5 4.5c0 2.8.9 3.9 1.5 4.5H4c.6-.6 1.5-1.7 1.5-4.5A4.5 4.5 0 0 1 10 3.5z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+      알림 설정</a>
+  </nav>
+  <div class="side-foot">
+    <span class="avatar avatar-28" aria-hidden="true">지</span>
+    <div>
+      <div class="t-strong">김지연</div>
+      <div class="t-caption sub">그로스팀</div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="appbar acrylic">
+    <h1 class="appbar-title">그로스팀</h1>
+    <div class="appbar-spacer"></div>
+    <a class="icon-btn" href="screen-2.html" aria-label="문서 검색">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="5"/><path d="M12.6 12.6 17 17"/></svg>
+    </a>
+    <a class="icon-btn" href="screen-5.html" aria-label="알림 설정">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a4.5 4.5 0 0 1 4.5 4.5c0 2.8.9 3.9 1.5 4.5H4c.6-.6 1.5-1.7 1.5-4.5A4.5 4.5 0 0 1 10 3.5z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+    </a>
+    <span class="avatar avatar-28" aria-hidden="true">지</span>
+  </header>
+
+  <main class="content page-enter">
+    <section class="greeting" aria-label="인사">
+      <p class="t-body">오늘도 함께해요, 지연 님</p>
+      <p class="t-caption sub date">7월 10일 금요일</p>
+    </section>
+
+    <nav class="quick-row" aria-label="빠른 작업">
+      <a class="chip" href="screen-3.html">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+        문서 만들기</a>
+      <a class="chip" href="screen-4.html">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="13" height="12" rx="1"/><path d="M3.5 8.5h13M7 3v3M13 3v3"/></svg>
+        일정 잡기</a>
+      <button class="chip" type="button" onclick="frostToast('초대를 보냈어요')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="7" r="3"/><path d="M3.5 16.5c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4"/><path d="M15 7v5M12.5 9.5h5"/></svg>
+        팀원 초대</button>
+      <button class="chip" type="button" onclick="frostToast('파일을 올렸어요')">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13V4.5M6.5 8 10 4.5 13.5 8"/><path d="M4 13v2.5A1.5 1.5 0 0 0 5.5 17h9a1.5 1.5 0 0 0 1.5-1.5V13"/></svg>
+        파일 올리기</button>
+    </nav>
+
+    <div class="home-grid section">
+      <section class="stream-col" aria-label="팀 활동">
+        <div class="section-head">
+          <h2 class="t-title3">팀 활동</h2>
+          <a class="btn btn-ghost" href="screen-2.html">문서 전체 보기</a>
+        </div>
+        <div class="card card-flush">
+          <ul class="stream stagger">
+            <li class="date-head">오늘</li>
+            <li><a class="row" href="screen-3.html">
+              <span class="avatar" aria-hidden="true">서</span>
+              <span class="row-main"><span class="row-title ellip">박서준 님이 ‘2분기 계획’을 수정했어요</span></span>
+              <span class="row-meta">10분 전</span></a></li>
+            <li><a class="row" href="screen-3.html">
+              <span class="avatar" aria-hidden="true">하</span>
+              <span class="row-main"><span class="row-title ellip">이하은 님이 ‘고객 인터뷰 노트’에 댓글을 남겼어요</span></span>
+              <span class="row-meta">32분 전</span></a></li>
+            <li><a class="row" href="screen-4.html">
+              <span class="avatar" aria-hidden="true">민</span>
+              <span class="row-main"><span class="row-title ellip">정민호 님이 ‘2분기 회고’ 일정을 잡았어요</span></span>
+              <span class="row-meta">1시간 전</span></a></li>
+            <li><a class="row" href="screen-3.html">
+              <span class="avatar" aria-hidden="true">유</span>
+              <span class="row-main"><span class="row-title ellip">최유나 님이 ‘온보딩 가이드’를 공유했어요</span></span>
+              <span class="row-meta">3시간 전</span></a></li>
+            <li class="date-head">어제</li>
+            <li><a class="row" href="screen-3.html">
+              <span class="avatar" aria-hidden="true">도</span>
+              <span class="row-main"><span class="row-title ellip">한도윤 님이 ‘마케팅 캠페인 브리프’를 만들었어요</span></span>
+              <span class="row-meta">어제 17:20</span></a></li>
+            <li><a class="row" href="screen-3.html">
+              <span class="avatar" aria-hidden="true">서</span>
+              <span class="row-main"><span class="row-title ellip">박서준 님이 ‘주간 회의록 7월 2주’를 수정했어요</span></span>
+              <span class="row-meta">어제 15:40</span></a></li>
+            <li><a class="row" href="screen-5.html">
+              <span class="avatar" aria-hidden="true">지</span>
+              <span class="row-main"><span class="row-title ellip">김지연 님이 알림 설정을 바꿨어요</span></span>
+              <span class="row-meta">어제 11:05</span></a></li>
+            <li><a class="row" href="screen-3.html">
+              <span class="avatar" aria-hidden="true">하</span>
+              <span class="row-main"><span class="row-title ellip">이하은 님이 ‘디자인 시스템 정리’에 댓글을 남겼어요</span></span>
+              <span class="row-meta">어제 09:30</span></a></li>
+          </ul>
+        </div>
+      </section>
+
+      <aside class="aside-col" aria-label="오늘 일정">
+        <div class="section-head">
+          <h2 class="t-title3">오늘 일정</h2>
+          <a class="btn btn-ghost" href="screen-4.html">일정 보기</a>
+        </div>
+        <div class="card">
+          <p class="t-caption sub">7월 10일 금요일 · 4건</p>
+          <ul class="today-list">
+            <li class="today-item"><span class="today-time">09:00</span><span class="today-bar" aria-hidden="true"></span>
+              <span class="row-main"><span class="row-title">데일리 스탠드업</span><br><span class="row-sub">회의실 A · 30분</span></span></li>
+            <li class="today-item"><span class="today-time">11:00</span><span class="today-bar" aria-hidden="true"></span>
+              <span class="row-main"><span class="row-title">2분기 회고</span><br><span class="row-sub">회의실 B · 1시간</span></span></li>
+            <li class="today-item"><span class="today-time">12:00</span><span class="today-bar" style="background: var(--color-success)" aria-hidden="true"></span>
+              <span class="row-main"><span class="row-title">팀 점심</span><br><span class="row-sub">사옥 1층 · 1시간</span></span></li>
+            <li class="today-item"><span class="today-time">15:00</span><span class="today-bar" aria-hidden="true"></span>
+              <span class="row-main"><span class="row-title">문서 정리 타임</span><br><span class="row-sub">개인 집중 시간</span></span></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<nav class="tabbar acrylic" aria-label="하단 탭">
+  <a class="tab" href="screen-1.html" aria-current="page">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5 10 4l6 5.5V16a1 1 0 0 1-1 1h-3v-4H8v4H5a1 1 0 0 1-1-1z"/></svg>
+    <span>홈</span></a>
+  <a class="tab" href="screen-2.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+    <span>문서</span></a>
+  <a class="tab" href="screen-4.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="13" height="12" rx="1"/><path d="M3.5 8.5h13M7 3v3M13 3v3"/></svg>
+    <span>일정</span></a>
+  <a class="tab" href="screen-5.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a4.5 4.5 0 0 1 4.5 4.5c0 2.8.9 3.9 1.5 4.5H4c.6-.6 1.5-1.7 1.5-4.5A4.5 4.5 0 0 1 10 3.5z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+    <span>알림</span></a>
+</nav>
+
+</body>
+</html>

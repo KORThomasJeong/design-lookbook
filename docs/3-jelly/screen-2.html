@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="3" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지갑 — 송금 · Jelly 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-2 송금 입력 (§9) — 금액 커스텀 키패드 */
+.scroll.col { display: flex; flex-direction: column; }
+.recipient { display: flex; align-items: center; gap: var(--space-3); padding-top: var(--space-6); }
+.amount-block { margin-top: var(--space-7); }
+.amount-title { margin-bottom: var(--space-4); }
+.amount { font-variant-numeric: tabular-nums; }
+.amount.empty { color: var(--color-text-tertiary); }
+.balance { margin-top: var(--space-2); }
+.spacer { flex: 1; min-height: var(--space-6); }
+.amount-chips { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
+.amount-chips .chip { flex: 1; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <a class="icon-btn" href="screen-1.html" aria-label="뒤로가기">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <span class="appbar-spacer"></span>
+  </header>
+
+  <main class="scroll col page-enter">
+    <div class="recipient">
+      <span class="avatar avatar-40" aria-hidden="true">이</span>
+      <div>
+        <p class="t-body1 w700">이서연</p>
+        <p class="t-caption sub">카카오뱅크 3456</p>
+      </div>
+    </div>
+
+    <section class="amount-block" aria-label="보낼 금액">
+      <h1 class="t-title1 amount-title">얼마나 보낼까요?</h1>
+      <p id="amount" class="t-display1 amount empty" aria-live="polite">0원</p>
+      <p id="balance" class="t-caption sub balance">잔액 1,240,000원</p>
+    </section>
+
+    <div class="spacer"></div>
+
+    <div class="amount-chips" role="group" aria-label="빠른 금액">
+      <button class="chip" type="button" data-add="10000">+1만</button>
+      <button class="chip" type="button" data-add="50000">+5만</button>
+      <button class="chip" type="button" data-all="1">전액</button>
+    </div>
+
+    <div class="keypad" role="group" aria-label="숫자 키패드">
+      <button class="key" type="button" data-k="1">1</button>
+      <button class="key" type="button" data-k="2">2</button>
+      <button class="key" type="button" data-k="3">3</button>
+      <button class="key" type="button" data-k="4">4</button>
+      <button class="key" type="button" data-k="5">5</button>
+      <button class="key" type="button" data-k="6">6</button>
+      <button class="key" type="button" data-k="7">7</button>
+      <button class="key" type="button" data-k="8">8</button>
+      <button class="key" type="button" data-k="9">9</button>
+      <button class="key" type="button" data-k="00">00</button>
+      <button class="key" type="button" data-k="0">0</button>
+      <button class="key" type="button" data-back="1" aria-label="지우기">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5h11v14H9l-6-7z"/><path d="M13 10l4 4M17 10l-4 4"/></svg>
+      </button>
+    </div>
+  </main>
+
+  <div class="cta-bar">
+    <button id="next" class="btn btn-primary" type="button" disabled>다음</button>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var BALANCE = 1240000;
+  var amount = 0;
+  var elAmt = document.getElementById('amount');
+  var elBal = document.getElementById('balance');
+  var elNext = document.getElementById('next');
+
+  function render() {
+    var over = amount > BALANCE;
+    elAmt.textContent = amount === 0 ? '0원' : amount.toLocaleString('ko-KR') + '원';
+    elAmt.classList.toggle('empty', amount === 0);
+    elAmt.style.color = over ? 'var(--color-danger)' : '';
+    if (over) {
+      elBal.textContent = '잔액이 부족해요. ' + BALANCE.toLocaleString('ko-KR') + '원까지 보낼 수 있어요';
+      elBal.classList.remove('sub'); elBal.classList.add('neg');
+      elAmt.classList.remove('shake'); void elAmt.offsetWidth; elAmt.classList.add('shake');
+    } else {
+      elBal.textContent = '잔액 ' + BALANCE.toLocaleString('ko-KR') + '원';
+      elBal.classList.add('sub'); elBal.classList.remove('neg');
+    }
+    elNext.disabled = amount === 0 || over;
+  }
+
+  document.querySelectorAll('.key').forEach(function (k) {
+    k.addEventListener('click', function () {
+      if (k.dataset.back) { amount = Math.floor(amount / 10); }
+      else if (k.dataset.k) {
+        var next = parseInt(String(amount) + k.dataset.k, 10);
+        if (next <= 99999999) amount = next;
+      }
+      render();
+    });
+  });
+  document.querySelectorAll('.amount-chips .chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      if (c.dataset.all) amount = BALANCE;
+      else amount = Math.min(amount + parseInt(c.dataset.add, 10), 99999999);
+      render();
+    });
+  });
+  elNext.addEventListener('click', function () {
+    try { localStorage.setItem('jigap-amount', String(amount)); } catch (e) {}
+    location.href = 'screen-3.html';
+  });
+  render();
+})();
+</script>
+</body>
+</html>

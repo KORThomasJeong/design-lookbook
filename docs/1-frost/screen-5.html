@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="1" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>모임 — 알림 설정 · Frost 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 알림 설정 (§9) — 토글 그룹, 즉시 반영(저장 버튼 없음) */
+.settings { max-width: 640px; }
+.setting-group { padding: 0; overflow: hidden; }
+.setting-group + .setting-group { margin-top: var(--space-3); }
+
+.group-head {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-4);
+}
+.group-head-text { flex: 1; min-width: 0; }
+.group-head-text .desc { color: var(--color-text-sub); margin-top: var(--space-1); }
+
+.group-rows { border-top: 1px solid var(--color-border); }
+.set-row {
+  position: relative;
+  display: flex; align-items: center; gap: var(--space-3);
+  min-height: 44px; padding: var(--space-2) var(--space-4);
+  width: 100%; text-align: left;
+  transition: background-color var(--motion-fast) var(--ease-fluent);
+}
+button.set-row:hover { background: var(--color-surface-2); }
+/* 구분선 — 콘텐츠 시작선 들여쓰기 정렬 (§6.4) */
+.group-rows .set-row + .set-row::before {
+  content: ""; position: absolute; top: 0; left: var(--space-4); right: var(--space-4);
+  height: 1px; background: var(--color-border);
+}
+.set-label { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.set-label .desc { color: var(--color-text-sub); margin-top: var(--space-1); }
+.set-row.disabled { opacity: 0.4; }
+.set-row.disabled .switch { pointer-events: none; }
+
+.dnd-value { font: var(--text-body); color: var(--color-text-sub); font-variant-numeric: tabular-nums; }
+.chev { color: var(--color-text-sub); }
+
+.sheet-time { display: flex; gap: var(--space-4); margin-top: var(--space-4); }
+.sheet-time .field { flex: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 100ms !important;
+    transition-property: opacity, background-color, color !important;
+  }
+}
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<aside class="sidebar acrylic">
+  <a class="side-brand" href="screen-1.html"><span class="brand-mark t-strong" aria-hidden="true">모</span>모임</a>
+  <nav class="side-nav" aria-label="주 메뉴">
+    <a class="side-item" href="screen-1.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5 10 4l6 5.5V16a1 1 0 0 1-1 1h-3v-4H8v4H5a1 1 0 0 1-1-1z"/></svg>
+      홈</a>
+    <a class="side-item" href="screen-2.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+      문서</a>
+    <a class="side-item" href="screen-4.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="13" height="12" rx="1"/><path d="M3.5 8.5h13M7 3v3M13 3v3"/></svg>
+      일정</a>
+    <a class="side-item" href="screen-5.html" aria-current="page">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a4.5 4.5 0 0 1 4.5 4.5c0 2.8.9 3.9 1.5 4.5H4c.6-.6 1.5-1.7 1.5-4.5A4.5 4.5 0 0 1 10 3.5z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+      알림 설정</a>
+  </nav>
+  <div class="side-foot">
+    <span class="avatar avatar-28" aria-hidden="true">지</span>
+    <div>
+      <div class="t-strong">김지연</div>
+      <div class="t-caption sub">그로스팀</div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="appbar acrylic">
+    <a class="icon-btn" href="screen-1.html" aria-label="홈으로">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l-6 6 6 6"/></svg>
+    </a>
+    <h1 class="appbar-title">알림 설정</h1>
+    <div class="appbar-spacer"></div>
+    <span class="avatar avatar-28" aria-hidden="true">지</span>
+  </header>
+
+  <main class="content page-enter">
+    <div class="settings section" style="margin-top: var(--space-4);">
+
+      <!-- 그룹 A: 알림 받기 (마스터 토글) -->
+      <section class="card setting-group">
+        <div class="group-head">
+          <div class="group-head-text">
+            <h2 class="t-subtitle">알림 받기</h2>
+            <p class="t-caption desc">끄면 아래 채널 알림을 모두 멈춰요</p>
+          </div>
+          <button class="switch" type="button" role="switch" aria-checked="true" data-master aria-label="알림 받기"></button>
+        </div>
+        <div class="group-rows" data-group>
+          <button class="set-row" type="button">
+            <span class="set-label"><span class="t-body">푸시 알림</span><span class="t-caption desc">휴대폰으로 즉시 받기</span></span>
+            <span class="switch" role="switch" aria-checked="true" aria-label="푸시 알림"></span>
+          </button>
+          <button class="set-row" type="button">
+            <span class="set-label"><span class="t-body">이메일 요약</span><span class="t-caption desc">매일 아침 8시에 하루치 모아 보기</span></span>
+            <span class="switch" role="switch" aria-checked="true" aria-label="이메일 요약"></span>
+          </button>
+          <button class="set-row" type="button">
+            <span class="set-label"><span class="t-body">데스크톱 알림</span><span class="t-caption desc">브라우저에 알림 띄우기</span></span>
+            <span class="switch" role="switch" aria-checked="false" aria-label="데스크톱 알림"></span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 그룹 B: 알림 유형 -->
+      <section class="card setting-group">
+        <div class="group-head">
+          <div class="group-head-text">
+            <h2 class="t-subtitle">알림 유형</h2>
+            <p class="t-caption desc">받고 싶은 활동만 골라요</p>
+          </div>
+        </div>
+        <div class="group-rows">
+          <button class="set-row" type="button">
+            <span class="set-label"><span class="t-body">멘션과 댓글</span><span class="t-caption desc">나를 언급하거나 내 문서에 남긴 댓글</span></span>
+            <span class="switch" role="switch" aria-checked="true" aria-label="멘션과 댓글"></span>
+          </button>
+          <button class="set-row" type="button">
+            <span class="set-label"><span class="t-body">문서 공유</span><span class="t-caption desc">팀원이 문서를 공유했을 때</span></span>
+            <span class="switch" role="switch" aria-checked="true" aria-label="문서 공유"></span>
+          </button>
+          <button class="set-row" type="button">
+            <span class="set-label"><span class="t-body">일정 초대</span><span class="t-caption desc">회의나 이벤트에 초대받았을 때</span></span>
+            <span class="switch" role="switch" aria-checked="true" aria-label="일정 초대"></span>
+          </button>
+          <button class="set-row" type="button">
+            <span class="set-label"><span class="t-body">팀 공지</span><span class="t-caption desc">관리자가 올린 공지</span></span>
+            <span class="switch" role="switch" aria-checked="false" aria-label="팀 공지"></span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 그룹 C: 방해 금지 -->
+      <section class="card setting-group">
+        <div class="group-head">
+          <div class="group-head-text">
+            <h2 class="t-subtitle">방해 금지</h2>
+            <p class="t-caption desc">이 시간에는 알림을 소리 없이 모아 둬요</p>
+          </div>
+        </div>
+        <div class="group-rows">
+          <button class="set-row" type="button" onclick="frostSheet.open('dnd-sheet')">
+            <span class="set-label"><span class="t-body">방해 금지 시간</span></span>
+            <span class="dnd-value" id="dnd-value">밤 10:00 – 오전 8:00</span>
+            <svg class="chev" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- 방해 금지 시간 선택 바텀시트 (§6.7) -->
+<div class="scrim" id="dnd-sheet-scrim" onclick="frostSheet.close('dnd-sheet')"></div>
+<section class="sheet modal-desktop" id="dnd-sheet" role="dialog" aria-modal="true" aria-labelledby="dnd-title">
+  <div class="grabbar" aria-hidden="true"></div>
+  <h2 class="t-subtitle" id="dnd-title">방해 금지 시간</h2>
+  <form id="dnd-form">
+    <div class="sheet-time">
+      <div class="field">
+        <label class="field-label" for="dnd-start">시작</label>
+        <select class="select" id="dnd-start">
+          <option>밤 9:00</option>
+          <option selected>밤 10:00</option>
+          <option>밤 11:00</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="dnd-end">종료</label>
+        <select class="select" id="dnd-end">
+          <option>오전 7:00</option>
+          <option selected>오전 8:00</option>
+          <option>오전 9:00</option>
+        </select>
+      </div>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" type="button" onclick="frostSheet.close('dnd-sheet')">취소</button>
+      <button class="btn btn-primary" type="submit">저장</button>
+    </div>
+  </form>
+</section>
+
+<nav class="tabbar acrylic" aria-label="하단 탭">
+  <a class="tab" href="screen-1.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5 10 4l6 5.5V16a1 1 0 0 1-1 1h-3v-4H8v4H5a1 1 0 0 1-1-1z"/></svg>
+    <span>홈</span></a>
+  <a class="tab" href="screen-2.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+    <span>문서</span></a>
+  <a class="tab" href="screen-4.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="13" height="12" rx="1"/><path d="M3.5 8.5h13M7 3v3M13 3v3"/></svg>
+    <span>일정</span></a>
+  <a class="tab" href="screen-5.html" aria-current="page">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a4.5 4.5 0 0 1 4.5 4.5c0 2.8.9 3.9 1.5 4.5H4c.6-.6 1.5-1.7 1.5-4.5A4.5 4.5 0 0 1 10 3.5z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+    <span>알림</span></a>
+</nav>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 토글 스위치 — 즉시 반영 + 토스트 (§9 screen-5) */
+  function flip(sw) {
+    if (sw.getAttribute('aria-disabled') === 'true') return;
+    var on = sw.getAttribute('aria-checked') === 'true';
+    sw.setAttribute('aria-checked', String(!on));
+    frostToast('알림 설정을 바꿨어요');
+  }
+
+  /* 각 행 클릭 = 행 안의 스위치 토글 (터치 타깃 44px 확보) */
+  document.querySelectorAll('.set-row').forEach(function (row) {
+    var sw = row.querySelector('.switch');
+    if (!sw) return;
+    row.addEventListener('click', function () { flip(sw); });
+  });
+
+  /* 마스터 토글 — 그룹 전체 끄기 시 하위 행 disabled + opacity 0.4 (§9) */
+  document.querySelectorAll('[data-master]').forEach(function (master) {
+    var group = master.closest('.setting-group').querySelector('[data-group]');
+    function sync() {
+      var on = master.getAttribute('aria-checked') === 'true';
+      group.querySelectorAll('.set-row').forEach(function (row) {
+        row.classList.toggle('disabled', !on);
+        row.disabled = !on;
+        var sw = row.querySelector('.switch');
+        if (sw) sw.setAttribute('aria-disabled', String(!on));
+      });
+    }
+    master.addEventListener('click', function () {
+      var on = master.getAttribute('aria-checked') === 'true';
+      master.setAttribute('aria-checked', String(!on));
+      sync();
+      frostToast('알림 설정을 바꿨어요');
+    });
+    sync();
+  });
+
+  /* 방해 금지 시간 저장 */
+  document.getElementById('dnd-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var s = document.getElementById('dnd-start').value;
+    var en = document.getElementById('dnd-end').value;
+    document.getElementById('dnd-value').textContent = s + ' – ' + en;
+    frostSheet.close('dnd-sheet');
+    frostToast('방해 금지 시간을 바꿨어요');
+  });
+})();
+</script>
+</body>
+</html>

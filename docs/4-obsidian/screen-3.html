@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="4" data-variants="a,b" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GWD-142 — 궤도 Gwedo · Obsidian 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 이슈 상세 (§9) */
+.issue-head { display: flex; align-items: flex-start; gap: var(--space-4); margin-bottom: var(--space-4); }
+.issue-head .spacer { flex: 1; }
+.issue-layout { display: grid; grid-template-columns: minmax(0,1fr) var(--layout-meta-panel-width); gap: var(--space-7); }
+.issue-body { min-width: 0; }
+.issue-body p { color: var(--color-text-sub); margin-top: var(--space-4); }
+.issue-body p:first-of-type { margin-top: 0; }
+.icode { font-family: var(--font-mono); font-size: var(--type-caption-size); background: var(--color-surface-2); border-radius: var(--radius-1); padding: var(--space-1) var(--space-2); color: var(--color-text); }
+
+.timeline { position: relative; padding-left: var(--space-6); margin-top: var(--space-4); }
+.timeline::before { content: ""; position: absolute; left: 9px; top: var(--space-2); bottom: var(--space-4); width: 2px; background: var(--color-border); }
+.tl-item { position: relative; display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-3) 0; }
+.tl-item .tl-dot { position: absolute; left: calc(-1 * var(--space-6) + 6px); top: var(--space-4); width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-text-sub); box-shadow: 0 0 0 3px var(--color-bg); }
+.tl-item .tl-dot.on { background: var(--color-accent); }
+.tl-item .tl-body { flex: 1; min-width: 0; }
+.tl-item .tl-time { color: var(--color-text-sub); }
+.comment-box { display: flex; gap: var(--space-3); align-items: flex-end; margin-top: var(--space-5); }
+.comment-box .field { flex: 1; }
+
+.meta-panel { border-left: var(--border-width) solid var(--color-border); padding-left: var(--space-5); }
+.meta-row { display: flex; align-items: center; gap: var(--space-4); min-height: 32px; padding: var(--space-2) 0; }
+.meta-row .k { width: 72px; flex: none; color: var(--color-text-sub); }
+.meta-row .v { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--space-3); }
+
+.seg-mobile { display: none; }
+@media (max-width: 767px) {
+  .issue-layout { grid-template-columns: 1fr; gap: 0; }
+  .meta-panel { border-left: none; padding-left: 0; border-top: var(--border-width) solid var(--color-border); padding-top: var(--space-5); margin-top: var(--space-5); }
+  .seg-mobile { display: flex; margin-bottom: var(--space-5); }
+  [data-seg-panel][hidden] { display: none; }
+}
+</style>
+</head>
+<body>
+<header class="appbar">
+  <a href="screen-1.html" class="brand"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.4"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="13.2" cy="5" r="1" fill="currentColor" stroke="none"/></svg><span>궤도</span></a>
+  <nav class="breadcrumb t-body" aria-label="위치"><span class="sep">/</span><a href="screen-2.html">보드</a><span class="sep">/</span><span class="mono">GWD-142</span></nav>
+  <span class="spacer"></span>
+  <button class="search-trigger hide-mobile" onclick="gwOpen('palette')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg><span class="st-label">검색</span><span class="kbd">⌘K</span></button>
+  <button class="icon-btn show-mobile" onclick="gwOpen('palette')" aria-label="검색"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg></button>
+  <span class="avatar" title="김서진">서</span>
+</header>
+
+<div class="app-shell">
+  <nav class="sidebar" aria-label="주 메뉴">
+    <a class="nav-item" href="screen-2.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="4" height="11" rx="1"/><rect x="7" y="2.5" width="4" height="7" rx="1"/><rect x="12" y="2.5" width="2" height="11" rx="1"/></svg>보드</a>
+    <a class="nav-item" aria-current="page" href="screen-3.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.6" fill="currentColor" stroke="none"/></svg>이슈</a>
+    <a class="nav-item" href="screen-4.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l4 4-4 8-4-8z"/><circle cx="8" cy="6" r="1.2" fill="currentColor" stroke="none"/></svg>배포</a>
+    <a class="nav-item" href="screen-5.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.5v2M8 12.5v2M14.5 8h-2M3.5 8h-2M12.6 3.4l-1.4 1.4M4.8 11.2l-1.4 1.4M12.6 12.6l-1.4-1.4M4.8 4.8L3.4 3.4"/></svg>설정</a>
+    <div class="nav-foot t-caption"><span class="kbd">⌘K</span><span>커맨드</span></div>
+  </nav>
+
+  <main class="content">
+    <div class="issue-head">
+      <div style="min-width:0">
+        <nav class="breadcrumb t-caption" aria-label="위치"><a href="screen-2.html">보드</a><span class="sep">/</span><span class="mono">GWD-142</span></nav>
+        <h1 class="t-title" style="margin-top:var(--space-3)">배포 롤백을 원클릭으로</h1>
+      </div>
+      <span class="spacer"></span>
+      <button class="icon-btn" aria-label="링크 복사" onclick="gwCopy('https://gwedo.app/i/GWD-142','이슈 링크를 복사했습니다.')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6.5 9.5a2.5 2.5 0 003.5 0l2-2a2.5 2.5 0 00-3.5-3.5l-1 1"/><path d="M9.5 6.5a2.5 2.5 0 00-3.5 0l-2 2a2.5 2.5 0 003.5 3.5l1-1"/></svg></button>
+      <button class="icon-btn" aria-label="더보기"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="4" cy="8" r="1.3"/><circle cx="8" cy="8" r="1.3"/><circle cx="12" cy="8" r="1.3"/></svg></button>
+      <button class="btn btn-secondary" onclick="gwToast('GWD-142를 완료로 옮겼습니다.','상태: 진행 중 → 완료','success')">완료로 이동<span class="kbd">S</span></button>
+    </div>
+
+    <div class="segment seg-mobile" role="tablist" aria-label="보기 전환">
+      <button aria-pressed="true" data-target="body" onclick="gwSegment(this)">본문</button>
+      <button aria-pressed="false" data-target="meta" onclick="gwSegment(this)">속성</button>
+    </div>
+
+    <div class="issue-layout">
+      <div class="issue-body" data-seg-panel="body">
+        <p class="t-body-lg">배포가 잘못되면 지금은 이전 커밋을 다시 <span class="icode">git revert</span> 하고 파이프라인이 도는 4분을 기다려야 합니다. 이 시간 동안 오류가 사용자에게 그대로 노출됩니다.</p>
+        <p class="t-body-lg">직전 정상 빌드 아티팩트를 보관해 두었다가 <span class="icode">rollback</span> 한 번으로 트래픽을 되돌리려 합니다. 목표는 클릭에서 복구까지 <span class="icode">30s</span> 이내입니다.</p>
+        <p class="t-body-lg">롤백 시 해당 배포를 유발한 이슈에 로그가 자동으로 첨부되고, 담당자에게 알림이 갑니다. 롤백 자체도 하나의 배포 이벤트로 기록됩니다.</p>
+
+        <p class="mlabel" style="margin-top:var(--space-7);margin-bottom:var(--space-2)">활동</p>
+        <div class="timeline">
+          <div class="tl-item"><span class="tl-dot"></span><span class="avatar sm" title="김서진">서</span><div class="tl-body"><div class="t-body">김서진 님이 이슈를 만들었습니다.</div><div class="tl-time t-caption mono">7월 8일 14:02</div></div></div>
+          <div class="tl-item"><span class="tl-dot on"></span><span class="avatar sm" title="정하늘">하</span><div class="tl-body"><div class="t-body">정하늘 님이 상태를 <span class="mono">진행 중</span>으로 바꿨습니다.</div><div class="tl-time t-caption mono">7월 9일 10:15</div></div></div>
+          <div class="tl-item"><span class="tl-dot"></span><span class="avatar sm" title="박도현">도</span><div class="tl-body"><div class="t-body">박도현: 아티팩트 보관 기간은 7일로 잡았습니다. 스토리지 비용은 무시할 수준입니다.</div><div class="tl-time t-caption mono">7월 9일 16:41</div></div></div>
+          <div class="tl-item"><span class="tl-dot"></span><span class="avatar sm" title="김서진">서</span><div class="tl-body"><div class="t-body">김서진 님이 브랜치 <span class="mono">feat/gwd-142</span>를 연결했습니다.</div><div class="tl-time t-caption mono">7월 10일 09:20</div></div></div>
+        </div>
+
+        <div class="comment-box">
+          <div class="field"><label for="cmt" class="mlabel" style="text-transform:none">댓글 남기기</label><textarea class="input input-lg" id="cmt" rows="1" placeholder="변경 사항이나 질문을 적어 주세요"></textarea></div>
+          <button class="btn btn-primary" onclick="gwToast('댓글을 남겼습니다.','','success')">댓글<span class="kbd">⇧⏎</span></button>
+        </div>
+      </div>
+
+      <aside class="meta-panel" data-seg-panel="meta" hidden>
+        <p class="mlabel" style="margin-bottom:var(--space-3)">속성</p>
+        <div class="meta-row"><span class="k t-caption">상태</span><span class="v"><span class="badge badge-progress"><span class="dot"></span>진행 중</span></span></div>
+        <div class="meta-row"><span class="k t-caption">우선순위</span><span class="v"><span class="prio-high"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11V7M8 11V4M12 11V9"/></svg></span><span class="t-body">높음</span></span></div>
+        <div class="meta-row"><span class="k t-caption">담당</span><span class="v"><span class="avatar sm" title="김서진">서</span><span class="t-body">김서진</span></span></div>
+        <div class="meta-row"><span class="k t-caption">라벨</span><span class="v"><span class="badge badge-label">feature</span></span></div>
+        <div class="meta-row"><span class="k t-caption">마일스톤</span><span class="v"><span class="t-body">1.4 배포 안정화</span></span></div>
+        <div class="meta-row"><span class="k t-caption">브랜치</span><span class="v"><span class="mono t-caption">feat/gwd-142</span></span></div>
+        <div class="meta-row"><span class="k t-caption">생성</span><span class="v"><span class="mono t-caption">2026-07-08 14:02</span></span></div>
+        <div class="meta-row"><span class="k t-caption">수정</span><span class="v"><span class="mono t-caption">2026-07-10 09:20</span></span></div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="주 메뉴">
+  <a href="screen-2.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="3" width="5" height="14" rx="1"/><rect x="9" y="3" width="5" height="9" rx="1"/><rect x="15.5" y="3" width="2" height="14" rx="1"/></svg>보드</a>
+  <a href="screen-3.html" aria-current="page"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="2" fill="currentColor" stroke="none"/></svg>이슈</a>
+  <a href="screen-4.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2.5l5 5-5 10-5-10z"/></svg>배포</a>
+  <a href="screen-5.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="2.8"/><path d="M10 2v2.5M10 15.5V18M18 10h-2.5M4.5 10H2"/></svg>설정</a>
+</nav>
+
+<!-- 커맨드 팔레트 -->
+<div class="scrim" id="palette" role="dialog" aria-modal="true" aria-label="커맨드 팔레트">
+  <div class="palette">
+    <div class="palette-input">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+      <input type="text" placeholder="명령 또는 이슈 검색…" aria-label="검색" onfocus="gwPaletteNav(this)">
+    </div>
+    <div class="palette-list">
+      <a class="palette-row active" href="screen-2.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="4" height="11" rx="1"/><rect x="7" y="2.5" width="4" height="7" rx="1"/></svg><span>보드로 이동</span><span class="spacer"></span><span class="kbd">G</span><span class="kbd">B</span></a>
+      <a class="palette-row" href="screen-4.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l4 4-4 8-4-8z"/></svg><span>프로덕션 재배포</span><span class="spacer"></span><span class="kbd">R</span></a>
+      <a class="palette-row" href="screen-5.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.2"/></svg><span>팀 설정 열기</span></a>
+    </div>
+    <div class="palette-foot"><span class="mono t-micro">↑↓ 이동 · ↵ 실행 · esc 닫기</span></div>
+  </div>
+</div>
+
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>

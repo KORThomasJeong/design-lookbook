@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="3" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>지갑 — 송금 확인 · Jelly 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 송금 확인 → 완료 (§9) */
+.view { display: flex; flex-direction: column; align-items: center; }
+.view.hidden { display: none; }
+.confirm-top { padding-top: var(--space-9); text-align: center; }
+.to-name { margin-top: var(--space-4); }
+.amount { margin-top: var(--space-2); font-variant-numeric: tabular-nums; }
+.detail { width: 100%; margin-top: var(--space-6); }
+.detail .drow { display: flex; align-items: center; justify-content: space-between; min-height: var(--size-list-row); }
+.detail .drow + .drow { margin-top: 0; }
+.dlabel { font-size: var(--font-size-body-2); font-weight: var(--font-weight-medium); color: var(--color-text-sub); }
+.dval { font-size: var(--font-size-body-2); font-weight: var(--font-weight-semibold); }
+
+/* 완료 뷰 + 성공 체크 모션 (§7) */
+.done-wrap { justify-content: center; flex: 1; text-align: center; padding-bottom: var(--space-10); }
+.check {
+  width: 80px; height: 80px; border-radius: var(--radius-full);
+  background: var(--color-success-soft);
+  display: grid; place-items: center;
+  animation: pop var(--motion-slow) var(--ease-spring) both;
+}
+.check path { stroke-dasharray: 32; stroke-dashoffset: 32; animation: draw var(--motion-base) var(--ease-out-soft) 0.1s forwards; }
+.done-title { margin-top: var(--space-4); }
+.done-desc { margin-top: var(--space-2); }
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.confirm-view { transition: opacity var(--motion-fast) linear; }
+.confirm-view.leaving { opacity: 0; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <a id="back" class="icon-btn" href="screen-2.html" aria-label="뒤로가기">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <span class="appbar-spacer"></span>
+  </header>
+
+  <main class="scroll page-enter">
+    <!-- 확인 단계 -->
+    <section id="confirm" class="view confirm-view" aria-label="송금 확인">
+      <div class="confirm-top">
+        <span class="avatar avatar-64" aria-hidden="true">이</span>
+        <p class="t-body1 to-name">이서연님에게</p>
+        <p id="amount" class="t-display1 amount">50,000원</p>
+      </div>
+      <div class="card detail">
+        <div class="drow"><span class="dlabel">출금 계좌</span><span class="dval">국민 입출금 1234</span></div>
+        <div class="drow"><span class="dlabel">수수료</span><span class="dval num">0원</span></div>
+        <div class="drow"><span class="dlabel">도착</span><span class="dval">즉시</span></div>
+      </div>
+    </section>
+
+    <!-- 완료 단계 -->
+    <section id="done" class="view done-wrap hidden" aria-label="송금 완료">
+      <div class="check" role="img" aria-label="완료">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="var(--color-success)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 21l6 6 12-14"/></svg>
+      </div>
+      <p class="t-title1 done-title">다 됐어요!</p>
+      <p id="done-desc" class="t-body2 sub done-desc">이서연님에게 50,000원을 보냈어요</p>
+    </section>
+  </main>
+
+  <div class="cta-bar">
+    <button id="cta" class="btn btn-primary" type="button">보낼게요</button>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var amount = 50000;
+  try { var v = parseInt(localStorage.getItem('jigap-amount'), 10); if (v > 0) amount = v; } catch (e) {}
+  var won = amount.toLocaleString('ko-KR') + '원';
+  document.getElementById('amount').textContent = won;
+  document.getElementById('done-desc').textContent = '이서연님에게 ' + won + '을 보냈어요';
+
+  var confirm = document.getElementById('confirm');
+  var done = document.getElementById('done');
+  var cta = document.getElementById('cta');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  cta.addEventListener('click', function () {
+    if (cta.dataset.stage === 'done') { location.href = 'screen-1.html'; return; }
+    confirm.classList.add('leaving');
+    setTimeout(function () {
+      confirm.classList.add('hidden');
+      done.classList.remove('hidden');
+      cta.textContent = '확인';
+      cta.dataset.stage = 'done';
+    }, reduce ? 0 : 200);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="1" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>모임 — 문서 · Frost 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-2 문서 목록 (§9) — 툴바 + 리스트/그리드 전환(200ms 페이드) */
+.doc-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.doc-toolbar .input-wrap { flex: 1 1 100%; }
+.doc-toolbar .grow { flex: 1; }
+@media (min-width: 1024px) {
+  .doc-toolbar .input-wrap { flex: 0 1 320px; }
+  .doc-toolbar .grow { flex: 1; }
+}
+
+.view-wrap { transition: opacity var(--motion-base) var(--ease-fluent); }
+.view-wrap.fading { opacity: 0; }
+
+.doc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+@media (min-width: 1024px) { .doc-grid { grid-template-columns: repeat(4, 1fr); gap: var(--space-6); } }
+.doc-card .preview {
+  height: 96px;
+  background: var(--color-surface-2);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  display: flex; flex-direction: column; gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.doc-card .preview i {
+  display: block; height: 8px; border-radius: var(--radius-sm);
+  background: var(--color-border);
+}
+.doc-card .preview i:nth-child(1) { width: 60%; }
+.doc-card .preview i:nth-child(2) { width: 90%; }
+.doc-card .preview i:nth-child(3) { width: 75%; }
+.doc-card .name { font: var(--text-body-strong); }
+.doc-card .meta { font: var(--text-caption); color: var(--color-text-sub); margin-top: var(--space-1); }
+
+.doc-icon { color: var(--color-text-sub); }
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 100ms !important;
+    transition-property: opacity, background-color, color !important;
+  }
+}
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<aside class="sidebar acrylic">
+  <a class="side-brand" href="screen-1.html"><span class="brand-mark t-strong" aria-hidden="true">모</span>모임</a>
+  <nav class="side-nav" aria-label="주 메뉴">
+    <a class="side-item" href="screen-1.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5 10 4l6 5.5V16a1 1 0 0 1-1 1h-3v-4H8v4H5a1 1 0 0 1-1-1z"/></svg>
+      홈</a>
+    <a class="side-item" href="screen-2.html" aria-current="page">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+      문서</a>
+    <a class="side-item" href="screen-4.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="13" height="12" rx="1"/><path d="M3.5 8.5h13M7 3v3M13 3v3"/></svg>
+      일정</a>
+    <a class="side-item" href="screen-5.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a4.5 4.5 0 0 1 4.5 4.5c0 2.8.9 3.9 1.5 4.5H4c.6-.6 1.5-1.7 1.5-4.5A4.5 4.5 0 0 1 10 3.5z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+      알림 설정</a>
+  </nav>
+  <div class="side-foot">
+    <span class="avatar avatar-28" aria-hidden="true">지</span>
+    <div>
+      <div class="t-strong">김지연</div>
+      <div class="t-caption sub">그로스팀</div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="appbar acrylic">
+    <h1 class="appbar-title">문서</h1>
+    <div class="appbar-spacer"></div>
+    <span class="avatar avatar-28" aria-hidden="true">지</span>
+  </header>
+
+  <main class="content page-enter">
+    <div class="doc-toolbar" role="toolbar" aria-label="문서 도구">
+      <div class="input-wrap">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="5"/><path d="M12.6 12.6 17 17"/></svg>
+        <input class="input" id="doc-search" type="search" placeholder="문서 검색" aria-label="문서 검색">
+      </div>
+      <span class="grow"></span>
+      <select class="select" aria-label="정렬 기준">
+        <option>최근 수정순</option>
+        <option>이름순</option>
+        <option>만든 사람순</option>
+      </select>
+      <button class="icon-btn is-on" id="btn-list" type="button" aria-label="리스트로 보기" aria-pressed="true">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5.5h9M7 10h9M7 14.5h9"/><path d="M4 5.5h.01M4 10h.01M4 14.5h.01"/></svg>
+      </button>
+      <button class="icon-btn" id="btn-grid" type="button" aria-label="그리드로 보기" aria-pressed="false">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="5.5" height="5.5" rx="1"/><rect x="11" y="3.5" width="5.5" height="5.5" rx="1"/><rect x="3.5" y="11" width="5.5" height="5.5" rx="1"/><rect x="11" y="11" width="5.5" height="5.5" rx="1"/></svg>
+      </button>
+      <a class="btn btn-primary" href="screen-3.html">문서 만들기</a>
+    </div>
+
+    <div class="view-wrap section" id="view-wrap">
+      <!-- 리스트 모드 -->
+      <div class="card card-flush" id="view-list" style="padding: 0; overflow: hidden;">
+        <ul class="rows" id="list-rows">
+          <li data-name="2분기 계획"><a class="row" href="screen-3.html">
+            <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+            <span class="row-main"><span class="row-title ellip">2분기 계획</span><br><span class="row-sub">박서준 · 2시간 전</span></span>
+            <span class="badge">기획</span></a></li>
+          <li data-name="고객 인터뷰 노트"><a class="row" href="screen-3.html">
+            <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+            <span class="row-main"><span class="row-title ellip">고객 인터뷰 노트</span><br><span class="row-sub">이하은 · 3시간 전</span></span>
+            <span class="badge">리서치</span></a></li>
+          <li data-name="온보딩 가이드"><a class="row" href="screen-3.html">
+            <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+            <span class="row-main"><span class="row-title ellip">온보딩 가이드</span><br><span class="row-sub">최유나 · 어제</span></span>
+            <span class="badge badge-success">공유됨</span></a></li>
+          <li data-name="마케팅 캠페인 브리프"><a class="row" href="screen-3.html">
+            <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+            <span class="row-main"><span class="row-title ellip">마케팅 캠페인 브리프</span><br><span class="row-sub">한도윤 · 어제</span></span>
+            <span class="badge">마케팅</span></a></li>
+          <li data-name="주간 회의록 7월 2주"><a class="row" href="screen-3.html">
+            <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+            <span class="row-main"><span class="row-title ellip">주간 회의록 7월 2주</span><br><span class="row-sub">박서준 · 어제</span></span>
+            <span class="badge">회의록</span></a></li>
+          <li data-name="디자인 시스템 정리"><a class="row" href="screen-3.html">
+            <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+            <span class="row-main"><span class="row-title ellip">디자인 시스템 정리</span><br><span class="row-sub">이하은 · 7월 7일</span></span>
+            <span class="badge">디자인</span></a></li>
+          <li data-name="채용 인터뷰 질문지"><a class="row" href="screen-3.html">
+            <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+            <span class="row-main"><span class="row-title ellip">채용 인터뷰 질문지</span><br><span class="row-sub">정민호 · 7월 6일</span></span>
+            <span class="badge">채용</span></a></li>
+          <li data-name="2026 하반기 로드맵"><a class="row" href="screen-3.html">
+            <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+            <span class="row-main"><span class="row-title ellip">2026 하반기 로드맵</span><br><span class="row-sub">김지연 · 7월 3일</span></span>
+            <span class="badge">기획</span></a></li>
+        </ul>
+      </div>
+
+      <!-- 그리드 모드 -->
+      <div class="doc-grid" id="view-grid" hidden>
+        <a class="card doc-card" href="screen-3.html" data-name="2분기 계획">
+          <span class="preview" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="name ellip">2분기 계획</span>
+          <span class="meta">박서준 · 2시간 전</span></a>
+        <a class="card doc-card" href="screen-3.html" data-name="고객 인터뷰 노트">
+          <span class="preview" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="name ellip">고객 인터뷰 노트</span>
+          <span class="meta">이하은 · 3시간 전</span></a>
+        <a class="card doc-card" href="screen-3.html" data-name="온보딩 가이드">
+          <span class="preview" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="name ellip">온보딩 가이드</span>
+          <span class="meta">최유나 · 어제</span></a>
+        <a class="card doc-card" href="screen-3.html" data-name="마케팅 캠페인 브리프">
+          <span class="preview" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="name ellip">마케팅 캠페인 브리프</span>
+          <span class="meta">한도윤 · 어제</span></a>
+        <a class="card doc-card" href="screen-3.html" data-name="주간 회의록 7월 2주">
+          <span class="preview" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="name ellip">주간 회의록 7월 2주</span>
+          <span class="meta">박서준 · 어제</span></a>
+        <a class="card doc-card" href="screen-3.html" data-name="디자인 시스템 정리">
+          <span class="preview" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="name ellip">디자인 시스템 정리</span>
+          <span class="meta">이하은 · 7월 7일</span></a>
+        <a class="card doc-card" href="screen-3.html" data-name="채용 인터뷰 질문지">
+          <span class="preview" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="name ellip">채용 인터뷰 질문지</span>
+          <span class="meta">정민호 · 7월 6일</span></a>
+        <a class="card doc-card" href="screen-3.html" data-name="2026 하반기 로드맵">
+          <span class="preview" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="name ellip">2026 하반기 로드맵</span>
+          <span class="meta">김지연 · 7월 3일</span></a>
+      </div>
+
+      <!-- 검색 결과 빈 상태 (§6.10) -->
+      <div class="empty" id="empty-search" hidden>
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <rect x="14" y="10" width="30" height="40" rx="3" fill="var(--color-primary-subtle)"/>
+          <rect x="14" y="10" width="30" height="40" rx="3" stroke="var(--color-border)" stroke-width="1.5"/>
+          <path d="M20 20h18M20 27h18M20 34h11" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="44" cy="44" r="8" fill="var(--color-surface)" stroke="var(--color-border)" stroke-width="1.5"/>
+          <path d="M50 50l5 5" stroke="var(--color-border)" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <p class="empty-title">검색 결과가 없어요</p>
+        <p class="empty-desc">다른 검색어로 다시 찾아보세요</p>
+        <button class="btn btn-secondary" id="btn-clear-search" type="button">검색어 지우기</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="tabbar acrylic" aria-label="하단 탭">
+  <a class="tab" href="screen-1.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5 10 4l6 5.5V16a1 1 0 0 1-1 1h-3v-4H8v4H5a1 1 0 0 1-1-1z"/></svg>
+    <span>홈</span></a>
+  <a class="tab" href="screen-2.html" aria-current="page">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h5.5L15 6.5V16a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M11.5 3v3.5H15"/></svg>
+    <span>문서</span></a>
+  <a class="tab" href="screen-4.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="13" height="12" rx="1"/><path d="M3.5 8.5h13M7 3v3M13 3v3"/></svg>
+    <span>일정</span></a>
+  <a class="tab" href="screen-5.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3.5a4.5 4.5 0 0 1 4.5 4.5c0 2.8.9 3.9 1.5 4.5H4c.6-.6 1.5-1.7 1.5-4.5A4.5 4.5 0 0 1 10 3.5z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+    <span>알림</span></a>
+</nav>
+
+<script>
+(function () {
+  'use strict';
+  var wrap = document.getElementById('view-wrap');
+  var listView = document.getElementById('view-list');
+  var gridView = document.getElementById('view-grid');
+  var btnList = document.getElementById('btn-list');
+  var btnGrid = document.getElementById('btn-grid');
+  var search = document.getElementById('doc-search');
+  var emptyBox = document.getElementById('empty-search');
+  var mode = 'list';
+
+  /* 모드 전환 — 200ms 페이드만, 레이아웃 애니메이션 금지 (§9) */
+  function setMode(next) {
+    if (next === mode) return;
+    mode = next;
+    wrap.classList.add('fading');
+    setTimeout(function () {
+      listView.hidden = mode !== 'list';
+      gridView.hidden = mode !== 'grid';
+      applyFilter();
+      wrap.classList.remove('fading');
+    }, 200);
+    btnList.classList.toggle('is-on', mode === 'list');
+    btnGrid.classList.toggle('is-on', mode === 'grid');
+    btnList.setAttribute('aria-pressed', String(mode === 'list'));
+    btnGrid.setAttribute('aria-pressed', String(mode === 'grid'));
+  }
+  btnList.addEventListener('click', function () { setMode('list'); });
+  btnGrid.addEventListener('click', function () { setMode('grid'); });
+
+  /* 검색 필터 + 빈 상태 */
+  function applyFilter() {
+    var q = search.value.trim();
+    var items = (mode === 'list')
+      ? listView.querySelectorAll('[data-name]')
+      : gridView.querySelectorAll('[data-name]');
+    var shown = 0;
+    items.forEach(function (el) {
+      var hit = q === '' || el.getAttribute('data-name').indexOf(q) !== -1;
+      el.hidden = !hit;
+      if (hit) shown++;
+    });
+    emptyBox.hidden = shown > 0;
+    if (mode === 'list') listView.hidden = shown === 0;
+    else gridView.hidden = shown === 0;
+  }
+  search.addEventListener('input', applyFilter);
+  document.getElementById('btn-clear-search').addEventListener('click', function () {
+    search.value = '';
+    applyFilter();
+    search.focus();
+  });
+})();
+</script>
+</body>
+</html>

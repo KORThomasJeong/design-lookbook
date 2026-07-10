@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="4" data-variants="a,b" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>배포 — 궤도 Gwedo · Obsidian 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-4 배포 로그 (§9) */
+.deploy-head { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; margin-bottom: var(--space-6); }
+.deploy-head .spacer { flex: 1; }
+
+.status-card { display: flex; align-items: center; gap: var(--space-4); }
+.status-card .sc-main { min-width: 0; }
+.status-card .sc-meta { color: var(--color-text-sub); margin-top: var(--space-1); }
+.status-card .spacer { flex: 1; }
+@media (max-width: 767px) { .status-card { flex-wrap: wrap; } }
+
+.deploy-list { border-top: var(--border-width) solid var(--color-border); }
+.deploy-item { display: flex; align-items: center; gap: var(--space-4); min-height: var(--layout-row-default); padding: var(--space-2) var(--space-4); border-bottom: var(--border-width) solid var(--color-border); transition: background-color var(--motion-fast) var(--ease-out); }
+.deploy-item.expandable { cursor: pointer; }
+.deploy-item.expandable:hover { background: var(--color-surface-2); }
+.deploy-item .ver { flex: none; }
+.deploy-item .msg { flex: 1; min-width: 0; }
+.deploy-item .br { color: var(--color-text-sub); flex: none; }
+.deploy-item .dur { color: var(--color-text-sub); flex: none; }
+.deploy-item .at { color: var(--color-text-sub); flex: none; }
+.deploy-item .chev { color: var(--color-text-sub); transition: transform var(--motion-fast) var(--ease-out); }
+.deploy-item[aria-expanded="true"] .chev { transform: rotate(90deg); }
+.deploy-detail { max-height: 0; overflow: hidden; transition: max-height var(--motion-slow) var(--ease-out); }
+.deploy-detail.open { max-height: 480px; }
+.deploy-detail .inner { padding: var(--space-4) var(--space-4) var(--space-5); }
+.deploy-detail .terminal { margin-bottom: var(--space-4); }
+
+@media (max-width: 767px) {
+  .deploy-item { flex-wrap: wrap; min-height: var(--layout-row-mobile); }
+  .deploy-item .metaline { flex-basis: 100%; display: flex; gap: var(--space-4); padding-left: var(--space-6); }
+  .deploy-item .br { order: 3; }
+}
+@media (min-width: 768px) { .deploy-item .metaline { display: contents; } }
+</style>
+</head>
+<body>
+<header class="appbar">
+  <a href="screen-1.html" class="brand"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="8" cy="8" r="6.4"/><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="13.2" cy="5" r="1" fill="currentColor" stroke="none"/></svg><span>궤도</span></a>
+  <nav class="breadcrumb t-body" aria-label="위치"><span class="sep">/</span><a href="screen-2.html">코어 플랫폼</a><span class="sep">/</span><span>배포</span></nav>
+  <span class="spacer"></span>
+  <button class="search-trigger hide-mobile" onclick="gwOpen('palette')"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg><span class="st-label">검색</span><span class="kbd">⌘K</span></button>
+  <button class="icon-btn show-mobile" onclick="gwOpen('palette')" aria-label="검색"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg></button>
+  <span class="avatar" title="김서진">서</span>
+</header>
+
+<div class="app-shell">
+  <nav class="sidebar" aria-label="주 메뉴">
+    <a class="nav-item" href="screen-2.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="4" height="11" rx="1"/><rect x="7" y="2.5" width="4" height="7" rx="1"/><rect x="12" y="2.5" width="2" height="11" rx="1"/></svg>보드</a>
+    <a class="nav-item" href="screen-3.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5.5"/><circle cx="8" cy="8" r="1.6" fill="currentColor" stroke="none"/></svg>이슈</a>
+    <a class="nav-item" aria-current="page" href="screen-4.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l4 4-4 8-4-8z"/><circle cx="8" cy="6" r="1.2" fill="currentColor" stroke="none"/></svg>배포</a>
+    <a class="nav-item" href="screen-5.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.5v2M8 12.5v2M14.5 8h-2M3.5 8h-2M12.6 3.4l-1.4 1.4M4.8 11.2l-1.4 1.4M12.6 12.6l-1.4-1.4M4.8 4.8L3.4 3.4"/></svg>설정</a>
+    <div class="nav-foot t-caption"><span class="kbd">⌘K</span><span>커맨드</span></div>
+  </nav>
+
+  <main class="content">
+    <div class="deploy-head">
+      <h1 class="t-title">배포</h1>
+      <span class="spacer"></span>
+      <div class="segment" role="group" aria-label="환경">
+        <button aria-pressed="true" onclick="gwSegment(this)">production</button>
+        <button aria-pressed="false" onclick="gwSegment(this)">preview</button>
+      </div>
+      <button class="btn btn-secondary" onclick="gwToast('재배포를 시작했습니다.','v1.4.3 빌드 대기 중','info')">재배포<span class="kbd">R</span></button>
+    </div>
+
+    <div class="card status-card">
+      <span class="status-dot sd-done" style="width:12px;height:12px"></span>
+      <div class="sc-main">
+        <div class="t-body" style="font-weight:500">v1.4.2 — production 가동 중</div>
+        <div class="sc-meta t-caption mono">빌드 42s · 배포 09:41:12 · 커밋 8f3ac21</div>
+      </div>
+      <span class="spacer"></span>
+      <button class="btn btn-ghost" onclick="gwToast('v1.4.1로 롤백했습니다.','트래픽 전환 완료 (8s)','success')">롤백</button>
+    </div>
+
+    <div class="section">
+      <p class="mlabel" style="margin-bottom:var(--space-3)">배포 이력</p>
+      <div class="deploy-list">
+        <!-- 진행 중 -->
+        <div class="deploy-item">
+          <span class="status-dot sd-progress blink"></span>
+          <span class="ver mono t-body">v1.4.3</span>
+          <span class="msg t-body trunc">캐시 계층 조정 — p50 지연 개선</span>
+          <span class="metaline">
+            <span class="br mono t-caption">feat/gwd-141</span>
+            <span class="dur mono t-caption">빌드 중<span class="cursor"></span></span>
+            <span class="at mono t-caption">09:58:04</span>
+          </span>
+        </div>
+        <!-- 성공 -->
+        <div class="deploy-item">
+          <span class="status-dot sd-done"></span>
+          <span class="ver mono t-body">v1.4.2</span>
+          <span class="msg t-body trunc">배포 롤백 원클릭 (GWD-142)</span>
+          <span class="metaline">
+            <span class="br mono t-caption">main</span>
+            <span class="dur mono t-caption">42s</span>
+            <span class="at mono t-caption">09:41:12</span>
+          </span>
+        </div>
+        <!-- 실패 (확장 가능) -->
+        <div class="deploy-item expandable" role="button" tabindex="0" aria-expanded="false" onclick="gwToggleLog(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();gwToggleLog(this)}">
+          <span class="status-dot sd-failed"></span>
+          <span class="ver mono t-body">v1.4.1</span>
+          <span class="msg t-body trunc">감사 로그 내보내기 — 빌드 실패</span>
+          <span class="metaline">
+            <span class="br mono t-caption">feat/gwd-137</span>
+            <span class="dur mono t-caption">18s</span>
+            <span class="at mono t-caption">08:22:47</span>
+          </span>
+          <svg class="chev" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 4l4 4-4 4"/></svg>
+        </div>
+        <div class="deploy-detail">
+          <div class="inner">
+            <div class="terminal" aria-label="v1.4.1 빌드 로그">
+              <div class="ln"><span class="ts">[08:22:31]</span> <span class="prompt">$</span> pnpm install --frozen-lockfile</div>
+              <div class="ln"><span class="ts">[08:22:39]</span> <span class="ok">✓ 의존성 설치 완료 (8s)</span></div>
+              <div class="ln"><span class="ts">[08:22:39]</span> <span class="prompt">$</span> pnpm build</div>
+              <div class="ln"><span class="ts">[08:22:44]</span> vite v5.2 · 프로덕션 번들 생성</div>
+              <div class="ln"><span class="ts">[08:22:47]</span> src/export/audit.ts:42</div>
+              <div class="ln"><span class="err">TS2345: 'Date | null' 형식은 'string' 매개변수에 할당할 수 없습니다.</span></div>
+              <div class="ln"><span class="err">ERR! 빌드 실패 — exit code 1</span></div>
+              <div class="ln"><span class="ts">[08:22:47]</span> 배포 중단, 이전 버전 유지됨</div>
+            </div>
+            <button class="btn btn-secondary" onclick="event.stopPropagation();gwCopy('v1.4.1 build log (8 lines)','빌드 로그를 복사했습니다.')">로그 전체 복사</button>
+          </div>
+        </div>
+        <!-- 성공 이력 -->
+        <div class="deploy-item">
+          <span class="status-dot sd-done"></span>
+          <span class="ver mono t-body">v1.4.0</span>
+          <span class="msg t-body trunc">API 키 스코프 분리 (GWD-139)</span>
+          <span class="metaline">
+            <span class="br mono t-caption">main</span>
+            <span class="dur mono t-caption">51s</span>
+            <span class="at mono t-caption">07-09 18:03</span>
+          </span>
+        </div>
+        <div class="deploy-item">
+          <span class="status-dot sd-done"></span>
+          <span class="ver mono t-body">v1.3.9</span>
+          <span class="msg t-body trunc">Slack 배포 알림 채널 (GWD-134)</span>
+          <span class="metaline">
+            <span class="br mono t-caption">main</span>
+            <span class="dur mono t-caption">39s</span>
+            <span class="at mono t-caption">07-09 11:27</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="주 메뉴">
+  <a href="screen-2.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="3" width="5" height="14" rx="1"/><rect x="9" y="3" width="5" height="9" rx="1"/><rect x="15.5" y="3" width="2" height="14" rx="1"/></svg>보드</a>
+  <a href="screen-3.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="2" fill="currentColor" stroke="none"/></svg>이슈</a>
+  <a href="screen-4.html" aria-current="page"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2.5l5 5-5 10-5-10z"/></svg>배포</a>
+  <a href="screen-5.html"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="2.8"/><path d="M10 2v2.5M10 15.5V18M18 10h-2.5M4.5 10H2"/></svg>설정</a>
+</nav>
+
+<!-- 커맨드 팔레트 -->
+<div class="scrim" id="palette" role="dialog" aria-modal="true" aria-label="커맨드 팔레트">
+  <div class="palette">
+    <div class="palette-input">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+      <input type="text" placeholder="명령 또는 이슈 검색…" aria-label="검색" onfocus="gwPaletteNav(this)">
+    </div>
+    <div class="palette-list">
+      <a class="palette-row active" href="#" onclick="gwClose('palette');gwToast('재배포를 시작했습니다.','v1.4.3 빌드 대기 중','info');return false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 2l4 4-4 8-4-8z"/></svg><span>프로덕션 재배포</span><span class="spacer"></span><span class="kbd">R</span></a>
+      <a class="palette-row" href="screen-2.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2.5" width="4" height="11" rx="1"/><rect x="7" y="2.5" width="4" height="7" rx="1"/></svg><span>보드로 이동</span><span class="spacer"></span><span class="kbd">G</span><span class="kbd">B</span></a>
+      <a class="palette-row" href="screen-5.html"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2.2"/></svg><span>팀 설정 열기</span></a>
+    </div>
+    <div class="palette-foot"><span class="mono t-micro">↑↓ 이동 · ↵ 실행 · esc 닫기</span></div>
+  </div>
+</div>
+
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>

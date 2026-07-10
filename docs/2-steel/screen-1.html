@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="2" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>대시보드 · 관제 Gwanje — Steel 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js"></script>
+</head>
+<body>
+
+<header class="appbar">
+  <a class="appbar-brand" href="screen-1.html">관제 Gwanje <span class="crumb">▸ 콘솔</span></a>
+  <div class="appbar-actions">
+    <button type="button" class="icon-btn" aria-label="알림">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3a4.5 4.5 0 0 0-4.5 4.5c0 3-1.5 5-1.5 5h12s-1.5-2-1.5-5A4.5 4.5 0 0 0 10 3z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+    </button>
+    <button type="button" class="icon-btn" aria-label="계정">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="7" r="3.5"/><path d="M3.5 17c1-3 3.5-4.5 6.5-4.5s5.5 1.5 6.5 4.5"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="주 메뉴">
+    <a class="sidenav-item" href="screen-1.html" aria-current="page">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="6" height="6"/><rect x="11" y="3" width="6" height="6"/><rect x="3" y="11" width="6" height="6"/><rect x="11" y="11" width="6" height="6"/></svg>
+      대시보드</a>
+    <a class="sidenav-item" href="screen-2.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 3 6.5 10 10l7-3.5L10 3z"/><path d="M3 10.5 10 14l7-3.5"/><path d="M3 14 10 17.5 17 14"/></svg>
+      데이터셋</a>
+    <a class="sidenav-item" href="screen-4.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 10.5h4l2-6 4 11 2-5h4"/></svg>
+      잡</a>
+    <a class="sidenav-item" href="screen-5.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 2.5 4 5v4.5c0 3.5 2.5 6.5 6 7.5 3.5-1 6-4 6-7.5V5l-6-2.5z"/></svg>
+      권한</a>
+    <div class="sidenav-foot t-caption">관제 콘솔 v2.4.1 · kr-1</div>
+  </nav>
+
+  <main class="content">
+    <div class="page-head">
+      <h1 class="t-title">대시보드</h1>
+      <span class="t-caption sub mono">마지막 갱신 09:42:17</span>
+    </div>
+
+    <!-- KPI 타일 4개 (§9-1) -->
+    <div class="kpi-grid">
+      <div class="tile">
+        <div class="t-label sub">처리 건수 (24시간)</div>
+        <div class="kpi-value"><span class="t-display">128.4</span><span class="kpi-unit">만 건</span></div>
+        <div class="t-caption mono kpi-up">▲ 2.4% 전일 대비</div>
+      </div>
+      <div class="tile">
+        <div class="t-label sub">실패율</div>
+        <div class="kpi-value"><span class="t-display">0.42</span><span class="kpi-unit">%</span></div>
+        <div class="t-caption mono kpi-down">▼ 0.08%p 전일 대비</div>
+      </div>
+      <div class="tile">
+        <div class="t-label sub">평균 지연</div>
+        <div class="kpi-value"><span class="t-display">1.8</span><span class="kpi-unit">초</span></div>
+        <div class="t-caption mono kpi-down">▼ 0.2초 전일 대비</div>
+      </div>
+      <div class="tile">
+        <div class="t-label sub">활성 잡</div>
+        <div class="kpi-value"><span class="t-display">11</span><span class="kpi-unit">개</span></div>
+        <div class="t-caption mono kpi-up">▲ 3개 전일 대비</div>
+      </div>
+    </div>
+
+    <!-- CSS 차트 타일 2개 (§9-1: 데스크톱 2:1) -->
+    <section class="section">
+      <div class="chart-grid">
+        <div class="tile">
+          <div class="t-label sub">최근 24시간 처리량</div>
+          <div class="bars" id="hourBars" role="img" aria-label="최근 24시간 시간대별 처리량 막대 차트. 최저 03시 14,872건, 최고 15시 59,204건"></div>
+          <div class="bars-axis t-caption sub mono" aria-hidden="true"><span>00시</span><span>12시</span><span>23시</span></div>
+        </div>
+        <div class="tile">
+          <div class="t-label sub">상태 분포 (24시간)</div>
+          <div class="stack" role="img" aria-label="상태 분포. 성공 92.3%, 경고 5.1%, 실패 2.6%">
+            <span class="seg-success" style="width:92.3%"></span>
+            <span class="seg-warning" style="width:5.1%"></span>
+            <span class="seg-danger" style="width:2.6%"></span>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="dot dot-success" aria-hidden="true"></span><span class="t-caption">성공 <span class="mono">92.3%</span></span></span>
+            <span class="legend-item"><span class="dot dot-warning" aria-hidden="true"></span><span class="t-caption">경고 <span class="mono">5.1%</span></span></span>
+            <span class="legend-item"><span class="dot dot-danger" aria-hidden="true"></span><span class="t-caption">실패 <span class="mono">2.6%</span></span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 최근 실패 잡 컴팩트 테이블 (§9-1, 밀집 32px) -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="t-heading">최근 실패 잡</h2>
+        <a class="btn btn-ghost btn-sm" href="screen-4.html">잡 모니터링으로 이동</a>
+      </div>
+      <div class="tbl">
+        <div class="tbl-scroll">
+          <table class="dt dt-compact">
+            <thead>
+              <tr><th>잡 ID</th><th>데이터셋</th><th>상태</th><th>시각</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="mono"><a class="cell-link" href="screen-4.html">job-b3f1</a></td><td>결제 실패 재처리</td><td><span class="badge badge-danger"><span class="dot" aria-hidden="true"></span>실패</span></td><td class="mono sub">09:42:11</td></tr>
+              <tr><td class="mono"><a class="cell-link" href="screen-4.html">job-d05c</a></td><td>정산 리포트 생성</td><td><span class="badge badge-danger"><span class="dot" aria-hidden="true"></span>실패</span></td><td class="mono sub">08:17:44</td></tr>
+              <tr><td class="mono"><a class="cell-link" href="screen-4.html">job-88c2</a></td><td>배송 추적 로그 적재</td><td><span class="badge badge-danger"><span class="dot" aria-hidden="true"></span>실패</span></td><td class="mono sub">07-09 23:41:02</td></tr>
+              <tr><td class="mono"><a class="cell-link" href="screen-4.html">job-73aa</a></td><td>환불 처리 이력 검증</td><td><span class="badge badge-danger"><span class="dot" aria-hidden="true"></span>실패</span></td><td class="mono sub">07-09 22:10:37</td></tr>
+              <tr><td class="mono"><a class="cell-link" href="screen-4.html">job-51e0</a></td><td>마케팅 실적 집계</td><td><span class="badge badge-danger"><span class="dot" aria-hidden="true"></span>실패</span></td><td class="mono sub">07-09 20:03:15</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="주 메뉴">
+  <a class="tab" href="screen-1.html" aria-current="page">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="6" height="6"/><rect x="11" y="3" width="6" height="6"/><rect x="3" y="11" width="6" height="6"/><rect x="11" y="11" width="6" height="6"/></svg>
+    대시보드</a>
+  <a class="tab" href="screen-2.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 3 6.5 10 10l7-3.5L10 3z"/><path d="M3 10.5 10 14l7-3.5"/><path d="M3 14 10 17.5 17 14"/></svg>
+    데이터셋</a>
+  <a class="tab" href="screen-4.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 10.5h4l2-6 4 11 2-5h4"/></svg>
+    잡</a>
+  <a class="tab" href="screen-5.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 2.5 4 5v4.5c0 3.5 2.5 6.5 6 7.5 3.5-1 6-4 6-7.5V5l-6-2.5z"/></svg>
+    권한</a>
+</nav>
+
+<script>
+(function () {
+  'use strict';
+  /* 시간대별 처리량 — div 24개 flex 막대 차트 (§9-1). 데이터는 한 번에 표시(§7 스태거 금지). */
+  var hours = [
+    21480, 18204, 15930, 14872, 16204, 19880, 26410, 33905,
+    41270, 48113, 52840, 55204, 49760, 51332, 57918, 59204,
+    54411, 50238, 44905, 39120, 34660, 30215, 27490, 23881
+  ];
+  var max = Math.max.apply(null, hours);
+  var wrap = document.getElementById('hourBars');
+  var html = '';
+  hours.forEach(function (v, h) {
+    var label = (h < 10 ? '0' + h : h) + '시 · ' + v.toLocaleString('ko-KR') + '건';
+    html += '<span class="bar tip" tabindex="0" data-tip="' + label + '" aria-label="' + label +
+      '" style="height:' + Math.round(v / max * 100) + '%"></span>';
+  });
+  wrap.innerHTML = html;
+})();
+</script>
+</body>
+</html>

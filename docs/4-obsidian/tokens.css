@@ -1,0 +1,203 @@
+/* presets/4-obsidian/tokens.css
+ * Obsidian (inspired by Linear + Vercel — 독립 해석) — 원본은 SPEC.md §2~§7
+ * 다크 퍼스트: :root = a 변형 다크(기본 테마) / [data-theme="light"] 라이트 오버라이드
+ * [data-theme="dark"]는 다크 값 재명시(토글 JS 호환) / [data-variant="b"]는 색 토큰만
+ * 데모 HTML: <html data-preset="4" data-variant="a"> (SPEC-FORMAT.md 규약)
+ */
+
+:root {
+  /* ── §2 색 — a 변형(hue 234 인디고), 다크(기본) ─────────────── */
+  --color-bg: #0a0a0c;
+  --color-surface: #141416;
+  --color-surface-2: #1e1e22;
+  --color-text: #f0f0f2;
+  --color-text-sub: #a2a2ad;
+  --color-text-disabled: #62626c;
+  --color-primary: #5e6ad2;
+  --color-primary-hover: #4f5abe;
+  --color-primary-text: #ffffff;
+  --color-accent: #8f9aec;
+  --color-success: #30a46c;
+  --color-success-text: #5bd68d;
+  --color-warning: #f5a623;
+  --color-warning-text: #f0b72f;
+  --color-on-warning: #17171c;   /* warning 면 위 텍스트는 항상 이 값 */
+  --color-danger: #d13438;
+  --color-danger-text: #ff8589;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.4);
+  --color-focus: #8f9aec;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --color-glow: rgba(94, 106, 210, 0.25);
+  /* 터미널/로그 블록 — 테마 무관 다크 고정 (§6.14 시그니처) */
+  --color-terminal-bg: #0a0a0c;
+  --color-terminal-text: #d6d6dd;
+  --color-terminal-sub: #62626c;
+  --color-terminal-ok: #5bd68d;
+  --color-terminal-err: #ff8589;
+
+  /* ── §3 타이포그래피 ───────────────────────────────────────── */
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, "Segoe UI", "Noto Sans KR", sans-serif;
+  --font-mono: "SF Mono", "Cascadia Mono", Consolas, "Roboto Mono",
+    "Noto Sans Mono CJK KR", monospace;
+
+  --type-micro-size: 11px;    --type-micro-weight: 500;    --type-micro-line: 16px;    --type-micro-tracking: 0.4px;
+  --type-caption-size: 12px;  --type-caption-weight: 400;  --type-caption-line: 18px;  --type-caption-tracking: 0.1px;
+  --type-body-size: 13px;     --type-body-weight: 400;     --type-body-line: 20px;     --type-body-tracking: 0;
+  --type-body-lg-size: 15px;  --type-body-lg-weight: 400;  --type-body-lg-line: 24px;  --type-body-lg-tracking: -0.1px;
+  --type-heading-size: 18px;  --type-heading-weight: 600;  --type-heading-line: 26px;  --type-heading-tracking: -0.2px;
+  --type-title-size: 24px;    --type-title-weight: 600;    --type-title-line: 32px;    --type-title-tracking: -0.5px;
+  --type-display-size: 44px;  --type-display-weight: 600;  --type-display-line: 52px;  --type-display-tracking: -1.2px;
+
+  /* ── §4 간격 · 레이아웃 (스케일 외 값 사용 금지) ───────────── */
+  --space-0: 0;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 48px;
+  --space-9: 64px;
+  --space-10: 96px;
+
+  --layout-landing-max: 1080px;
+  --layout-content-max: 1280px;
+  --layout-sidebar-width: 240px;
+  --layout-sidebar-collapsed: 64px;
+  --layout-appbar-height: 48px;
+  --layout-tabbar-height: 56px;
+  --layout-meta-panel-width: 280px;
+  --layout-kanban-column: 320px;
+  --layout-row-compact: 36px;
+  --layout-row-default: 44px;
+  --layout-row-mobile: 48px;
+  --layout-touch-target: 44px;
+
+  /* ── §5 형태 ──────────────────────────────────────────────── */
+  --radius-1: 4px;
+  --radius-2: 6px;
+  --radius-3: 10px;
+  --radius-full: 999px;
+
+  --border-width: 1px;
+  --border-width-focus: 2px;
+
+  --shadow-0: none;
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 8px 32px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --shadow-glow: 0 0 0 1px rgba(94, 106, 210, 0.45), 0 0 24px 0 rgba(94, 106, 210, 0.25);
+
+  /* ── §7 모션 ──────────────────────────────────────────────── */
+  --motion-fast: 100ms;
+  --motion-base: 150ms;
+  --motion-slow: 200ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}
+
+/* ── 라이트 오버라이드 (§2.2 — 다크가 원본, 라이트가 파생) ────── */
+:root[data-theme="light"] {
+  --color-bg: #fafafa;
+  --color-surface: #ffffff;
+  --color-surface-2: #f0f0f3;
+  --color-text: #17171c;
+  --color-text-sub: #565660;
+  --color-text-disabled: #b0b0b8;
+  --color-primary: #5e6ad2;
+  --color-primary-hover: #4f5abe;
+  --color-primary-text: #ffffff;
+  --color-accent: #4a54c9;
+  --color-success: #30a46c;
+  --color-success-text: #1a7f37;
+  --color-warning: #f5a623;
+  --color-warning-text: #9a6700;
+  --color-on-warning: #17171c;
+  --color-danger: #d13438;
+  --color-danger-text: #c62a30;
+  --color-border: rgba(0, 0, 0, 0.09);
+  --color-border-strong: rgba(0, 0, 0, 0.45);
+  --color-focus: #5e6ad2;
+  --color-overlay: rgba(23, 23, 28, 0.4);
+  --color-glow: rgba(94, 106, 210, 0.18);
+  /* 터미널 토큰은 오버라이드하지 않는다 — 라이트에서도 다크 고정 (§2.2) */
+
+  --shadow-1: 0 1px 2px rgba(23, 23, 28, 0.06), 0 4px 12px rgba(23, 23, 28, 0.08);
+  --shadow-2: 0 8px 32px rgba(23, 23, 28, 0.16), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  --shadow-glow: 0 0 0 1px rgba(94, 106, 210, 0.45), 0 0 24px 0 rgba(94, 106, 210, 0.18);
+}
+
+/* ── 다크 재명시 (기본값과 동일 — 명시적 토글 JS 호환용) ──────── */
+:root[data-theme="dark"] {
+  --color-bg: #0a0a0c;
+  --color-surface: #141416;
+  --color-surface-2: #1e1e22;
+  --color-text: #f0f0f2;
+  --color-text-sub: #a2a2ad;
+  --color-text-disabled: #62626c;
+  --color-primary: #5e6ad2;
+  --color-primary-hover: #4f5abe;
+  --color-primary-text: #ffffff;
+  --color-accent: #8f9aec;
+  --color-success: #30a46c;
+  --color-success-text: #5bd68d;
+  --color-warning: #f5a623;
+  --color-warning-text: #f0b72f;
+  --color-on-warning: #17171c;
+  --color-danger: #d13438;
+  --color-danger-text: #ff8589;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-strong: rgba(255, 255, 255, 0.4);
+  --color-focus: #8f9aec;
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --color-glow: rgba(94, 106, 210, 0.25);
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.5), 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 8px 32px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --shadow-glow: 0 0 0 1px rgba(94, 106, 210, 0.45), 0 0 24px 0 rgba(94, 106, 210, 0.25);
+}
+
+/* ── b 변형: hue 173 틸 — 색 토큰만 오버라이드 (§2.4) ─────────── */
+/* 다크(기본): primary #0e8577 white 4.53:1, accent #20b3a0 on #141416 7.02:1 */
+:root[data-variant="b"] {
+  --color-primary: #0e8577;
+  --color-primary-hover: #0b6f63;
+  --color-accent: #20b3a0;
+  --color-focus: #20b3a0;
+  --color-glow: rgba(14, 133, 119, 0.25);
+  --shadow-glow: 0 0 0 1px rgba(14, 133, 119, 0.45), 0 0 24px 0 rgba(14, 133, 119, 0.25);
+}
+
+/* b + 라이트: accent #0b7568 on white 5.59:1 */
+:root[data-variant="b"][data-theme="light"] {
+  --color-primary: #0e8577;
+  --color-primary-hover: #0b6f63;
+  --color-accent: #0b7568;
+  --color-focus: #0e8577;
+  --color-glow: rgba(14, 133, 119, 0.18);
+  --shadow-glow: 0 0 0 1px rgba(14, 133, 119, 0.45), 0 0 24px 0 rgba(14, 133, 119, 0.18);
+}
+
+/* b + 다크 재명시 ([data-theme="dark"] 블록보다 뒤에 두어 우선 적용) */
+:root[data-variant="b"][data-theme="dark"] {
+  --color-primary: #0e8577;
+  --color-primary-hover: #0b6f63;
+  --color-accent: #20b3a0;
+  --color-focus: #20b3a0;
+  --color-glow: rgba(14, 133, 119, 0.25);
+  --shadow-glow: 0 0 0 1px rgba(14, 133, 119, 0.45), 0 0 24px 0 rgba(14, 133, 119, 0.25);
+}
+
+/* ── §7 reduced-motion 대응 (필수) ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

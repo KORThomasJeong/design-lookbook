@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="2" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>권한 관리 · 관제 Gwanje — Steel 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js"></script>
+</head>
+<body>
+
+<header class="appbar">
+  <a class="appbar-brand" href="screen-1.html">관제 Gwanje <span class="crumb">▸ 콘솔</span></a>
+  <div class="appbar-actions">
+    <button type="button" class="icon-btn" aria-label="알림">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3a4.5 4.5 0 0 0-4.5 4.5c0 3-1.5 5-1.5 5h12s-1.5-2-1.5-5A4.5 4.5 0 0 0 10 3z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+    </button>
+    <button type="button" class="icon-btn" aria-label="계정">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10" cy="7" r="3.5"/><path d="M3.5 17c1-3 3.5-4.5 6.5-4.5s5.5 1.5 6.5 4.5"/></svg>
+    </button>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="주 메뉴">
+    <a class="sidenav-item" href="screen-1.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="6" height="6"/><rect x="11" y="3" width="6" height="6"/><rect x="3" y="11" width="6" height="6"/><rect x="11" y="11" width="6" height="6"/></svg>
+      대시보드</a>
+    <a class="sidenav-item" href="screen-2.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 3 6.5 10 10l7-3.5L10 3z"/><path d="M3 10.5 10 14l7-3.5"/><path d="M3 14 10 17.5 17 14"/></svg>
+      데이터셋</a>
+    <a class="sidenav-item" href="screen-4.html">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 10.5h4l2-6 4 11 2-5h4"/></svg>
+      잡</a>
+    <a class="sidenav-item" href="screen-5.html" aria-current="page">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 2.5 4 5v4.5c0 3.5 2.5 6.5 6 7.5 3.5-1 6-4 6-7.5V5l-6-2.5z"/></svg>
+      권한</a>
+    <div class="sidenav-foot t-caption">관제 콘솔 v2.4.1 · kr-1</div>
+  </nav>
+
+  <main class="content">
+    <div class="page-head">
+      <h1 class="t-title">권한 관리</h1>
+    </div>
+
+    <!-- 탭 (§9-5-1): 역할 / 멤버, 활성 탭 하단 2px primary 보더, 전환 110ms opacity -->
+    <div class="tabs" role="tablist" aria-label="권한 보기">
+      <button type="button" role="tab" id="tab-roles" aria-selected="true" aria-controls="panel-roles">역할</button>
+      <button type="button" role="tab" id="tab-members" aria-selected="false" aria-controls="panel-members">멤버</button>
+    </div>
+
+    <!-- 역할 탭 -->
+    <div class="tabpanel section" role="tabpanel" id="panel-roles" aria-labelledby="tab-roles" style="margin-top:var(--space-6)">
+      <div class="tbl">
+        <div class="tbl-scroll">
+          <table class="dt dt-comfy sticky-first" id="roleTable">
+            <thead>
+              <tr>
+                <th>역할</th>
+                <th class="col-md r">멤버 수</th>
+                <th class="c">조회</th>
+                <th class="c">실행</th>
+                <th class="c">관리</th>
+                <th class="c">편집</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="t-body w600">관리자</div>
+                  <div class="t-caption sub">전체 시스템 및 권한 관리</div>
+                </td>
+                <td class="col-md r mono">3</td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="true" data-role="관리자" data-perm="조회" aria-label="관리자 조회 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="true" data-role="관리자" data-perm="실행" aria-label="관리자 실행 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><span class="tip" data-tip="최소 1명의 관리자가 필요합니다." tabindex="0"><button type="button" class="toggle" role="switch" aria-checked="true" disabled data-role="관리자" data-perm="관리" aria-label="관리자 관리 권한 (변경 불가)"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></span></td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm role-edit" data-role="관리자">편집</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="t-body w600">운영자</div>
+                  <div class="t-caption sub">잡 실행 및 데이터셋 운영</div>
+                </td>
+                <td class="col-md r mono">8</td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="true" data-role="운영자" data-perm="조회" aria-label="운영자 조회 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="true" data-role="운영자" data-perm="실행" aria-label="운영자 실행 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="false" data-role="운영자" data-perm="관리" aria-label="운영자 관리 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm role-edit" data-role="운영자">편집</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="t-body w600">분석가</div>
+                  <div class="t-caption sub">데이터 조회 및 리포트 생성</div>
+                </td>
+                <td class="col-md r mono">14</td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="true" data-role="분석가" data-perm="조회" aria-label="분석가 조회 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="false" data-role="분석가" data-perm="실행" aria-label="분석가 실행 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="false" data-role="분석가" data-perm="관리" aria-label="분석가 관리 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm role-edit" data-role="분석가">편집</button></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="t-body w600">뷰어</div>
+                  <div class="t-caption sub">대시보드 조회 전용</div>
+                </td>
+                <td class="col-md r mono">22</td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="true" data-role="뷰어" data-perm="조회" aria-label="뷰어 조회 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="false" data-role="뷰어" data-perm="실행" aria-label="뷰어 실행 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="toggle" role="switch" aria-checked="false" data-role="뷰어" data-perm="관리" aria-label="뷰어 관리 권한"><span class="knob"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 5.2l2 2 4-4.4"/></svg></span></button></td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm role-edit" data-role="뷰어">편집</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 위험 구역 (§9-5-5) -->
+      <div class="tile danger-tile section">
+        <div class="t-body w600">역할 삭제</div>
+        <div class="t-caption sub" style="margin-top:var(--space-2)">사용을 중단한 사용자 지정 역할 ‘임시 감사’를 영구히 삭제합니다. 멤버 2명은 권한을 잃습니다.</div>
+        <button type="button" class="btn btn-danger" id="btnDeleteRole" style="margin-top:var(--space-5)">삭제</button>
+      </div>
+    </div>
+
+    <!-- 멤버 탭 -->
+    <div class="tabpanel section" role="tabpanel" id="panel-members" aria-labelledby="tab-members" hidden style="margin-top:var(--space-6)">
+      <div class="tbl">
+        <div class="tbl-scroll">
+          <table class="dt dt-comfy sticky-first">
+            <thead>
+              <tr>
+                <th>이름</th>
+                <th class="col-md">이메일</th>
+                <th>역할</th>
+                <th class="col-md">최근 접속</th>
+                <th class="c">편집</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="w600">김도현</td>
+                <td class="col-md mono sub">dohyun.kim@gwanje.io</td>
+                <td><span class="badge badge-info"><span class="dot" aria-hidden="true"></span>관리자</span></td>
+                <td class="col-md sub">방금 전</td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm">편집</button></td>
+              </tr>
+              <tr>
+                <td class="w600">박서연</td>
+                <td class="col-md mono sub">seoyeon.park@gwanje.io</td>
+                <td><span class="badge badge-neutral"><span class="dot" aria-hidden="true"></span>운영자</span></td>
+                <td class="col-md sub">12분 전</td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm">편집</button></td>
+              </tr>
+              <tr>
+                <td class="w600">이준호</td>
+                <td class="col-md mono sub">junho.lee@gwanje.io</td>
+                <td><span class="badge badge-neutral"><span class="dot" aria-hidden="true"></span>운영자</span></td>
+                <td class="col-md sub">1시간 전</td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm">편집</button></td>
+              </tr>
+              <tr>
+                <td class="w600">최민지</td>
+                <td class="col-md mono sub">minji.choi@gwanje.io</td>
+                <td><span class="badge badge-neutral"><span class="dot" aria-hidden="true"></span>분석가</span></td>
+                <td class="col-md sub">3시간 전</td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm">편집</button></td>
+              </tr>
+              <tr>
+                <td class="w600">정우진</td>
+                <td class="col-md mono sub">woojin.jung@gwanje.io</td>
+                <td><span class="badge badge-neutral"><span class="dot" aria-hidden="true"></span>뷰어</span></td>
+                <td class="col-md sub">어제 18:07</td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm">편집</button></td>
+              </tr>
+              <tr>
+                <td class="w600">한지원</td>
+                <td class="col-md mono sub">jiwon.han@gwanje.io</td>
+                <td><span class="badge badge-neutral"><span class="dot" aria-hidden="true"></span>분석가</span></td>
+                <td class="col-md sub">2일 전</td>
+                <td class="c"><button type="button" class="btn btn-ghost btn-sm">편집</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<nav class="tabbar" aria-label="주 메뉴">
+  <a class="tab" href="screen-1.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="6" height="6"/><rect x="11" y="3" width="6" height="6"/><rect x="3" y="11" width="6" height="6"/><rect x="11" y="11" width="6" height="6"/></svg>
+    대시보드</a>
+  <a class="tab" href="screen-2.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 3 6.5 10 10l7-3.5L10 3z"/><path d="M3 10.5 10 14l7-3.5"/><path d="M3 14 10 17.5 17 14"/></svg>
+    데이터셋</a>
+  <a class="tab" href="screen-4.html">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 10.5h4l2-6 4 11 2-5h4"/></svg>
+    잡</a>
+  <a class="tab" href="screen-5.html" aria-current="page">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 2.5 4 5v4.5c0 3.5 2.5 6.5 6 7.5 3.5-1 6-4 6-7.5V5l-6-2.5z"/></svg>
+    권한</a>
+</nav>
+
+<!-- 역할 삭제 확인 모달 (§6.7, 카피 §8) -->
+<div class="scrim" id="delScrim" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="delTitle" aria-describedby="delDesc">
+    <div class="modal-head"><h2 class="t-heading" id="delTitle">역할 삭제</h2></div>
+    <div class="modal-body t-body" id="delDesc">역할 ‘임시 감사’를 삭제합니다. 이 역할의 멤버 2명은 권한을 잃습니다. 이 작업은 되돌릴 수 없습니다.</div>
+    <div class="modal-foot">
+      <button type="button" class="btn-half h-ghost" id="delCancel">취소</button>
+      <button type="button" class="btn-half h-danger" id="delConfirm">삭제</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── 탭 전환 (110ms opacity, §9-5-1) ── */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+    });
+  });
+
+  /* ── 토글: 변경 즉시 성공 토스트 (§9-5-3) ── */
+  document.querySelectorAll('.toggle').forEach(function (tg) {
+    tg.addEventListener('click', function () {
+      if (tg.disabled) return;
+      var now = tg.getAttribute('aria-checked') !== 'true';
+      tg.setAttribute('aria-checked', now ? 'true' : 'false');
+      var role = tg.getAttribute('data-role');
+      var perm = tg.getAttribute('data-perm');
+      gwToast(
+        '‘' + role + '’ 역할의 ' + perm + ' 권한을 ' + (now ? '부여했습니다.' : '해제했습니다.'),
+        null
+      );
+    });
+  });
+
+  /* ── 편집 버튼 (데모: 안내 토스트) ── */
+  document.querySelectorAll('.role-edit').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      gwToast('‘' + btn.getAttribute('data-role') + '’ 역할 편집 양식을 준비했습니다.', '권한 범위와 멤버를 조정할 수 있습니다.');
+    });
+  });
+
+  /* ── 역할 삭제 확인 모달 (§6.7) ── */
+  var scrim = document.getElementById('delScrim');
+  var lastFocus = null;
+  function open() {
+    lastFocus = document.activeElement;
+    scrim.hidden = false;
+    document.getElementById('delCancel').focus();
+  }
+  function close() {
+    scrim.hidden = true;
+    if (lastFocus) lastFocus.focus();
+  }
+  document.getElementById('btnDeleteRole').addEventListener('click', open);
+  document.getElementById('delCancel').addEventListener('click', close);
+  scrim.addEventListener('click', function (e) { if (e.target === scrim) close(); });
+  gwTrapFocus(scrim, close);
+  document.getElementById('delConfirm').addEventListener('click', function () {
+    close();
+    gwToast('역할 ‘임시 감사’를 삭제했습니다.', '멤버 2명은 ‘뷰어’ 역할로 이동되었습니다.');
+  });
+})();
+</script>
+</body>
+</html>
