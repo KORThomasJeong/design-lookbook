@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="7" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사용자 목록 · 본부 Bonbu — Quartz 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 테이블 + 필터 (§9-3) */
+.filter-bar { display: flex; align-items: flex-end; gap: var(--space-3); flex-wrap: wrap; }
+.filter-bar .fb-field { flex: 1 1 180px; min-width: 160px; }
+.filter-bar .fb-search { flex: 2 1 240px; }
+.filter-bar .fb-actions { display: flex; gap: var(--space-2); flex: none; }
+.filter-bar .field-label { margin-bottom: var(--space-1); }
+.cell-user .u-email { color: var(--color-text-sub); }
+.pager-wrap { margin-top: var(--space-4); }
+@media (max-width: 768px) { .filter-bar .fb-actions { flex: 1 1 100%; } }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="appbar">
+  <button type="button" class="icon-btn hamburger" data-nav-toggle aria-label="메뉴 열기" aria-expanded="false">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+  </button>
+  <a class="appbar-brand" href="screen-1.html">
+    <span class="brand-mark" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M8 1.5 14 5v6L8 14.5 2 11V5z"/></svg></span>
+    본부
+  </a>
+  <nav class="crumbs hide-mobile" aria-label="위치">
+    <a href="screen-1.html">홈</a><span class="sep" aria-hidden="true">/</span>
+    <span class="now">사용자</span>
+  </nav>
+  <span class="appbar-spacer"></span>
+  <div class="appbar-actions"><span class="avatar avatar-32" aria-label="김이현 계정" title="김이현">김</span></div>
+</header>
+
+<div class="scrim" aria-hidden="true"></div>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="주 메뉴">
+    <div class="sidenav-group t-caption">운영</div>
+    <a class="sidenav-item" href="screen-1.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="11" y="3" width="6" height="6" rx="1"/><rect x="3" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/></svg>
+      대시보드</a>
+    <a class="sidenav-item" href="screen-3.html" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3"/><path d="M4 16.5c0-3 2.7-5 6-5s6 2 6 5"/></svg>
+      사용자</a>
+    <a class="sidenav-item" href="screen-1.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h2l1.5 9h8l1.5-6H6"/><circle cx="8" cy="17" r="1"/><circle cx="14" cy="17" r="1"/></svg>
+      주문</a>
+    <a class="sidenav-item" href="screen-5.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 3v2m0 10v2m7-7h-2M5 10H3m11.9-4.9-1.4 1.4M6.5 13.5l-1.4 1.4m9.8 0-1.4-1.4M6.5 6.5 5.1 5.1"/></svg>
+      설정</a>
+    <div class="sidenav-foot t-caption">본부 콘솔 v3.2.0 · seoul-1</div>
+  </nav>
+
+  <main class="content" id="main">
+    <div class="content-inner page-enter">
+      <div class="page-head">
+        <h1 class="t-title grow">사용자</h1>
+        <a class="btn btn-primary" href="screen-2.html">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg>
+          사용자 추가</a>
+      </div>
+
+      <!-- 필터 바 (§9-3) -->
+      <div class="card card-pad" style="margin-bottom:var(--space-4)">
+        <form class="filter-bar" onsubmit="return false">
+          <div class="fb-field fb-search">
+            <label class="field-label t-caption" for="q">검색</label>
+            <span class="input-icon">
+              <span class="lead" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="7" cy="7" r="4.5"/><path d="m13 13-2.5-2.5"/></svg></span>
+              <input class="input input-sm" id="q" type="search" placeholder="이름 또는 이메일">
+            </span>
+          </div>
+          <div class="fb-field">
+            <label class="field-label t-caption" for="s-status">상태</label>
+            <span class="select"><select class="select-native input-sm" id="s-status"><option>전체 상태</option><option>정상</option><option>대기</option><option>정지</option></select><span class="chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg></span></span>
+          </div>
+          <div class="fb-field">
+            <label class="field-label t-caption" for="s-role">역할</label>
+            <span class="select"><select class="select-native input-sm" id="s-role"><option>전체 역할</option><option>관리자</option><option>편집자</option><option>뷰어</option></select><span class="chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg></span></span>
+          </div>
+          <div class="fb-actions">
+            <button type="button" class="btn btn-default input-sm" style="height:var(--size-control)" onclick="window.quartzToast&&window.quartzToast('필터를 적용했습니다','info')">필터</button>
+            <button type="button" class="btn btn-text" style="height:var(--size-control)">초기화</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- 테이블 (§6.4) -->
+      <div class="table-wrap" data-table-select data-bulkbar="bulk">
+        <div class="bulkbar" id="bulk">
+          <span class="grow w500"><span data-bulk-count>0</span>개 선택됨</span>
+          <button type="button" class="btn btn-text">역할 변경</button>
+          <button type="button" class="btn btn-danger-default" data-open="delModal">삭제</button>
+        </div>
+        <div class="table-scroll">
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="col-check"><input type="checkbox" class="checkbox" data-check-all aria-label="전체 선택"></th>
+                <th>사용자</th>
+                <th>역할</th>
+                <th>상태</th>
+                <th class="num sortable is-active">가입일 <span class="sort-ico" aria-hidden="true">▾</span></th>
+                <th class="row-actions">작업</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="col-check"><input type="checkbox" class="checkbox" data-row-check aria-label="박서준 선택"></td>
+                <td><span class="cell-user"><span class="avatar avatar-32" aria-hidden="true">박</span><span><span class="w500">박서준</span><br><span class="u-email t-caption">seojun@bonbu.co.kr</span></span></span></td>
+                <td><span class="tag tag-primary">관리자</span></td>
+                <td><span class="tag tag-success"><span class="dot" aria-hidden="true"></span>정상</span></td>
+                <td class="num sub">2025-11-02</td>
+                <td class="row-actions"><a class="btn btn-text btn-sm" href="screen-4.html">편집</a><button type="button" class="btn btn-text btn-sm" style="color:var(--color-danger)" data-open="delModal">삭제</button></td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" class="checkbox" data-row-check aria-label="이하은 선택"></td>
+                <td><span class="cell-user"><span class="avatar avatar-32" aria-hidden="true">이</span><span><span class="w500">이하은</span><br><span class="u-email t-caption">haeun.lee@bonbu.co.kr</span></span></span></td>
+                <td><span class="tag tag-neutral">편집자</span></td>
+                <td><span class="tag tag-warning"><span class="dot" aria-hidden="true"></span>대기</span></td>
+                <td class="num sub">2026-01-18</td>
+                <td class="row-actions"><a class="btn btn-text btn-sm" href="screen-4.html">편집</a><button type="button" class="btn btn-text btn-sm" style="color:var(--color-danger)" data-open="delModal">삭제</button></td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" class="checkbox" data-row-check aria-label="정우진 선택"></td>
+                <td><span class="cell-user"><span class="avatar avatar-32" aria-hidden="true">정</span><span><span class="w500">정우진</span><br><span class="u-email t-caption">woojin@bonbu.co.kr</span></span></span></td>
+                <td><span class="tag tag-neutral">편집자</span></td>
+                <td><span class="tag tag-success"><span class="dot" aria-hidden="true"></span>정상</span></td>
+                <td class="num sub">2025-08-27</td>
+                <td class="row-actions"><a class="btn btn-text btn-sm" href="screen-4.html">편집</a><button type="button" class="btn btn-text btn-sm" style="color:var(--color-danger)" data-open="delModal">삭제</button></td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" class="checkbox" data-row-check aria-label="최유나 선택"></td>
+                <td><span class="cell-user"><span class="avatar avatar-32" aria-hidden="true">최</span><span><span class="w500">최유나</span><br><span class="u-email t-caption">yuna.choi@bonbu.co.kr</span></span></span></td>
+                <td><span class="tag tag-neutral">뷰어</span></td>
+                <td><span class="tag tag-danger"><span class="dot" aria-hidden="true"></span>정지</span></td>
+                <td class="num sub">2026-03-11</td>
+                <td class="row-actions"><a class="btn btn-text btn-sm" href="screen-4.html">편집</a><button type="button" class="btn btn-text btn-sm" style="color:var(--color-danger)" data-open="delModal">삭제</button></td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" class="checkbox" data-row-check aria-label="한지민 선택"></td>
+                <td><span class="cell-user"><span class="avatar avatar-32" aria-hidden="true">한</span><span><span class="w500">한지민</span><br><span class="u-email t-caption">jimin.han@bonbu.co.kr</span></span></span></td>
+                <td><span class="tag tag-neutral">뷰어</span></td>
+                <td><span class="tag tag-success"><span class="dot" aria-hidden="true"></span>정상</span></td>
+                <td class="num sub">2026-05-29</td>
+                <td class="row-actions"><a class="btn btn-text btn-sm" href="screen-4.html">편집</a><button type="button" class="btn btn-text btn-sm" style="color:var(--color-danger)" data-open="delModal">삭제</button></td>
+              </tr>
+              <tr>
+                <td class="col-check"><input type="checkbox" class="checkbox" data-row-check aria-label="오세훈 선택"></td>
+                <td><span class="cell-user"><span class="avatar avatar-32" aria-hidden="true">오</span><span><span class="w500">오세훈</span><br><span class="u-email t-caption">sehun.oh@bonbu.co.kr</span></span></span></td>
+                <td><span class="tag tag-neutral">편집자</span></td>
+                <td><span class="tag tag-success"><span class="dot" aria-hidden="true"></span>정상</span></td>
+                <td class="num sub">2024-12-04</td>
+                <td class="row-actions"><a class="btn btn-text btn-sm" href="screen-4.html">편집</a><button type="button" class="btn btn-text btn-sm" style="color:var(--color-danger)" data-open="delModal">삭제</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 페이지네이션 (§6.12) -->
+      <div class="pager pager-wrap">
+        <span class="grow t-caption sub num">전체 128명 중 1–6명</span>
+        <button type="button" class="page-btn" disabled aria-label="이전 페이지">‹</button>
+        <button type="button" class="page-btn is-on" aria-current="page">1</button>
+        <button type="button" class="page-btn">2</button>
+        <button type="button" class="page-btn">3</button>
+        <button type="button" class="page-btn">…</button>
+        <button type="button" class="page-btn">22</button>
+        <button type="button" class="page-btn" aria-label="다음 페이지">›</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- 삭제 확인 모달 (§6.8 파괴적) -->
+<div class="overlay" id="delModal" role="dialog" aria-modal="true" aria-labelledby="delTitle">
+  <div class="modal">
+    <div class="modal-head">
+      <span style="color:var(--color-danger)" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 2 17h16z"/><path d="M10 8v4"/><path d="M10 14.5h.01"/></svg></span>
+      <h2 class="t-subhead grow" id="delTitle">사용자를 삭제할까요?</h2>
+      <button type="button" class="icon-btn" data-close aria-label="닫기"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m4 4 8 8M12 4l-8 8"/></svg></button>
+    </div>
+    <div class="modal-body"><p class="t-body">삭제하면 되돌릴 수 없습니다. 해당 사용자의 접근 권한이 즉시 회수됩니다.</p></div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-default" data-close>취소</button>
+      <button type="button" class="btn btn-danger" data-close onclick="window.quartzToast&&window.quartzToast('사용자를 삭제했습니다','success')">삭제</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

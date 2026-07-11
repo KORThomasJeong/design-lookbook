@@ -1,0 +1,465 @@
+/* docs/11-asphalt/app.css — 프리셋 11 "Asphalt" 데모 "가자(Gaja)" 공용 스타일
+ * 규칙 원본: presets/11-asphalt/SPEC.md §3~§10.
+ * 색·간격·radius·shadow·모션은 전부 tokens.css 변수만 사용한다.
+ * 하드코딩 px는 토큰에 없는 순수 레이아웃 치수(width/height/grid/아이콘)만 허용. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { height: 100%; }
+
+body {
+  min-height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-text);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: none; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+svg { flex: none; display: block; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* ── 타입 스케일 (§3) — 이 10단계 외 font-size 금지. 헤딩은 전부 700 ── */
+.t-display1 { font-family: var(--font-display); font-size: var(--font-size-display-1); font-weight: var(--font-weight-bold); line-height: var(--line-height-display-1); letter-spacing: var(--letter-spacing-display); }
+.t-display2 { font-family: var(--font-display); font-size: var(--font-size-display-2); font-weight: var(--font-weight-bold); line-height: var(--line-height-display-2); letter-spacing: var(--letter-spacing-display); }
+.t-display3 { font-family: var(--font-display); font-size: var(--font-size-display-3); font-weight: var(--font-weight-bold); line-height: var(--line-height-display-3); letter-spacing: var(--letter-spacing-display); }
+.t-title1   { font-family: var(--font-display); font-size: var(--font-size-title-1); font-weight: var(--font-weight-bold); line-height: var(--line-height-title-1); letter-spacing: var(--letter-spacing-title); }
+.t-title2   { font-family: var(--font-display); font-size: var(--font-size-title-2); font-weight: var(--font-weight-bold); line-height: var(--line-height-title-2); letter-spacing: var(--letter-spacing-title); }
+.t-body-lg  { font-size: var(--font-size-body-lg); font-weight: var(--font-weight-medium); line-height: var(--line-height-body-lg); }
+.t-body     { font-size: var(--font-size-body); font-weight: var(--font-weight-regular); line-height: var(--line-height-body); }
+.t-label    { font-size: var(--font-size-label); font-weight: var(--font-weight-medium); line-height: var(--line-height-label); }
+.t-body-sm  { font-size: var(--font-size-body-sm); font-weight: var(--font-weight-regular); line-height: var(--line-height-body-sm); }
+.t-caption  { font-size: var(--font-size-caption); font-weight: var(--font-weight-regular); line-height: var(--line-height-caption); letter-spacing: var(--letter-spacing-caption); }
+
+.sub  { color: var(--color-text-sub); }
+.tertiary { color: var(--color-text-tertiary); }
+.accent-tx { color: var(--color-accent-text); }
+.w500 { font-weight: var(--font-weight-medium); }
+.w700 { font-weight: var(--font-weight-bold); }
+/* 실시간 숫자: mono + tabular (§3·§10-A6) */
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.ellip { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+/* ── 앱 셸: 모바일 = 전면, 데스크톱(768px+) = 중앙 400px 프레임 (§4) ── */
+.app {
+  position: relative;
+  display: flex; flex-direction: column;
+  height: 100dvh;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  body {
+    display: grid; place-items: center;
+    background: var(--color-frame-backdrop);
+    padding: var(--space-8) 0;
+  }
+  .app {
+    width: var(--layout-frame-width);
+    height: min(860px, calc(100dvh - var(--space-10)));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-3);
+  }
+}
+
+/* 스크롤 영역. 셸(앱바·탭바·CTA)은 고정 */
+.scroll {
+  flex: 1; min-height: 0; overflow-y: auto;
+  padding: 0 var(--layout-screen-padding);
+  scrollbar-width: none;
+}
+.scroll::-webkit-scrollbar { display: none; }
+.scroll-pad-tab { padding-bottom: var(--space-8); }
+.scroll-pad-cta { padding-bottom: var(--space-6); }
+
+/* ── 앱바 (§6.5) ──────────────────────────────────────────────── */
+.appbar {
+  flex: none; position: relative; z-index: 20;
+  height: var(--size-appbar);
+  display: flex; align-items: center; gap: var(--space-1);
+  padding: 0 var(--space-2);
+  background: var(--color-bg);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--motion-fast) var(--ease-standard);
+}
+.appbar.scrolled { border-bottom-color: var(--color-border); }
+.appbar-title { font-family: var(--font-display); font-size: var(--font-size-title-2); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-title); padding-left: var(--space-2); }
+.appbar-spacer { flex: 1; }
+
+/* 아이콘 버튼 — 시각 24px, 히트 48px (§4 터치 타깃) */
+.icon-btn {
+  width: var(--size-touch-min); height: var(--size-touch-min);
+  display: grid; place-items: center; flex: none;
+  border-radius: var(--radius-pill);
+  color: var(--color-text);
+  transition: transform var(--motion-instant) var(--ease-standard), background-color var(--motion-instant) linear;
+}
+.icon-btn:active { transform: scale(0.98); background: var(--color-surface); }
+
+/* ── 하단 탭바 (§6.6) — 이동/기록/계정 ───────────────────────── */
+.tabbar {
+  flex: none; position: relative; z-index: 20;
+  display: flex;
+  height: calc(var(--size-tabbar) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+}
+.tab {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--space-1);
+  color: var(--color-text-tertiary);
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+.tab .tab-ico { transition: opacity var(--motion-fast) var(--ease-standard); opacity: 0.72; }
+.tab[aria-current="page"] { color: var(--color-text); }
+.tab[aria-current="page"] .tab-ico { opacity: 1; }
+.tab-label { font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); line-height: 1; }
+
+/* ── 하단 고정 CTA 바 (§4·§6.1) ──────────────────────────────── */
+.cta-bar {
+  flex: none; position: relative; z-index: 20;
+  padding: var(--space-2) var(--layout-screen-padding);
+  padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ── 버튼 (§6.1) — 전부 pill. 절제된 press scale(0.98) ───────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  border: 0; border-radius: var(--radius-pill);
+  font-family: var(--font-text);
+  white-space: nowrap;
+  transition: transform var(--motion-instant) var(--ease-standard),
+              background-color var(--motion-fast) var(--ease-standard),
+              filter var(--motion-fast) linear;
+}
+.btn:active { transform: scale(0.98); }
+
+.btn-primary { height: var(--size-cta); width: 100%; background: var(--color-primary); color: var(--color-primary-text); font-size: var(--font-size-body-lg); font-weight: var(--font-weight-medium); }
+.btn-primary:active { background: var(--color-primary-pressed); }
+.btn-primary:disabled { background: var(--color-surface); color: var(--color-text-tertiary); cursor: not-allowed; transform: none; }
+
+.btn-secondary { height: 48px; width: 100%; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text); font-size: var(--font-size-label); font-weight: var(--font-weight-medium); }
+.btn-secondary:active { background: var(--color-surface-pressed); }
+
+.btn-ghost { height: 48px; width: 100%; background: transparent; color: var(--color-text-sub); font-size: var(--font-size-label); font-weight: var(--font-weight-medium); }
+.btn-ghost:active { background: var(--color-surface); }
+
+/* danger 채움: 텍스트는 흰(라이트)/검정(다크) = --color-primary-text (§2.3) */
+.btn-danger { height: var(--size-cta); width: 100%; background: var(--color-danger); color: var(--color-primary-text); font-size: var(--font-size-label); font-weight: var(--font-weight-medium); }
+.btn-danger:active { filter: brightness(0.94); }
+
+@media (hover: hover) {
+  .btn-primary:hover, .btn-accent:hover, .btn-secondary:hover { filter: brightness(1.08); }
+}
+
+/* ── 입력 필드 (§6.2) — radius 12px (인터랙티브 예외) ─────────── */
+.field {
+  display: flex; align-items: center; gap: var(--space-3);
+  height: var(--size-cta);
+  padding: 0 var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  transition: border-color var(--motion-fast) var(--ease-standard), border-width var(--motion-fast) var(--ease-standard);
+}
+.field:focus-within { border-color: var(--color-accent); border-width: 2px; }
+.field .field-ico { color: var(--color-text-sub); }
+.field input { flex: 1; border: 0; background: transparent; font-size: var(--font-size-body); }
+.field input::placeholder { color: var(--color-text-tertiary); }
+.field-btn { color: var(--color-text-sub); text-align: left; flex: 1; font-size: var(--font-size-body); }
+.field-btn.placeholder { color: var(--color-text-tertiary); }
+
+/* ── 카드 (§6.3) — radius 16px, shadow-0, 헤어라인 border ────── */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--layout-card-padding);
+}
+.card-raised { background: var(--color-surface-raised); box-shadow: var(--shadow-2); }
+
+/* ── 리스트 아이템 (§6.4) — 헤어라인 구분선 (Asphalt는 밀도) ── */
+.list { display: flex; flex-direction: column; }
+.row {
+  display: flex; align-items: center; gap: var(--space-3);
+  min-height: var(--size-list-row); padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: transform var(--motion-instant) var(--ease-standard), background-color var(--motion-instant) linear;
+}
+.row:last-child { border-bottom: 0; }
+button.row, a.row { width: 100%; text-align: left; }
+button.row:active, a.row:active { transform: scale(0.99); background: var(--color-surface-pressed); }
+.row-main { flex: 1; min-width: 0; }
+.row-title { font-size: var(--font-size-body); font-weight: var(--font-weight-medium); }
+.row-sub { font-size: var(--font-size-body-sm); color: var(--color-text-sub); margin-top: var(--space-1); }
+.row-amt {
+  margin-left: auto; flex: none; text-align: right;
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: var(--font-size-body); font-weight: var(--font-weight-bold);
+}
+.row-end { margin-left: auto; flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-1); }
+.chev { color: var(--color-text-tertiary); }
+
+/* 아이콘 원 40px (§6.4) — pill */
+.ico-circle {
+  width: 40px; height: 40px; flex: none;
+  border-radius: var(--radius-pill);
+  display: grid; place-items: center;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.card .ico-circle, .sheet .ico-circle { background: var(--color-bg); }
+:root[data-theme="dark"] .card .ico-circle,
+:root[data-theme="dark"] .sheet .ico-circle { background: var(--color-surface); }
+
+/* 미니 지도 썸네일 40px (§9 screen-5) — 사각 radius 8 */
+.map-thumb {
+  width: 40px; height: 40px; flex: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-map);
+  overflow: hidden;
+}
+.map-thumb svg { width: 100%; height: 100%; }
+
+/* 아바타 (기사) — pill */
+.avatar {
+  border-radius: var(--radius-pill); flex: none;
+  display: grid; place-items: center;
+  background: var(--color-primary); color: var(--color-primary-text);
+  font-family: var(--font-display); font-weight: var(--font-weight-bold);
+}
+.avatar-48 { width: 48px; height: 48px; font-size: var(--font-size-body-lg); }
+
+/* ── 뱃지 / 칩 (§6.9) ─────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  height: 24px; padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-caption); font-weight: var(--font-weight-medium);
+}
+.badge-success { background: var(--color-success-soft); color: var(--color-success-soft-text); }
+.badge-danger  { background: var(--color-danger-soft); color: var(--color-danger-soft-text); }
+.badge-warning { background: var(--color-warning-soft); color: var(--color-warning-soft-text); }
+.badge-accent  { background: var(--color-accent-soft); color: var(--color-accent-soft-text); }
+.badge-arrive  { background: var(--color-success); color: var(--color-primary-text); }
+
+.chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  height: 40px; padding: 0 var(--space-4); flex: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  color: var(--color-text-sub);
+  font-size: var(--font-size-body); font-weight: var(--font-weight-medium);
+  transition: transform var(--motion-instant) var(--ease-standard), background-color var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.chip:active { transform: scale(0.98); }
+
+/* ── 세그먼트 토글 (§6.9 시그니처) — 트랙 radius 36 ─────────── */
+.segment {
+  position: relative; display: flex; padding: var(--space-1);
+  background: var(--color-surface); border-radius: var(--radius-tab);
+}
+.segment button {
+  flex: 1; z-index: 1; height: 40px;
+  border-radius: var(--radius-pill);
+  color: var(--color-text-sub);
+  font-size: var(--font-size-body); font-weight: var(--font-weight-medium);
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+.segment button[aria-selected="true"] { color: var(--color-text); }
+.segment .seg-indicator {
+  position: absolute; top: var(--space-1); left: var(--space-1);
+  width: calc(50% - var(--space-1)); height: 40px;
+  border-radius: var(--radius-pill);
+  background: var(--color-bg); box-shadow: var(--shadow-1);
+  transition: transform var(--motion-base) var(--ease-standard);
+}
+.segment[data-active="1"] .seg-indicator { transform: translateX(100%); }
+
+/* ── 지도 (§6.10·§10-A4) — 회색조 단색 + 1색 경로선 ─────────── */
+.map-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; background: var(--color-map); }
+.map-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.map-road { stroke: var(--color-map-road); fill: none; stroke-linecap: round; }
+.map-route { stroke: var(--color-accent); fill: none; stroke-width: 5; stroke-linecap: round; }
+.route-draw { stroke-dasharray: 620; stroke-dashoffset: 620; animation: route-in var(--motion-slow) var(--ease-standard) forwards; }
+/* 현재 위치 점 (검정 점 + 흰 링) */
+.dot-me { fill: var(--color-text); stroke: var(--color-bg); stroke-width: 4; }
+.pin-fill { fill: var(--color-text); }
+.pin-accent { fill: var(--color-accent); }
+.car-marker { fill: var(--color-text); stroke: var(--color-bg); stroke-width: 3; }
+
+/* 지도 위 뒤로가기 (흰 원형 pill, §6.5) */
+.map-back {
+  position: absolute; top: var(--space-3); left: var(--space-3); z-index: 15;
+  width: var(--size-touch-min); height: var(--size-touch-min);
+  display: grid; place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised); color: var(--color-text);
+  box-shadow: var(--shadow-1);
+  transition: transform var(--motion-instant) var(--ease-standard);
+}
+.map-back:active { transform: scale(0.98); }
+
+/* FAB 현재위치 (§9 screen-1) — pill */
+.fab {
+  position: absolute; right: var(--space-3); z-index: 15;
+  width: var(--size-touch-min); height: var(--size-touch-min);
+  display: grid; place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised); color: var(--color-text);
+  box-shadow: var(--shadow-1);
+  transition: transform var(--motion-instant) var(--ease-standard);
+}
+.fab:active { transform: scale(0.98); }
+
+/* 상단 sticky 검색 (지도 위, §6.2) */
+.map-search {
+  position: absolute; top: var(--space-3); left: var(--space-3); right: var(--space-3); z-index: 15;
+  box-shadow: var(--shadow-1);
+}
+
+/* ETA 배너 pill (§9 screen-3) */
+.eta-banner {
+  position: absolute; top: var(--space-3); left: 50%; transform: translateX(-50%); z-index: 15;
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  height: var(--size-touch-min); padding: 0 var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-raised); color: var(--color-text);
+  box-shadow: var(--shadow-1);
+}
+
+/* ── 지도 오버레이 카드 (§6.10) — 하단 부착, 좌우 12px 띄움 ──── */
+.overlay {
+  position: absolute; left: var(--space-3); right: var(--space-3);
+  bottom: calc(var(--space-3) + env(safe-area-inset-bottom)); z-index: 15;
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3);
+  padding: var(--space-4);
+}
+.grabber { width: 32px; height: 4px; border-radius: var(--radius-pill); background: var(--color-border); margin: 0 auto var(--space-3); }
+
+/* ── 바텀시트 (§6.7) ──────────────────────────────────────────── */
+.dim {
+  position: absolute; inset: 0; z-index: 40;
+  background: var(--color-dim);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--motion-fast) var(--ease-standard);
+}
+.dim.open { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 50;
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: var(--shadow-3);
+  padding: var(--space-2) var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: transform var(--motion-base) var(--ease-decel);
+}
+.sheet.open { transform: translateY(0); }
+
+/* 파괴적 확인 모달 (§6.7) — 중앙, 세로 스택 버튼 */
+.modal-wrap { position: absolute; inset: 0; z-index: 50; display: grid; place-items: center; padding: var(--space-4); pointer-events: none; }
+.modal {
+  width: calc(100% - var(--space-8)); max-width: 360px;
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-3);
+  padding: var(--space-6) var(--space-4) var(--space-4);
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+  transition: opacity var(--motion-base) var(--ease-decel), transform var(--motion-base) var(--ease-decel);
+}
+.modal-wrap.open { pointer-events: auto; }
+.modal-wrap.open .modal { opacity: 1; transform: none; pointer-events: auto; }
+.modal-actions { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-5); }
+
+/* ── 토스트 (§6.8) — 하단, pill ──────────────────────────────── */
+.toast {
+  position: absolute; z-index: 60;
+  left: var(--space-4); right: var(--space-4);
+  bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-text); color: var(--color-bg);
+  box-shadow: var(--shadow-2);
+  font-size: var(--font-size-body); font-weight: var(--font-weight-medium);
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+}
+:root[data-theme="dark"] .toast { background: var(--color-surface-raised); color: var(--color-text); }
+.toast.show { animation: toast-in var(--motion-fast) var(--ease-decel) forwards; }
+.toast .toast-check { color: var(--color-success); }
+
+/* ── 섹션 리듬 (§4) ───────────────────────────────────────────── */
+.section { margin-top: var(--layout-section-gap); }
+.section-head { margin-bottom: var(--space-4); }
+.group-head { margin: var(--space-6) 0 var(--space-2); }
+.divider { height: 1px; background: var(--color-border); border: 0; }
+.total-row { display: flex; align-items: baseline; justify-content: space-between; padding-top: var(--space-3); margin-top: var(--space-3); border-top: 1px solid var(--color-border); }
+
+/* 요금 상세 행 (§9 screen-4) */
+.fare-line { display: flex; align-items: baseline; justify-content: space-between; padding: var(--space-2) 0; }
+.fare-line .k { font-size: var(--font-size-body); color: var(--color-text-sub); }
+.fare-line .v { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: var(--font-size-body); }
+
+/* 빈 상태 (§6.11) */
+.empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--space-9) var(--space-4); }
+.empty svg { color: var(--color-text); margin-bottom: var(--space-4); }
+
+/* 헤더 hero (screen-4 총액) */
+.hero { text-align: center; padding: var(--space-6) 0 0; }
+
+/* 차량 옵션 선택 행 (§9 screen-2) */
+.opt {
+  display: flex; align-items: center; gap: var(--space-3);
+  min-height: var(--size-list-row); padding: var(--space-3);
+  border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  transition: transform var(--motion-instant) var(--ease-standard), border-color var(--motion-fast) var(--ease-standard);
+}
+.opt:active { transform: scale(0.99); }
+.opt[aria-pressed="true"] { border-color: var(--color-text); border-width: 1px; background: var(--color-surface); }
+.opt + .opt { margin-top: var(--space-2); }
+
+/* ── 모션 (§7) — 진입 8px 고정, 바운스 없음 ─────────────────── */
+@keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes route-in { to { stroke-dashoffset: 0; } }
+@keyframes crossfade { from { opacity: 0; } to { opacity: 1; } }
+
+.page-enter { animation: enter var(--motion-base) var(--ease-decel) both; }
+.live-update { animation: crossfade var(--motion-fast) var(--ease-standard); }
+
+/* 리스트 스태거 — 항목당 30ms, 최대 8개 (§7) */
+.stagger > * { animation: enter var(--motion-base) var(--ease-decel) both; }
+.stagger > :nth-child(1) { animation-delay: 30ms; }
+.stagger > :nth-child(2) { animation-delay: 60ms; }
+.stagger > :nth-child(3) { animation-delay: 90ms; }
+.stagger > :nth-child(4) { animation-delay: 120ms; }
+.stagger > :nth-child(5) { animation-delay: 150ms; }
+.stagger > :nth-child(6) { animation-delay: 180ms; }
+.stagger > :nth-child(7) { animation-delay: 210ms; }
+.stagger > :nth-child(8) { animation-delay: 240ms; }
+.stagger > :nth-child(n+9) { animation-delay: 240ms; }
+
+/* ── reduced motion (§7) — tokens.css 전역에 더해 보강 ────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 120ms !important;
+    transition-property: opacity !important;
+  }
+  .route-draw { stroke-dashoffset: 0; }
+}

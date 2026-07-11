@@ -5,7 +5,7 @@ inspired-by: Adobe Spectrum (spectrum.adobe.com) — 서술 참조만, 상표는
 mood: 크리에이티브 프로 툴. 뉴트럴 그레이 캔버스 위 절제된 UI, 정밀한 t-shirt 스케일, 파랑 accent, 다크가 기본인 작업 환경
 best-for: 디자인/편집 데스크톱 툴, 크리에이티브 워크스페이스, 밀집 컨트롤 패널·툴바·트레이 중심 앱
 variants: [a, b]
-status: spec-draft
+status: complete
 ---
 
 # 9 · Prism

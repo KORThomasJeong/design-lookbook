@@ -5,7 +5,7 @@ inspired-by: Airbnb DLS ("Cereal") — 서술 참조만, 상표는 파일/클래
 mood: 따뜻한 여행/숙박 마켓플레이스. 사진이 주인공, 코랄-레드 포인트 하나, 넉넉한 여백, 둥근 모서리, 사람 냄새 나는 카피
 best-for: 소비자향 마켓플레이스, 여행·숙박·예약, 사진 중심 커머스, 로컬 서비스 탐색
 variants: [a, b]
-status: spec-draft
+status: complete
 ---
 
 # 13 · Coral
@@ -282,7 +282,7 @@ soft(#E1F4F0)/soft-text(#006357) **6.30:1**, vivid(#00A699)/bg **3.04:1**(그래
 ### 6.9 뱃지 / 칩
 
 - **뱃지**: h 24px, 패딩 4px 8px, radius 4px, micro(12px/600). soft 배경 + 대응 텍스트 조합만. 예: "슈퍼호스트" = `--color-surface` bg + `--color-text`; "게스트 선호" = `--color-primary-soft` + `--color-primary-soft-text`; "마감 임박" = `--color-danger-soft` + `--color-danger`. 순색 배경 뱃지 금지.
-- **사진 위 오버레이 뱃지**(예: "게스트 선호"): 흰 알약 bg `rgba(255,255,255,0.96)` radius full, 텍스트 12px/600 `--color-text`, 사진 좌상단 12px.
+- **사진 위 오버레이 뱃지**(예: "게스트 선호"): 흰 알약 bg `rgba(255,255,255,0.96)` radius full, 텍스트 12px/600 `--color-overlay-ink`, 사진 좌상단 12px. 알약은 라이트/다크 모두 흰색이라 텍스트는 항상 잉크여야 하므로, 다크에서 밝아지는 `--color-text` 대신 다크에서도 오버라이드되지 않는 전용 토큰 `--color-overlay-ink`(#222222 고정)를 쓴다.
 - **필터 칩**: h 40px(히트 44px), 패딩 8px 16px, radius full, 기본 bg `--color-bg` 테두리 `1px solid var(--color-border)` 텍스트 15px/500 `--color-text` → 선택 시 bg `--color-text` 텍스트 `--color-bg`(잉크 반전, 테두리 제거). press `scale(0.96)`.
 
 ### 6.10 빈 상태 (empty state)

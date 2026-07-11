@@ -5,7 +5,7 @@ inspired-by: Apple Human Interface Guidelines (iOS) — 서술 참조만, 상표
 mood: 반투명 유리처럼 맑고 차분한 iOS 감성. 넉넉한 여백, 좌측 큰 타이틀, inset 그룹 리스트, 재질이 흐르듯 전환되는 절제된 스프링
 best-for: 소비자용 iOS 스타일 앱, 설정·피트니스·헬스, 프리미엄 유틸리티, 온보딩 플로우
 variants: [a, b]
-status: spec-draft
+status: complete
 ---
 
 # 6 · Glass

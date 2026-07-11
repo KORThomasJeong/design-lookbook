@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="5" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>메모리 — 프로필 · Clay 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+  .profile-wrap { margin-top: var(--space-4); }
+  .profile-name { margin-top: var(--space-4); }
+  .profile-mail { margin-top: var(--space-1); opacity: 0.9; }
+  .profile-greet { margin-top: var(--space-3); opacity: 0.9; }
+  .profile-stats { margin-top: var(--space-6); }
+  .action-row { display: flex; gap: var(--space-3); margin-top: var(--space-6); }
+  .danger-wrap { padding: var(--space-8) var(--layout-screen-padding) var(--space-6); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <button class="icon-btn state appbar-lead" type="button" aria-label="뒤로" onclick="location.href='screen-4.html'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <span class="appbar-title">프로필</span>
+  </header>
+
+  <main class="scroll pad-tab page-enter">
+
+    <div class="pad">
+      <section class="profile-head profile-wrap" aria-label="내 프로필">
+        <span class="avatar avatar-72" aria-hidden="true">서</span>
+        <h1 class="t-headline profile-name">서지현</h1>
+        <p class="t-body-sm profile-mail">jihyun.seo@memori.app</p>
+        <p class="t-body-sm profile-greet">다시 만나 반가워요 👋</p>
+
+        <div class="profile-stats">
+          <span class="stat"><span class="stat-num">128</span><span class="stat-label" style="color: var(--color-on-primary-container)">노트</span></span>
+          <span class="stat"><span class="stat-num">24</span><span class="stat-label" style="color: var(--color-on-primary-container)">태그</span></span>
+          <span class="stat"><span class="stat-num">16</span><span class="stat-label" style="color: var(--color-on-primary-container)">보관함</span></span>
+        </div>
+
+        <div class="action-row">
+          <button class="btn btn-tonal state" type="button" onclick="mSnack('프로필 편집은 준비 중이에요')">프로필 편집</button>
+          <button class="btn btn-outlined state" type="button" onclick="mSnack('공유 링크를 복사했어요')">공유</button>
+        </div>
+      </section>
+    </div>
+
+    <section class="section">
+      <h2 class="section-head">최근 편집한 노트</h2>
+      <div class="stagger">
+        <a class="list-item state" href="screen-2.html">
+          <span class="list-lead"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v6h6"/></svg></span>
+          <span class="list-main"><span class="list-title">3분기 팀 회고 정리</span><span class="list-sub">어제 · 업무</span></span>
+        </a>
+        <a class="list-item state" href="screen-2.html">
+          <span class="list-lead"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v6h6"/></svg></span>
+          <span class="list-main"><span class="list-title">제주 여행 메모</span><span class="list-sub">9월 28일 · 여행</span></span>
+        </a>
+        <a class="list-item state" href="screen-2.html">
+          <span class="list-lead"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v6h6"/></svg></span>
+          <span class="list-main"><span class="list-title">9월 가계부 정산</span><span class="list-sub">9월 24일 · 가계</span></span>
+        </a>
+      </div>
+    </section>
+
+    <div class="danger-wrap">
+      <button class="btn btn-text btn-danger state" type="button" onclick="mDialog.open('acc')">계정 삭제</button>
+    </div>
+
+  </main>
+
+  <div class="scrim" id="acc-scrim" onclick="mDialog.close('acc')"></div>
+  <div class="dialog" id="acc" role="dialog" aria-modal="true" aria-labelledby="acc-t">
+    <h2 class="t-title-lg dialog-title" id="acc-t">계정을 삭제할까요?</h2>
+    <p class="t-body-sm dialog-body">노트와 백업이 모두 사라져요. 되돌릴 수 없어요.</p>
+    <div class="dialog-actions">
+      <button class="btn btn-text state" type="button" onclick="mDialog.close('acc')">취소</button>
+      <button class="btn btn-text btn-danger state" type="button" onclick="mDialog.close('acc'); mSnack('계정 삭제를 예약했어요', '실행 취소')">삭제할게요</button>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

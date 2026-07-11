@@ -1,0 +1,186 @@
+/* ============================================================
+ * presets/16-jade/tokens.css — 16 · Jade (inspired by Naver)
+ * 원본 스펙: presets/16-jade/SPEC.md (§2~§7)
+ * 규약: :root = a 변형 라이트 / [data-theme="dark"] 다크 오버라이드
+ *       [data-variant="b"] = 색 토큰만 오버라이드 (블루 포털, hue 220)
+ * 데모 HTML: <html data-preset="16" data-variant="a">
+ * 대비율은 WCAG 2.x 상대휘도 실측(§2.3). accent(#03C75A)는 라이트에서 그래픽 전용.
+ * ============================================================ */
+
+:root {
+  /* ---------- §2 색 (a 변형, 라이트) ---------- */
+  --color-bg: #FFFFFF;
+  --color-surface: #F4F5F7;
+  --color-surface-raised: #FFFFFF;
+  --color-text: #1A1D21;              /* bg 대비 16.91:1 */
+  --color-text-sub: #565C64;          /* bg 대비 6.75:1, surface 6.19:1 */
+  --color-text-tertiary: #656B73;     /* bg 대비 5.38:1, surface 4.93:1 */
+  --color-primary: #007A3D;           /* 흰 텍스트 5.45:1, surface 위 텍스트 5.00:1 (액션 초록) */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #00632F;   /* 흰 텍스트 7.9:1 */
+  --color-primary-soft: #E6F6EC;
+  --color-primary-soft-text: #006F37; /* soft 대비 5.63:1 */
+  --color-accent: #03C75A;            /* 브랜드 초록 — 라이트 그래픽 전용(bg 2.25:1). 텍스트 금지(§2.3) */
+  --color-danger: #D42432;            /* bg 5.12:1, surface 4.70:1 */
+  --color-danger-soft: #FDECEC;
+  --color-danger-text: #FFFFFF;       /* danger 대비 5.12:1 */
+  --color-success: #0A7D41;           /* bg 5.22:1, surface 4.79:1 */
+  --color-success-soft: #E6F6EC;
+  --color-border: #E3E5E9;            /* 얇은 구분선·카드 경계 1px (비텍스트) */
+  --color-border-strong: #D0D3D9;     /* 강한 구분 2px (비텍스트) */
+  --color-dim: rgba(20, 22, 26, 0.55);
+
+  /* ---------- §3 타이포그래피 ---------- */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+                 'Malgun Gothic', 'Segoe UI', system-ui, Roboto, sans-serif;
+
+  --font-size-display: 28px;    /* 800 / 1.25 / -0.02em — 데스크톱 히어로 타이틀 */
+  --font-size-title-1: 22px;    /* 700 / 1.3  / -0.01em — 상세 제목·로그인 타이틀 */
+  --font-size-title-2: 18px;    /* 700 / 1.35 / -0.01em — 섹션 헤더·시트 제목 */
+  --font-size-title-3: 16px;    /* 700 / 1.4  / -0.01em — 카드·피드 아이템 제목 */
+  --font-size-body-1: 15px;     /* 500 / 1.55 / 0 — 본문·리스트 주 텍스트·버튼(700) */
+  --font-size-body-2: 14px;     /* 500 / 1.5  / 0 — 요약·보조 텍스트 */
+  --font-size-label: 13px;      /* 500 / 1.45 / 0 — 메타·카테고리·폼 라벨 */
+  --font-size-micro: 12px;      /* 600 / 1.35 / 0 — 뱃지·탭·태그 (최소) */
+  --font-size-num-lg: 20px;     /* 700 / 1.2  / -0.01em — 주가·통계 수치 */
+  --font-size-num-md: 26px;     /* 800 / 1.15 / -0.02em — 단일 대형 숫자(포인트 등) */
+
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  --line-height-display: 1.25;
+  --line-height-title-1: 1.3;
+  --line-height-title-2: 1.35;
+  --line-height-title-3: 1.4;
+  --line-height-body-1: 1.55;
+  --line-height-body-2: 1.5;
+  --line-height-label: 1.45;
+  --line-height-micro: 1.35;
+  --line-height-num: 1.2;
+
+  --letter-spacing-display: -0.02em;
+  --letter-spacing-title: -0.01em;
+  --letter-spacing-body: 0;
+  --letter-spacing-num: -0.01em;
+
+  /* ---------- §4 간격 · 레이아웃 ---------- */
+  --space-05: 2px;   /* 밀도형 크롬 전용 (뱃지 내부·미세 간격) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  --layout-screen-padding: 16px;      /* 모바일 화면 좌우 패딩 */
+  --layout-section-gap: 24px;         /* 섹션 간 */
+  --layout-card-padding: 16px;        /* 카드 내부 */
+  --layout-content-max: 1080px;       /* 데스크톱 중앙 콘텐츠 폭 */
+  --layout-main-col: 720px;           /* 데스크톱 본문 컬럼 */
+  --layout-side-col: 300px;           /* 데스크톱 우측 위젯 컬럼 */
+  --size-gnb: 52px;                   /* 상단 GNB 높이 */
+  --size-tabbar: 56px;                /* 하단 탭바 높이 */
+  --size-cta: 48px;                   /* 하단 고정 CTA 버튼 높이 */
+  --size-touch-min: 44px;             /* 최소 터치 타깃 */
+  --size-list-row: 48px;              /* 리스트/피드 아이템 min-height */
+
+  /* ---------- §5 형태 ---------- */
+  --radius-sm: 4px;    /* 뱃지·태그·작은 썸네일·입력 내부 */
+  --radius-md: 6px;    /* 버튼·입력·검색바 */
+  --radius-lg: 8px;    /* 카드·드롭다운·안내 박스 */
+  --radius-xl: 12px;   /* 모달·큰 이미지 카드 */
+  --radius-2xl: 16px;  /* 바텀시트 상단 모서리 */
+  --radius-full: 999px;
+
+  --border-width-hairline: 1px;       /* 카드·구분선 */
+  --border-width-strong: 2px;         /* 검색바 테두리·focus */
+
+  --shadow-0: none;
+  --shadow-1: 0 1px 3px rgba(20, 22, 26, 0.10);   /* sticky GNB·CTA 바·드롭다운 */
+  --shadow-2: 0 4px 16px rgba(20, 22, 26, 0.14);  /* 모달·바텀시트·토스트 */
+  --shadow-3: 0 8px 28px rgba(20, 22, 26, 0.18);  /* 떠 있는 자동완성 패널 */
+
+  /* ---------- §7 모션 ---------- */
+  --motion-instant: 100ms; /* press 반응 */
+  --motion-fast: 160ms;    /* fade·색 전환·드롭다운·토스트 */
+  --motion-base: 220ms;    /* 진입·시트·페이지 전환 */
+  --motion-slow: 320ms;    /* 성공 체크 등 1회성 강조 */
+  --motion-stagger: 30ms;  /* 피드 스태거 간격(최대 6개) */
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ============================================================
+ * 다크 오버라이드 (a 변형) — §2.2
+ * 액션 초록을 밝은 브랜드 초록으로 올리고 그 위 텍스트를 반전.
+ * ============================================================ */
+:root[data-theme="dark"] {
+  --color-bg: #16181C;
+  --color-surface: #1E2126;
+  --color-surface-raised: #262A31;
+  --color-text: #E9ECF0;              /* bg 대비 15.00:1 */
+  --color-text-sub: #A2A9B2;          /* bg 대비 7.49:1, surface 6.81:1 */
+  --color-text-tertiary: #8C939C;     /* bg 대비 5.73:1, surface 5.20:1 */
+  --color-primary: #05C15A;           /* primary-text 대비 7.97:1, bg 7.43:1 */
+  --color-primary-text: #08120C;      /* 다크는 짙은 초록-검정 텍스트 반전 */
+  --color-primary-pressed: #04A94F;
+  --color-primary-soft: #12291C;
+  --color-primary-soft-text: #43D588; /* soft 대비 8.17:1 — 다크의 초록 텍스트/링크 */
+  --color-accent: #05C15A;            /* 다크는 accent=primary, bg 대비 7.43:1 (텍스트 허용) */
+  --color-danger: #FF6B72;            /* bg 대비 6.43:1 */
+  --color-danger-soft: #3A1D20;
+  --color-danger-text: #2A0E10;       /* danger 대비 6.50:1 */
+  --color-success: #43D588;           /* bg 대비 9.40:1 */
+  --color-success-soft: #12291C;
+  --color-border: #2E323A;
+  --color-border-strong: #3B404A;
+  --color-dim: rgba(0, 0, 0, 0.62);
+
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.50);
+  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.60);
+  --shadow-3: 0 8px 28px rgba(0, 0, 0, 0.68);
+}
+
+/* ============================================================
+ * b 변형 (블루 포털, hue 220) — 색 토큰만 오버라이드 (§2.4)
+ * 간격·타이포·radius·모션은 절대 건드리지 않는다.
+ * ============================================================ */
+:root[data-variant="b"] {
+  --color-primary: #1A62D6;           /* 흰 텍스트 5.58:1, surface 5.12:1 */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #124EAC;
+  --color-primary-soft: #E8F0FE;
+  --color-primary-soft-text: #1550BE; /* soft 대비 6.27:1 */
+  --color-accent: #2F8FFF;            /* 그래픽 전용, bg 대비 3.23:1 */
+}
+
+:root[data-variant="b"][data-theme="dark"] {
+  --color-primary: #4C8DFF;           /* primary-text 대비 5.76:1, bg 5.55:1 */
+  --color-primary-text: #0A1424;      /* 짙은 남색 텍스트 */
+  --color-primary-pressed: #3D77E0;
+  --color-primary-soft: #152238;
+  --color-primary-soft-text: #7FB0FF; /* soft 대비 7.25:1 */
+  --color-accent: #4C8DFF;            /* 다크 accent=primary, bg 대비 5.55:1 */
+}
+
+/* ============================================================
+ * prefers-reduced-motion 전역 대응 (§7)
+ * transform 기반 제거, opacity 전환만 유지.
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+    transition-property: opacity !important;
+    scroll-behavior: auto !important;
+  }
+}

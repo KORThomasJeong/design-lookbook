@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="15" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>톡톡 — 김서연 · Amber 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-2 대화방 (§9) — 연회색 배경 위에 흰/노랑 말풍선이 떠 보이게 */
+.thread-scroll { background: var(--color-surface); }
+.thread-inner { padding: var(--space-2) var(--layout-screen-padding) var(--space-4); display: flex; flex-direction: column; }
+.peer-name { display: flex; flex-direction: column; line-height: 1.2; }
+.peer-status { font-size: var(--font-size-caption); color: var(--color-success); font-weight: var(--font-weight-semibold); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <a class="icon-btn" href="screen-1.html" aria-label="채팅 목록으로">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+    </a>
+    <a class="peer-name appbar-title" href="screen-3.html">
+      <span class="t-title2">김서연</span>
+      <span class="peer-status">접속 중</span>
+    </a>
+    <span class="appbar-spacer"></span>
+    <button class="icon-btn" type="button" aria-label="대화방 메뉴" onclick="tkSheet.open('menu')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></svg>
+    </button>
+  </header>
+
+  <main class="scroll scroll-flush thread-scroll">
+    <div class="thread-inner" data-thread-list>
+      <div class="msg-day"><span>2026년 7월 11일 금요일</span></div>
+
+      <!-- 상대 그룹 -->
+      <div class="msg msg-in-other">
+        <span class="msg-avatar avatar avatar-36" aria-hidden="true">서</span>
+        <div class="bubble-col">
+          <span class="msg-sender">김서연</span>
+          <div class="bubble bubble-other">오늘 회의 몇 시였죠?</div>
+          <div class="msg-meta"><span class="num">오후 2:10</span></div>
+        </div>
+      </div>
+
+      <!-- 내 그룹 -->
+      <div class="msg mine gap-group msg-in-mine">
+        <div class="bubble-col">
+          <div class="bubble bubble-mine">오후 3시요! 회의실은 302호예요</div>
+          <div class="msg-meta"><span class="num">오후 2:11</span></div>
+        </div>
+      </div>
+
+      <!-- 상대 그룹 (연속 2개) -->
+      <div class="msg gap-group msg-in-other">
+        <span class="msg-avatar avatar avatar-36" aria-hidden="true">서</span>
+        <div class="bubble-col">
+          <span class="msg-sender">김서연</span>
+          <div class="bubble bubble-other">앗 감사해요 🙏</div>
+        </div>
+      </div>
+      <div class="msg msg-in-other">
+        <span class="msg-avatar avatar avatar-36 hidden" aria-hidden="true">서</span>
+        <div class="bubble-col">
+          <div class="bubble bubble-other">내일 회의 자료 공유할게요 📄</div>
+          <div class="msg-meta"><span class="num">오후 2:14</span></div>
+        </div>
+      </div>
+
+      <!-- 내 그룹 -->
+      <div class="msg mine gap-group msg-in-mine">
+        <div class="bubble-col">
+          <div class="bubble bubble-mine">넵 천천히 주셔도 돼요</div>
+          <div class="msg-meta"><span class="num">오후 2:15</span><span class="msg-unread">1</span></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <form class="composer" data-composer aria-label="메시지 입력">
+    <button class="icon-btn" type="button" aria-label="첨부">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+    <div class="composer-field">
+      <input type="text" placeholder="메시지를 입력해요" aria-label="메시지" autocomplete="off">
+    </div>
+    <button class="send-btn" type="submit" aria-label="보내기" disabled>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 20 4l-6 16-3.5-6.5z"/><path d="m10.5 13.5 3.5-3.5"/></svg>
+    </button>
+  </form>
+
+  <!-- 대화방 메뉴 액션시트 (§6.7) -->
+  <div class="dim" id="menu-dim" onclick="tkSheet.close('menu')"></div>
+  <div class="sheet" id="menu" role="dialog" aria-modal="true" aria-label="대화방 메뉴">
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <button class="sheet-action" type="button" onclick="tkSheet.close('menu'); tkToast('알림을 껐어요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8a8 8 0 0 1 12-6.9"/><path d="M18 8v5l2 2H8"/><path d="m3 3 18 18"/></svg>
+      알림 끄기
+    </button>
+    <button class="sheet-action" type="button" onclick="tkSheet.close('menu'); tkToast('대화 내용을 검색해요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      대화 내용 검색
+    </button>
+    <button class="sheet-action danger" type="button" onclick="tkSheet.close('menu'); tkToast('대화방을 나갔어요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16 6 12l4-4M6 12h9"/></svg>
+      대화방 나가기
+    </button>
+  </div>
+
+</div>
+</body>
+</html>

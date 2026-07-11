@@ -1,0 +1,195 @@
+/* ============================================================
+ * presets/14-enamel/tokens.css — 14 · Enamel (inspired by 배달의민족 / Baemin)
+ * 원본 스펙: presets/14-enamel/SPEC.md (§2~§7)
+ * 규약: :root = a 변형 라이트 / [data-theme="dark"] 다크 오버라이드
+ *       [data-variant="b"] = 색 토큰만 오버라이드 (마리골드+틸, 뉴트로 노란 간판)
+ * 데모 HTML: <html data-preset="14" data-variant="a">
+ * 컨셉: 법랑 간판(에나멜) — 크림 종이 위 밝은 민트 큰 버튼 + 먹색 굵은 글씨. 뉴트로/을지로 감성.
+ * 핵심 결정: primary(민트)는 밝아 흰 텍스트 미달(2.22:1) → primary 위 텍스트는 항상 먹색(--color-primary-text).
+ *           대비 실측값은 모두 WCAG 2.x 상대휘도 공식 계산값(§2.3).
+ * ============================================================ */
+
+:root {
+  /* ---------- §2 색 (a 변형: 민트, 라이트) ---------- */
+  --color-bg: #FBF7EF;                 /* 따뜻한 크림 종이. 순백 금지 */
+  --color-surface: #F1EADB;            /* 카드·칩·검색바 배경 (한 톤 진한 샌드) */
+  --color-surface-raised: #FFFFFF;     /* 바텀시트·모달·플로팅 카드 (크림 위 순백) */
+  --color-text: #1A1712;               /* 본문·제목 먹색. bg 대비 16.72:1 */
+  --color-text-sub: #57514A;           /* 보조 본문. bg 대비 7.33:1 */
+  --color-text-tertiary: #736C60;      /* 캡션·타임스탬프. bg 대비 4.86:1 — surface 위 본문 금지(§2.3) */
+  --color-primary: #2AC1BC;            /* 배민풍 민트. CTA·활성 탭 FILL. 먹색 텍스트 대비 8.55:1 */
+  --color-primary-text: #12100C;       /* primary 위 텍스트(먹색). 흰 텍스트 금지 */
+  --color-primary-pressed: #1EA6A1;    /* CTA press. 먹색 텍스트 대비 6.36:1 */
+  --color-primary-soft: #DFF5F3;       /* 연한 민트 배경 (선택 칩·안내 박스) */
+  --color-primary-soft-text: #0B6B66;  /* soft 위 텍스트 5.59:1 / bg 위 링크 텍스트 5.94:1 */
+  --color-primary-vivid: #0B8C85;      /* 그래픽 전용(아이콘·차트·큰 숫자). bg 대비 3.85:1 */
+  --color-accent: #E5451F;             /* 뉴트로 주홍(토마토). 그래픽 포인트·가격 강조. bg 3.78:1 */
+  --color-accent-soft: #FFE7DE;        /* accent 뱃지 배경 */
+  --color-accent-soft-text: #B23A1E;   /* accent-soft 위 텍스트 5.04:1 */
+  --color-danger: #CF2A26;             /* 에러·삭제. bg 대비 4.90:1 */
+  --color-danger-soft: #FCE6E4;
+  --color-danger-soft-text: #B8241F;   /* danger-soft 위 텍스트 5.31:1 */
+  --color-success: #1B7D32;            /* 주문 완료·도착. bg 대비 4.88:1 */
+  --color-success-soft: #E4F4E7;
+  --color-success-soft-text: #1B7A31;  /* success-soft 위 텍스트 4.75:1 */
+  --color-border: #E6DECE;             /* 따뜻한 경계선 (제한적 사용, §5) */
+  --color-dim: rgba(26, 23, 18, 0.55); /* 모달 뒤 딤 */
+  --color-frame-backdrop: #E7DECB;     /* 데스크톱 420px 프레임 밖 배경(§4) */
+
+  /* ---------- §3 타이포그래피 ---------- */
+  /* 뉴트로 간판 한글은 시스템 폴백으로 대체하되 큰 굵은 제목으로 개성 표현(§3) */
+  --font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+                 system-ui, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Segoe UI', sans-serif;
+
+  --font-size-display-1: 40px;   /* 800 / 1.15 / -0.03em — 홈 히어로·주문 완료 큰 글씨 */
+  --font-size-display-2: 30px;   /* 800 / 1.2  / -0.02em — 화면 대표 숫자·가게명 강조 */
+  --font-size-title-1: 24px;     /* 800 / 1.3  / -0.02em — 화면 타이틀("뭐 먹을까요?") */
+  --font-size-title-2: 20px;     /* 700 / 1.35 / -0.01em — 섹션 헤더·바텀시트 제목 */
+  --font-size-body-1: 16px;      /* 500 / 1.5  / -0.01em — 리스트 주 텍스트·본문. 버튼 라벨은 이 크기 700 */
+  --font-size-body-2: 14px;      /* 500 / 1.5  / -0.01em — 리스트 보조·설명 */
+  --font-size-caption: 13px;     /* 500 / 1.45 / 0 — 라벨·배달정보·타임스탬프 */
+  --font-size-micro: 12px;       /* 700 / 1.35 / 0 — 뱃지·칩·탭바 라벨 (최소, 이보다 작게 금지) */
+
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-heavy: 800;      /* 간판 굵기: 제목·큰 숫자 전용 */
+
+  --line-height-display-1: 1.15;
+  --line-height-display-2: 1.2;
+  --line-height-title-1: 1.3;
+  --line-height-title-2: 1.35;
+  --line-height-body-1: 1.5;
+  --line-height-body-2: 1.5;
+  --line-height-caption: 1.45;
+  --line-height-micro: 1.35;
+
+  --letter-spacing-display: -0.03em;
+  --letter-spacing-display-2: -0.02em;
+  --letter-spacing-title: -0.02em;
+  --letter-spacing-body: -0.01em;
+  --letter-spacing-caption: 0;
+
+  /* ---------- §4 간격 · 레이아웃 ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  --layout-screen-padding: 20px;      /* 화면 좌우 기본 패딩 */
+  --layout-section-gap: 32px;         /* 섹션 간 */
+  --layout-card-padding: 16px;        /* 카드 내부 (배민풍 밀도) */
+  --layout-frame-width: 420px;        /* 데스크톱 중앙 프레임(§4) */
+  --size-appbar: 56px;
+  --size-tabbar: 64px;
+  --size-cta: 54px;                   /* 하단 고정 CTA 버튼 높이 (큰 버튼) */
+  --size-touch-min: 44px;             /* 최소 터치 타깃 */
+  --size-list-row: 56px;              /* 리스트 아이템 min-height */
+
+  /* ---------- §5 형태 ---------- */
+  --radius-sm: 4px;    /* 뱃지·작은 태그·인풋 내부 요소 */
+  --radius-md: 8px;    /* 버튼·입력 필드·칩(사각) */
+  --radius-lg: 12px;   /* 카드·가게 카드·메뉴 썸네일·토스트 */
+  --radius-xl: 16px;   /* 안내 박스·확인 모달 */
+  --radius-2xl: 20px;  /* 바텀시트 상단·검색바·데스크톱 앱 프레임 */
+  --radius-full: 9999px; /* 필 칩·아바타·플로팅 장바구니·토글 */
+
+  --shadow-0: none;                                  /* 기본. 카드도 그림자 없음 (surface 색·border로 구분) */
+  --shadow-1: 0 1px 3px rgba(26, 23, 18, 0.06);      /* sticky 앱바·탭바·CTA 바 */
+  --shadow-2: 0 2px 8px rgba(26, 23, 18, 0.10);      /* 플로팅 장바구니·sticky 요약 바 */
+  --shadow-3: 0 8px 24px rgba(26, 23, 18, 0.16);     /* 바텀시트·모달·토스트·데스크톱 프레임 */
+
+  /* ---------- §7 모션 ---------- */
+  --motion-quick: 150ms;  /* press 반응 */
+  --motion-fast: 250ms;   /* fade·색 전환·페이지 전환 */
+  --motion-base: 300ms;   /* 진입·시트·페이지 전환 */
+  --motion-slow: 400ms;   /* 성공 체크·카운트업·바운스 강조 */
+  --motion-stagger: 40ms; /* 리스트 스태거 간격(최대 8개) */
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);  /* 위치 이동·색 전환 기본 */
+  --ease-enter:    cubic-bezier(0, 0, 0.2, 1);    /* 진입 */
+  --ease-exit:     cubic-bezier(0.4, 0, 1, 1);    /* 퇴장 */
+  --ease-bounce:   cubic-bezier(0.34, 1.56, 0.64, 1); /* press 복귀·카테고리·하트 등 강조 전용 */
+}
+
+/* ============================================================
+ * 다크 오버라이드 (a 변형) — §2.2  (배민 2.0 "검정과 어울리는" 팔레트 해석)
+ * ============================================================ */
+:root[data-theme="dark"] {
+  --color-bg: #17150F;                 /* 따뜻한 먹색(순검정 금지). text 대비 15.91:1 */
+  --color-surface: #221F17;
+  --color-surface-raised: #2B2820;
+  --color-text: #F4EFE3;               /* bg 대비 15.91:1 */
+  --color-text-sub: #B4AC9C;           /* bg 대비 8.10:1 */
+  --color-text-tertiary: #8D8676;      /* bg 대비 5.04:1, surface 대비 4.55:1 */
+  --color-primary: #2AC1BC;            /* 민트 유지. 먹색 텍스트 대비 8.96:1 */
+  --color-primary-text: #0A0906;       /* 다크에서도 민트 버튼 위 텍스트는 먹색 */
+  --color-primary-pressed: #1EA6A1;
+  --color-primary-soft: #103330;       /* 딥 틸 */
+  --color-primary-soft-text: #4FD6D0;  /* soft 대비 7.71:1 / bg 위 텍스트 10.31:1 */
+  --color-primary-vivid: #33D6CE;      /* 그래픽 전용, bg 대비 10.13:1 */
+  --color-accent: #FF7A57;             /* 밝힌 주홍. bg 대비 7.10:1 */
+  --color-accent-soft: #3A201A;
+  --color-accent-soft-text: #FF8E6E;   /* accent-soft 위 6.67:1 */
+  --color-danger: #FF6B63;             /* bg 대비 6.55:1 */
+  --color-danger-soft: #3A1D1B;
+  --color-danger-soft-text: #FF8781;   /* danger-soft 위 6.59:1 */
+  --color-success: #51C265;            /* bg 대비 8.04:1 */
+  --color-success-soft: #14321C;
+  --color-success-soft-text: #63CE77;  /* success-soft 위 7.07:1 */
+  --color-border: #332F25;
+  --color-dim: rgba(0, 0, 0, 0.6);
+  --color-frame-backdrop: #0C0B08;
+
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-3: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================================
+ * b 변형 (마리골드+틸, 뉴트로 노란 간판) — 색 토큰만 오버라이드 (§2.4)
+ * a와 역할 교환: primary=간판 노랑, accent=민트. 간격·타이포·radius·모션은 절대 불변.
+ * primary(노랑)는 밝아 먹색 텍스트를 쓴다(a와 동일 원칙).
+ * ============================================================ */
+:root[data-variant="b"] {
+  --color-primary: #F5B301;            /* 뉴트로 마리골드. 먹색 텍스트 대비 8.82:1 */
+  --color-primary-text: #2A1E00;       /* 짙은 갈금색 먹 텍스트 */
+  --color-primary-pressed: #D99F00;    /* press. 먹색 텍스트 6.94:1 */
+  --color-primary-soft: #FFF3D1;
+  --color-primary-soft-text: #7A5A00;  /* soft 위 5.77:1 / bg 위 링크 5.97:1 */
+  --color-primary-vivid: #B98700;      /* 그래픽 전용, bg 대비 3.01:1 */
+  --color-accent: #0B8C85;             /* 역할 교환된 틸 포인트. bg 대비 3.78:1 */
+  --color-accent-soft: #DFF5F3;
+  --color-accent-soft-text: #0B6B66;   /* accent-soft 위 5.59:1 */
+}
+
+:root[data-variant="b"][data-theme="dark"] {
+  --color-primary: #F5C542;            /* 밝힌 마리골드. 먹색 텍스트 대비 10.08:1 */
+  --color-primary-text: #2A1E00;
+  --color-primary-pressed: #E0B22E;
+  --color-primary-soft: #332703;
+  --color-primary-soft-text: #F5C542;  /* soft 대비 9.04:1 / bg 위 11.25:1 */
+  --color-primary-vivid: #FFD65C;      /* 그래픽 전용 */
+  --color-accent: #33D6CE;             /* 틸. bg 대비 10.13:1 */
+  --color-accent-soft: #103330;
+  --color-accent-soft-text: #4FD6D0;
+}
+
+/* ============================================================
+ * §7 prefers-reduced-motion — 전역 대응 (필수)
+ * transform 기반 애니메이션 제거, opacity 전환만 유지. 카운트업·바운스는 즉시 최종 상태.
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 150ms !important;
+    transition-property: opacity !important;
+  }
+}

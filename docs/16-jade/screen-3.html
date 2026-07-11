@@ -1,0 +1,148 @@
+<html lang="ko" data-preset="16" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>누리 — 뉴스 상세 · Jade 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 콘텐츠 상세 (§9) */
+.article-cat { color: var(--color-primary); }
+:root[data-theme="dark"] .article-cat { color: var(--color-primary-soft-text); }
+.article-head { padding-top: var(--space-4); }
+.article-title { margin-top: var(--space-1); }
+.hero-wrap { margin-top: var(--space-4); }
+.article-body { margin-top: var(--space-4); }
+.reaction-wrap { margin-top: var(--space-6); }
+.comment-form { display: flex; gap: var(--space-2); margin-top: var(--space-3); }
+.comment-form .input { flex: 1; }
+.comment-form .btn { width: auto; flex: none; padding: 0 var(--space-4); height: 44px; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="gnb">
+    <a class="icon-btn" href="screen-1.html" aria-label="뒤로">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+    </a>
+    <span class="gnb-spacer"></span>
+    <button class="icon-btn" type="button" aria-label="공유" onclick="nToast('링크를 복사했어요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="m8.2 10.8 6.6-3.6M8.2 13.2l6.6 3.6"/></svg>
+    </button>
+    <button class="icon-btn" type="button" aria-label="저장" aria-pressed="false" onclick="nToggle(this, '저장했어요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-6-3.5L6 20z"/></svg>
+    </button>
+  </header>
+
+  <main class="scroll pad-tab page-enter">
+
+    <article>
+      <div class="article-head">
+        <p class="t-label w600 article-cat">경제</p>
+        <h1 class="t-title1 article-title">한은 기준금리 3.25% 동결… "물가 둔화 흐름 지켜볼 것"</h1>
+        <div class="byline">
+          <span class="byline-logo" aria-hidden="true">연</span>
+          <span class="t-label sub">연합뉴스</span>
+          <span class="t-label tertiary num">· 12분 전</span>
+        </div>
+      </div>
+
+      <div class="hero-wrap">
+        <div class="hero-img" role="img" aria-label="한국은행 본관 전경">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9l8-4 8 4"/><path d="M5 9v8M9 9v8M15 9v8M19 9v8"/><path d="M3 20h18"/></svg>
+        </div>
+      </div>
+
+      <div class="article-body">
+        <p>한국은행 금융통화위원회가 10일 기준금리를 연 3.25%로 동결했다. 지난 5월에 이어 두 차례 연속 동결 결정이다.</p>
+        <p>금통위는 소비자물가 상승률이 목표치에 근접하고 있으나, 환율과 가계부채 흐름을 더 지켜볼 필요가 있다고 설명했다. 시장에서는 이번 결정을 대체로 예상된 수순으로 받아들였다.</p>
+        <p>총재는 회의 직후 기자간담회에서 "물가 둔화 흐름이 확인되면 하반기 중 인하를 검토할 수 있다"며 신중한 태도를 유지했다. 다만 구체적인 시점은 언급하지 않았다.</p>
+        <p>전문가들은 오는 4분기 미국의 통화정책 방향과 국내 부동산 시장 안정 여부가 다음 결정의 관건이 될 것으로 내다봤다.</p>
+      </div>
+
+      <div class="reaction-wrap">
+        <div class="reaction-bar">
+          <button class="react-btn" type="button" aria-pressed="false" onclick="nToggle(this)">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v9H4v-9zM7 10l4-6a2 2 0 0 1 2 2v3h5a2 2 0 0 1 2 2.3l-1.2 6A2 2 0 0 1 16.8 19H7"/></svg>
+            <span data-count-val="1284">1,284</span>
+          </button>
+          <button class="react-btn" type="button" onclick="nToast('댓글로 이동해요')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14v10H9l-4 3z"/></svg>
+            <span class="num">312</span>
+          </button>
+          <button class="react-btn" type="button" onclick="nToast('링크를 복사했어요')">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.5"/><circle cx="17" cy="6" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="m8.2 10.8 6.6-3.6M8.2 13.2l6.6 3.6"/></svg>
+            <span>공유</span>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- 관련 기사 -->
+    <section class="section" aria-label="관련 기사">
+      <h2 class="t-title2 section-head">관련 기사</h2>
+      <div class="stagger">
+        <a class="feed-item" href="screen-3.html">
+          <div class="feed-main">
+            <p class="feed-title clamp2">환율 1,380원대 후반… 원화 약세 지속되나</p>
+            <p class="feed-meta">한국경제 · 40분 전</p>
+          </div>
+        </a>
+        <a class="feed-item" href="screen-3.html">
+          <div class="feed-main">
+            <p class="feed-title clamp2">가계부채 증가세 둔화… 6월 신규 대출 감소</p>
+            <p class="feed-meta">서울경제 · 1시간 전</p>
+          </div>
+        </a>
+        <a class="feed-item" href="screen-3.html">
+          <div class="feed-main">
+            <p class="feed-title clamp2">하반기 금리 인하 기대감에 채권 시장 강세</p>
+            <p class="feed-meta">머니투데이 · 2시간 전</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 댓글 -->
+    <section class="section" aria-label="댓글">
+      <h2 class="t-title2">댓글 <span class="link num">312</span></h2>
+      <form class="comment-form" onsubmit="event.preventDefault(); this.reset(); nToast('댓글을 남겼어요');">
+        <input class="input" type="text" aria-label="댓글 입력" placeholder="댓글을 남겨보세요">
+        <button class="btn btn-primary" type="submit">등록</button>
+      </form>
+      <div class="section" style="margin-top: var(--space-4);">
+        <div class="comment">
+          <span class="avatar avatar-32" aria-hidden="true">김</span>
+          <div class="comment-main">
+            <p class="comment-name">김민준</p>
+            <p class="comment-body">동결은 예상했는데 하반기 인하 가능성까지 언급했네요. 대출 갈아탈 타이밍 고민됩니다.</p>
+            <p class="comment-meta">3분 전 · 좋아요 24</p>
+          </div>
+        </div>
+        <div class="comment">
+          <span class="avatar avatar-32" aria-hidden="true">이</span>
+          <div class="comment-main">
+            <p class="comment-name">이서연</p>
+            <p class="comment-body">환율이 관건일 것 같아요. 원화가 더 약해지면 인하가 쉽지 않겠죠.</p>
+            <p class="comment-meta">18분 전 · 좋아요 11</p>
+          </div>
+        </div>
+        <div class="comment">
+          <span class="avatar avatar-32" aria-hidden="true">박</span>
+          <div class="comment-main">
+            <p class="comment-name">박도현</p>
+            <p class="comment-body">기사 잘 봤어요. 다음 회의가 언제인지도 같이 알려주면 좋겠네요.</p>
+            <p class="comment-meta">32분 전 · 좋아요 6</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+</body>
+</html>

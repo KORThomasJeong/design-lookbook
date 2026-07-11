@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="5" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>메모리 — 설정 · Clay 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+  .settings-top { padding-top: var(--space-2); }
+  .logout-wrap { padding: var(--space-6) var(--layout-screen-padding); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <span class="appbar-title" style="opacity:1; padding-left: var(--space-4)">설정</span>
+  </header>
+
+  <main class="scroll pad-nav settings-top page-enter stagger">
+
+    <a class="list-item state" href="screen-5.html">
+      <span class="avatar avatar-40" aria-hidden="true">서</span>
+      <span class="list-main">
+        <span class="list-title">서지현</span>
+        <span class="list-sub">jihyun.seo@memori.app</span>
+      </span>
+      <span class="list-trail">
+        <svg class="chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+      </span>
+    </a>
+
+    <hr class="group-divider">
+
+    <section class="section">
+      <h2 class="section-head">표시</h2>
+      <div class="list-item">
+        <span class="list-main"><span class="list-title">다크 모드</span><span class="list-sub">우하단 바에서도 바꿀 수 있어요</span></span>
+        <span class="list-trail">
+          <span class="switch" role="switch" aria-checked="false" tabindex="0" aria-label="다크 모드"><span class="switch-thumb"></span></span>
+        </span>
+      </div>
+      <button class="list-item state" type="button" onclick="mSnack('글자 크기 설정은 준비 중이에요')">
+        <span class="list-main"><span class="list-title">글자 크기</span></span>
+        <span class="list-trail">
+          <span class="meta">보통</span>
+          <svg class="chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </span>
+      </button>
+    </section>
+
+    <section class="section">
+      <h2 class="section-head">알림</h2>
+      <div class="list-item">
+        <span class="list-main"><span class="list-title">푸시 알림</span><span class="list-sub">새 공유 노트가 오면 알려드려요</span></span>
+        <span class="list-trail">
+          <span class="switch" role="switch" aria-checked="true" tabindex="0" aria-label="푸시 알림"><span class="switch-thumb"></span></span>
+        </span>
+      </div>
+      <div class="list-item">
+        <span class="list-main"><span class="list-title">리마인더</span><span class="list-sub">매일 저녁 9시에 오늘 노트를 정리해요</span></span>
+        <span class="list-trail">
+          <span class="switch" role="switch" aria-checked="false" tabindex="0" aria-label="리마인더"><span class="switch-thumb"></span></span>
+        </span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-head">정보</h2>
+      <div class="list-item oneline">
+        <span class="list-main"><span class="list-title">버전</span></span>
+        <span class="list-trail"><span class="meta num">2.4.1</span></span>
+      </div>
+      <button class="list-item oneline state" type="button" onclick="mSnack('라이선스 화면은 준비 중이에요')">
+        <span class="list-main"><span class="list-title">오픈소스 라이선스</span></span>
+        <span class="list-trail">
+          <svg class="chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+        </span>
+      </button>
+    </section>
+
+    <div class="logout-wrap">
+      <button class="btn btn-text btn-danger state" type="button" onclick="mSnack('로그아웃했어요')">로그아웃</button>
+    </div>
+
+  </main>
+
+  <nav class="navbar" aria-label="주 메뉴">
+    <a class="nav-item state" href="screen-1.html">
+      <span class="nav-ind"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v6h6"/></svg></span>
+      <span class="nav-label">노트</span>
+    </a>
+    <a class="nav-item state" href="screen-3.html">
+      <span class="nav-ind"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+      <span class="nav-label">검색</span>
+    </a>
+    <a class="nav-item state" href="screen-4.html" aria-current="page">
+      <span class="nav-ind"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm9.4 5-.9-.5a7.6 7.6 0 0 0 0-1.1l.9-.5a1 1 0 0 0 .4-1.3l-1-1.7a1 1 0 0 0-1.3-.4l-.9.4a7.5 7.5 0 0 0-1-.5l-.1-1a1 1 0 0 0-1-.9h-2a1 1 0 0 0-1 .9l-.1 1a7.5 7.5 0 0 0-1 .5l-.9-.4a1 1 0 0 0-1.3.4l-1 1.7a1 1 0 0 0 .4 1.3l.9.5a7.6 7.6 0 0 0 0 1.1l-.9.5a1 1 0 0 0-.4 1.3l1 1.7a1 1 0 0 0 1.3.4l.9-.4a7.5 7.5 0 0 0 1 .5l.1 1a1 1 0 0 0 1 .9h2a1 1 0 0 0 1-.9l.1-1a7.5 7.5 0 0 0 1-.5l.9.4a1 1 0 0 0 1.3-.4l1-1.7a1 1 0 0 0-.4-1.3z"/></svg></span>
+      <span class="nav-label">설정</span>
+    </a>
+  </nav>
+
+</div>
+</body>
+</html>

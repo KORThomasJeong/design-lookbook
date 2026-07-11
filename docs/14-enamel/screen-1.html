@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="14" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>한끼 — 홈 · Enamel 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-1 홈 (§9) — 카테고리 + 추천 */
+.home-top { padding-top: var(--space-4); }
+.loc-row {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  color: var(--color-text); font-weight: var(--font-weight-bold);
+  transition: transform var(--motion-base) var(--ease-bounce);
+}
+.loc-row:active { transform: scale(0.97); transition: transform var(--motion-quick) var(--ease-exit); }
+.loc-row svg:first-child { color: var(--color-primary-vivid); }
+
+/* 카테고리 4열 그리드 (§4 예외) */
+.cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-4) var(--space-3); }
+.cat {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  transition: transform var(--motion-base) var(--ease-bounce);
+}
+.cat:active { transform: scale(0.97); transition: transform var(--motion-quick) var(--ease-exit); }
+.cat-ico {
+  width: 56px; height: 56px; border-radius: var(--radius-full);
+  background: var(--color-primary-soft); color: var(--color-primary-vivid);
+  display: grid; place-items: center;
+}
+.cat-label { font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); color: var(--color-text); }
+
+/* 프로모 배너 */
+.promo {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--layout-card-padding);
+}
+.promo-txt { flex: 1; min-width: 0; }
+.promo-badge { margin-bottom: var(--space-2); }
+.promo-emoji { font-size: var(--font-size-title-1); flex: none; }
+
+/* 가게 카드 (홈 — 16:9 이미지형) */
+.store-list { display: flex; flex-direction: column; gap: var(--space-6); }
+.store-card { transition: transform var(--motion-base) var(--ease-bounce); border-radius: var(--radius-lg); }
+.store-card:active { transform: scale(0.99); transition: transform var(--motion-quick) var(--ease-exit); }
+.store-hero {
+  width: 100%; aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  display: grid; place-items: center; color: var(--color-primary-vivid);
+  position: relative; overflow: hidden;
+}
+.store-hero .coupon { position: absolute; left: var(--space-3); top: var(--space-3); }
+.store-body { padding-top: var(--space-3); }
+.store-meta { display: flex; align-items: center; gap: var(--space-1); margin-top: var(--space-1); color: var(--color-text-sub); }
+.store-meta svg { color: var(--color-accent); }
+.dot-sep { color: var(--color-text-tertiary); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <span class="appbar-wordmark">한끼</span>
+    <span class="appbar-spacer"></span>
+    <button class="icon-btn" type="button" aria-label="알림" onclick="hkToast('아직 새 소식이 없어요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+    </button>
+  </header>
+
+  <main class="scroll scroll-pad-tab page-enter">
+    <div class="home-top">
+      <button class="loc-row" type="button" aria-label="배달 위치: 우리집 역삼동, 변경" onclick="hkToast('위치 설정은 준비 중이에요')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>
+        <span class="t-body2 w700">우리집 · 역삼동</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+
+    <div style="margin-top: var(--space-4)">
+      <a class="searchbar" href="screen-2.html" aria-label="메뉴 검색">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+        <span>먹고 싶은 메뉴 검색</span>
+      </a>
+    </div>
+
+    <section class="section" aria-label="카테고리">
+      <div class="cat-grid stagger">
+        <a class="cat" href="screen-2.html"><span class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20"/><path d="M12 14.5 11 20"/></svg></span><span class="cat-label">치킨</span></a>
+        <a class="cat" href="screen-2.html"><span class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4-8 12z"/><circle cx="10" cy="9" r="1"/><circle cx="13" cy="12" r="1"/></svg></span><span class="cat-label">피자</span></a>
+        <a class="cat" href="screen-2.html"><span class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M6 15h12"/><path d="M12 4v3"/></svg></span><span class="cat-label">한식</span></a>
+        <a class="cat" href="screen-2.html"><span class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v7a2 2 0 0 0 4 0V3"/><path d="M10 12v9"/><path d="M17 3c-1.5 1-2 3-2 5s.5 3 2 3v10"/></svg></span><span class="cat-label">분식</span></a>
+        <a class="cat" href="screen-2.html"><span class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9h11v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z"/><path d="M16 10h2a2 2 0 0 1 0 4h-2"/><path d="M8 5v1M11 5v1"/></svg></span><span class="cat-label">카페</span></a>
+        <a class="cat" href="screen-2.html"><span class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 13a7 7 0 1 1-8-7 5.5 5.5 0 0 0 8 7z"/></svg></span><span class="cat-label">야식</span></a>
+        <a class="cat" href="screen-2.html"><span class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4v16M6 12h4V4M18 4c-2 0-3 2-3 5s1 4 3 4v7"/></svg></span><span class="cat-label">중식</span></a>
+        <a class="cat" href="screen-2.html"><span class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10h14v3a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5z"/><path d="M9 6c-.5-1 .5-2 0-3M13 6c-.5-1 .5-2 0-3"/></svg></span><span class="cat-label">찜·탕</span></a>
+      </div>
+    </section>
+
+    <section class="section" aria-label="프로모션">
+      <div class="card card-raised promo">
+        <div class="promo-txt">
+          <span class="badge badge-hot promo-badge">첫 주문</span>
+          <p class="t-title2">첫 주문 3,000원 할인</p>
+        </div>
+        <span class="promo-emoji" aria-hidden="true">🎉</span>
+      </div>
+    </section>
+
+    <section class="section" aria-label="우리 동네 인기">
+      <div class="section-head"><h2 class="t-title2">우리 동네 인기</h2></div>
+      <div class="store-list stagger">
+
+        <a class="store-card" href="screen-3.html">
+          <div class="store-hero">
+            <span class="badge badge-hot coupon">쿠폰</span>
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20M12 14.5 11 20"/></svg>
+          </div>
+          <div class="store-body">
+            <p class="t-title2 w800">역삼 교촌치킨 본점</p>
+            <p class="t-caption num store-meta">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L4.3 9.4l6-.9z"/></svg>
+              4.8 <span class="dot-sep">·</span> 25분 <span class="dot-sep">·</span> 배달 3,000원
+            </p>
+          </div>
+        </a>
+
+        <a class="store-card" href="screen-3.html">
+          <div class="store-hero">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4-8 12z"/><circle cx="10" cy="9" r="1"/><circle cx="13" cy="12" r="1"/></svg>
+          </div>
+          <div class="store-body">
+            <p class="t-title2 w800">피자스쿨 역삼점</p>
+            <p class="t-caption num store-meta">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L4.3 9.4l6-.9z"/></svg>
+              4.6 <span class="dot-sep">·</span> 30분 <span class="dot-sep">·</span> 배달 무료
+            </p>
+          </div>
+        </a>
+
+        <a class="store-card" href="screen-3.html">
+          <div class="store-hero">
+            <span class="badge badge-accent coupon">신규</span>
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11h16a8 8 0 0 1-16 0z"/><path d="M6 15h12M12 4v3"/></svg>
+          </div>
+          <div class="store-body">
+            <p class="t-title2 w800">엄마손 백반 역삼직영</p>
+            <p class="t-caption num store-meta">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L4.3 9.4l6-.9z"/></svg>
+              4.9 <span class="dot-sep">·</span> 20분 <span class="dot-sep">·</span> 배달 2,000원
+            </p>
+          </div>
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html" aria-current="page">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+      <span class="tab-label">홈</span></a>
+    <a class="tab" href="screen-2.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+      <span class="tab-label">검색</span></a>
+    <a class="tab" href="screen-5.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-2.5-1.5L13 20l-2.5-1.5L8 20 6 18.5z"/><path d="M9 9h6M9 13h4"/></svg>
+      <span class="tab-label">주문내역</span></a>
+    <a class="tab" href="screen-4.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0z"/></svg>
+      <span class="tab-label">마이</span></a>
+  </nav>
+
+</div>
+</body>
+</html>

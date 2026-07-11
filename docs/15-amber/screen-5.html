@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="15" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>톡톡 — 설정 · Amber 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 설정 (§9) — 그룹 리스트 + 토글, 노랑은 켜진 토글 트랙만 */
+.set-group { margin-top: var(--space-4); }
+.set-group:first-of-type { margin-top: var(--space-2); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <a class="icon-btn" href="screen-4.html" aria-label="뒤로">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+    </a>
+    <h1 class="t-title1 appbar-title">설정</h1>
+  </header>
+
+  <main class="scroll scroll-pad-tab page-enter">
+
+    <section class="set-group" aria-labelledby="grp-account">
+      <p class="t-caption sub group-header" id="grp-account">계정</p>
+      <a class="set-row" href="screen-3.html">
+        <span class="set-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg></span>
+        <span class="set-label">내 프로필</span>
+        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+      </a>
+      <button class="set-row" type="button" onclick="tkToast('아이디를 관리해요')">
+        <span class="set-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 10h.01M12 10h4M8 14h8"/></svg></span>
+        <span class="set-label">아이디 관리</span>
+        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+      </button>
+      <button class="set-row" type="button" onclick="tkToast('전화번호를 확인해요')">
+        <span class="set-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h3l1.5 5-2 1.5a11 11 0 0 0 5 5l1.5-2 5 1.5v3a2 2 0 0 1-2.2 2A16 16 0 0 1 4 5.2 2 2 0 0 1 6 3z"/></svg></span>
+        <span class="set-label">전화번호</span>
+        <span class="t-body2 tertiary num">010-8765-4321</span>
+      </button>
+    </section>
+
+    <hr class="divider">
+
+    <section class="set-group" aria-labelledby="grp-noti">
+      <p class="t-caption sub group-header" id="grp-noti">알림</p>
+      <label class="set-row">
+        <span class="set-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8a8 8 0 0 1 16 0v5l2 2H2l2-2z"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0"/></svg></span>
+        <span class="set-label">새 메시지 알림</span>
+        <span class="switch" role="switch" aria-checked="true" tabindex="0" aria-label="새 메시지 알림"></span>
+      </label>
+      <label class="set-row">
+        <span class="set-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg></span>
+        <span class="set-label">소리</span>
+        <span class="switch" role="switch" aria-checked="true" tabindex="0" aria-label="소리"></span>
+      </label>
+      <label class="set-row">
+        <span class="set-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M4 9v6M20 9v6"/></svg></span>
+        <span class="set-label">진동</span>
+        <span class="switch" role="switch" aria-checked="false" tabindex="0" aria-label="진동"></span>
+      </label>
+    </section>
+
+    <hr class="divider">
+
+    <section class="set-group" aria-labelledby="grp-view">
+      <p class="t-caption sub group-header" id="grp-view">화면</p>
+      <label class="set-row">
+        <span class="set-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></span>
+        <span class="set-label">다크 모드</span>
+        <span class="switch" role="switch" aria-checked="false" tabindex="0" aria-label="다크 모드" data-theme-toggle></span>
+      </label>
+      <button class="set-row" type="button" onclick="tkToast('글자 크기를 조절해요')">
+        <span class="set-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7V5h9v2M8.5 5v14M6 19h5"/><path d="M14 12v-1.5h7V12M17 10.5V19M15.5 19h3"/></svg></span>
+        <span class="set-label">글자 크기</span>
+        <span class="t-body2 tertiary">보통</span>
+      </button>
+    </section>
+
+    <section class="section">
+      <button class="btn-ghost btn-ghost-danger" type="button" onclick="tkToast('로그아웃했어요')">로그아웃</button>
+    </section>
+
+    <p class="t-caption tertiary app-version num">톡톡 버전 4.2.1</p>
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html">
+      <span class="tab-ico-wrap"><svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.3 7.3L4 21l1.7-5.7A8 8 0 1 1 21 12z"/></svg><span class="tab-dot" aria-hidden="true"></span></span>
+      <span class="tab-label">채팅</span></a>
+    <a class="tab" href="screen-3.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+      <span class="tab-label">친구</span></a>
+    <a class="tab" href="screen-4.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="2"/><rect x="14" y="4" width="6" height="6" rx="2"/><rect x="4" y="14" width="6" height="6" rx="2"/><rect x="14" y="14" width="6" height="6" rx="2"/></svg>
+      <span class="tab-label">더보기</span></a>
+    <a class="tab" href="screen-5.html" aria-current="page">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.1a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-2.9-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 4.6 13a1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.2A1.7 1.7 0 0 0 4.6 6.4l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 2.9-.3 1.7 1.7 0 0 0 .1-.7V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      <span class="tab-label">설정</span></a>
+  </nav>
+
+</div>
+<script>
+/* 토글 상호작용 (설정 화면 전용) — aria-checked 반전, 다크 모드는 테마 전환 */
+(function () {
+  var html = document.documentElement;
+  function reflectThemeToggle() {
+    var t = document.querySelector('[data-theme-toggle]');
+    if (t) t.setAttribute('aria-checked', html.getAttribute('data-theme') === 'dark' ? 'true' : 'false');
+  }
+  reflectThemeToggle();
+  document.querySelectorAll('.switch').forEach(function (sw) {
+    function toggle() {
+      var on = sw.getAttribute('aria-checked') !== 'true';
+      sw.setAttribute('aria-checked', on ? 'true' : 'false');
+      if (sw.hasAttribute('data-theme-toggle')) {
+        html.setAttribute('data-theme', on ? 'dark' : 'light');
+      }
+    }
+    sw.addEventListener('click', function (e) { e.preventDefault(); toggle(); });
+    sw.addEventListener('keydown', function (e) {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>

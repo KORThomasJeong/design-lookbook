@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="6" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>링 — 설정 · Glass 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="frame">
+
+  <header class="nav" aria-label="상단 바">
+    <span class="nav-slot"></span>
+    <span class="nav-title t-headline">설정</span>
+    <span class="nav-slot right"></span>
+  </header>
+
+  <main class="scroll" id="scroll">
+    <div class="large-title">
+      <h1 class="t-large-title">설정</h1>
+    </div>
+
+    <!-- 검색창 -->
+    <div class="group-first">
+      <label class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" placeholder="검색" aria-label="설정 검색">
+      </label>
+    </div>
+
+    <!-- 프로필 -->
+    <section style="margin-top: var(--space-6)" aria-label="계정">
+      <div class="list enter">
+        <a class="cell" href="screen-1.html" style="padding-top: var(--space-3); padding-bottom: var(--space-3)">
+          <span class="avatar avatar-lg" aria-hidden="true">김</span>
+          <span class="cell-main" style="margin-left: var(--space-1)"><span class="t-headline">김서준</span><span class="t-subhead sub">링 계정 · 건강 공유 · 백업</span></span>
+          <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- 그룹: 연결 -->
+    <section class="group" aria-label="연결">
+      <h2 class="group-header t-footnote">연결</h2>
+      <div class="list stagger">
+        <button class="cell cell--icon" type="button">
+          <span class="cell-icon tint-primary" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 9a13 13 0 0 1 18 0"/><path d="M6 12.5a9 9 0 0 1 12 0"/><path d="M9 16a4.5 4.5 0 0 1 6 0"/><circle cx="12" cy="19" r="1" fill="currentColor" stroke="none"/></svg></span>
+          <span class="cell-main"><span class="t-body">Wi‑Fi</span></span>
+          <span class="cell-trail">
+            <span class="cell-value">우리집_5G</span>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </span>
+        </button>
+        <div class="cell cell--icon is-static">
+          <span class="cell-icon tint-accent" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7l10 10-5 4V3l5 4L7 17"/></svg></span>
+          <span class="cell-main"><span class="t-body">Bluetooth</span></span>
+          <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Bluetooth"><span class="switch-knob"></span></button>
+        </div>
+        <button class="cell cell--icon" type="button">
+          <span class="cell-icon tint-success" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="14" width="3" height="6" rx="1"/><rect x="8" y="10" width="3" height="10" rx="1"/><rect x="13" y="6" width="3" height="14" rx="1"/><rect x="18" y="3" width="3" height="17" rx="1"/></svg></span>
+          <span class="cell-main"><span class="t-body">셀룰러</span></span>
+          <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- 그룹: 일반 -->
+    <section class="group" aria-label="일반">
+      <h2 class="group-header t-footnote">일반</h2>
+      <div class="list stagger">
+        <a class="cell cell--icon" href="screen-3.html">
+          <span class="cell-icon tint-danger" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span>
+          <span class="cell-main"><span class="t-body">알림</span></span>
+          <span class="cell-trail">
+            <span class="cell-value">배너, 소리</span>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </span>
+        </a>
+        <button class="cell cell--icon" type="button">
+          <span class="cell-icon tint-primary" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <span class="cell-main"><span class="t-body">소리와 햅틱</span></span>
+          <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="cell cell--icon is-static">
+          <span class="cell-icon tint-accent" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 14.5A7.5 7.5 0 0 1 9.5 4 7.5 7.5 0 1 0 20 14.5z"/></svg></span>
+          <span class="cell-main"><span class="t-body">집중 모드</span></span>
+          <button class="switch" type="button" role="switch" aria-checked="false" aria-label="집중 모드"><span class="switch-knob"></span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 그룹: 개인정보 보호 -->
+    <section class="group" aria-label="개인정보 보호">
+      <h2 class="group-header t-footnote">개인정보 보호</h2>
+      <div class="list enter">
+        <button class="cell cell--icon" type="button">
+          <span class="cell-icon tint-success" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+          <span class="cell-main"><span class="t-body">개인정보 보호 및 보안</span></span>
+          <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <p class="group-footer t-footnote">건강 데이터는 이 기기에만 저장되고, 공유 대상은 직접 고를 수 있어요.</p>
+    </section>
+
+    <div class="tail"></div>
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/></svg>
+      <span>요약</span></a>
+    <a class="tab" href="screen-4.html">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h3l2-6 4 14 3-9 2 3h3"/></svg>
+      <span>운동</span></a>
+    <a class="tab" href="screen-2.html" aria-current="page">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+      <span>설정</span></a>
+    <a class="tab" href="screen-5.html">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+      <span>알림</span></a>
+  </nav>
+
+</div>
+</body>
+</html>

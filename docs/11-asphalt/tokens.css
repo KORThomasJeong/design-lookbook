@@ -1,0 +1,213 @@
+/* ============================================================
+ * presets/11-asphalt/tokens.css — 11 · Asphalt (inspired by Uber Base)
+ * 원본 스펙: presets/11-asphalt/SPEC.md (§2~§7)
+ * 규약: :root = a 변형 라이트 / [data-theme="dark"] 다크 오버라이드
+ *       [data-variant="b"] = 포인트(accent) 색 토큰만 오버라이드 (앰버, hue 18)
+ * 데모 HTML: <html data-preset="11" data-variant="a">
+ * 컨셉: 흑백 대비 극대화 + 포인트색 1개. 검정 primary, pill 인터랙션, 큰 700 타이포.
+ *       모든 수치는 독립 해석이며 공식 값이 아니다.
+ * ============================================================ */
+
+:root {
+  /* ---------- §2 색 (a 변형, 라이트) ---------- */
+  --color-bg: #FFFFFF;                 /* 캔버스(지도/화면 배경) */
+  --color-surface: #F6F6F6;            /* 카드·채움 영역·입력 바닥 (bg 대비 검정텍스트 19.43:1) */
+  --color-surface-raised: #FFFFFF;     /* 바텀시트·모달·지도 오버레이(그림자로 부양) */
+  --color-surface-pressed: #E2E2E2;    /* 리스트/타일 press 채움 */
+
+  --color-text: #000000;               /* 잉크. bg 대비 21.00:1 */
+  --color-text-sub: #5E5E5E;           /* 보조 본문. bg 6.48:1 / surface 6.00:1 */
+  --color-text-tertiary: #6E6E6E;      /* 캡션·타임스탬프. bg 5.10:1 / surface 4.72:1 */
+  --color-text-on-dark: #FFFFFF;       /* 검정 면 위 텍스트 */
+
+  --color-primary: #000000;            /* 검정 CTA·핵심 액션. 흰 텍스트 21.00:1 */
+  --color-primary-text: #FFFFFF;
+  --color-primary-pressed: #282828;    /* primary press. 흰 텍스트 13.6:1 */
+
+  --color-accent: #276EF1;             /* 포인트(경로선·선택·링크 채움·아이콘). 흰 텍스트 4.58:1 */
+  --color-accent-text: #175FDB;        /* 링크/텍스트용 진한 포인트. bg 5.68:1 / surface 5.26:1 */
+  --color-accent-soft: #E6EEFE;        /* 선택 칩·안내 배경 */
+  --color-accent-soft-text: #0B4FCC;   /* soft 위 텍스트. soft 대비 6.00:1 */
+
+  --color-danger: #E11900;             /* 에러·취소. bg 4.84:1 / 흰 텍스트 4.84:1 */
+  --color-danger-soft: #FCE9E6;
+  --color-danger-soft-text: #B31400;   /* danger-soft 대비 5.95:1 */
+  --color-warning: #FFC043;            /* 주의(지연·요금 변동). 검정 텍스트 12.87:1 */
+  --color-warning-soft: #FFF3D9;
+  --color-warning-soft-text: #7A5200;  /* warning-soft 대비 6.29:1 */
+  --color-success: #048848;            /* 완료·도착·결제 성공. bg 4.55:1 / 흰 텍스트 4.55:1 */
+  --color-success-soft: #E4F3EB;
+  --color-success-soft-text: #036B39;  /* success-soft 대비 5.79:1 */
+
+  --color-border: #E2E2E2;             /* 헤어라인·구분선·입력 테두리 */
+  --color-border-strong: #CFCFCF;      /* 강조 구분선(가로 스크롤 페이드 등, 장식) */
+  --color-dim: rgba(0, 0, 0, 0.48);    /* 시트/모달 뒤 딤 */
+  --color-map: #E8E8E8;                /* 회색조 지도 베이스 면(§9) */
+  --color-map-road: #FFFFFF;           /* 지도 도로 */
+  --color-frame-backdrop: #E2E2E2;     /* 데스크톱 프레임 밖 배경(§4) */
+
+  /* ---------- §3 타이포그래피 ---------- */
+  /* 지오메트릭 산세리프 시스템 스택만 사용(외부 로드 금지). 숫자는 mono로 tabular. */
+  --font-display: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+                  'Helvetica Neue', Arial, sans-serif;
+  --font-text: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+               'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+
+  --font-size-display-1: 52px;   /* 700 / 1.23 / -0.02em — 랜딩 히어로 */
+  --font-size-display-2: 36px;   /* 700 / 1.22 / -0.02em — 요금·ETA 대형 숫자 */
+  --font-size-display-3: 32px;   /* 700 / 1.25 / -0.01em — 화면 히어로 숫자 */
+  --font-size-title-1: 24px;     /* 700 / 1.33 / -0.01em — 화면 타이틀 */
+  --font-size-title-2: 20px;     /* 700 / 1.4  / -0.01em — 섹션 헤더 */
+  --font-size-body-lg: 18px;     /* 500 / 1.33 / 0 — 강조 본문·큰 버튼 라벨 */
+  --font-size-body: 16px;        /* 400 / 1.5  / 0 — 기본 본문·리스트 주 텍스트 */
+  --font-size-label: 16px;       /* 500 / 1.25 / 0 — 버튼 라벨·강조 라벨(굵기로 분리) */
+  --font-size-body-sm: 14px;     /* 400 / 1.43 / 0 — 보조 텍스트·리스트 보조 */
+  --font-size-caption: 12px;     /* 400 / 1.33 / 0.01em — 캡션·뱃지·탭 라벨(최소) */
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --line-height-display-1: 1.23;
+  --line-height-display-2: 1.22;
+  --line-height-display-3: 1.25;
+  --line-height-title-1: 1.33;
+  --line-height-title-2: 1.4;
+  --line-height-body-lg: 1.33;
+  --line-height-body: 1.5;
+  --line-height-label: 1.25;
+  --line-height-body-sm: 1.43;
+  --line-height-caption: 1.33;
+
+  --letter-spacing-display: -0.02em;
+  --letter-spacing-title: -0.01em;
+  --letter-spacing-body: 0;
+  --letter-spacing-caption: 0.01em;
+
+  /* ---------- §4 간격 · 레이아웃 (4px 베이스라인 그리드) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+
+  --layout-screen-padding: 16px;      /* 화면 좌우 기본 패딩(기능적 밀도) */
+  --layout-section-gap: 32px;         /* 섹션 간 */
+  --layout-card-padding: 16px;        /* 카드 내부 */
+  --layout-frame-width: 400px;        /* 데스크톱 중앙 프레임(§4) */
+  --size-appbar: 56px;
+  --size-tabbar: 56px;                /* + safe-area */
+  --size-cta: 56px;                   /* 하단 고정 CTA 버튼 높이 */
+  --size-touch-min: 48px;             /* 최소 터치 타깃 */
+  --size-list-row: 64px;              /* 리스트 아이템 min-height */
+
+  /* ---------- §5 형태 ---------- */
+  --radius-none: 0;      /* 풀블리드 미디어·지도(뷰포트에 맞닿는 가장자리) */
+  --radius-sm: 8px;      /* 입력 내부 요소·작은 썸네일 */
+  --radius-md: 12px;     /* 입력 필드·작은 타일 */
+  --radius-lg: 16px;     /* 카드·바텀시트 상단·모달 */
+  --radius-tab: 36px;    /* 세그먼트 토글 트랙(오프셰이프) */
+  --radius-pill: 999px;  /* 버튼·칩·아바타·FAB·토글 — Asphalt 시그니처 */
+
+  --shadow-0: none;      /* 기본. 카드는 그림자 없음(surface·border로 구분) */
+  --shadow-1: 0 2px 8px rgba(0, 0, 0, 0.16);    /* 플로팅 pill·sticky 바·FAB */
+  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.12);   /* 부양 카드·드롭다운·지도 오버레이 */
+  --shadow-3: 0 8px 32px rgba(0, 0, 0, 0.20);   /* 바텀시트·모달·데스크톱 프레임 */
+
+  /* ---------- §7 모션 ---------- */
+  --motion-instant: 100ms;  /* press/tap 반응 */
+  --motion-fast: 160ms;     /* hover·색 전환·작은 전환 */
+  --motion-base: 240ms;     /* 진입·시트·페이지 전환 */
+  --motion-slow: 400ms;     /* 지도 카메라·큰 전환 */
+  --motion-stagger: 30ms;   /* 리스트 스태거 간격(최대 8개) */
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);   /* 기본(양방향) */
+  --ease-decel: cubic-bezier(0, 0, 0.2, 1);        /* 진입(들어오는 요소) */
+  --ease-accel: cubic-bezier(0.4, 0, 1, 1);        /* 퇴장(나가는 요소) */
+}
+
+/* ============================================================
+ * 다크 오버라이드 (a 변형) — §2.2
+ * 검정 캔버스. primary는 흰색으로 반전(검정 위 흰 버튼).
+ * 다크에서 부양은 그림자 대신 surface 밝기 + 1px border로 표현.
+ * ============================================================ */
+:root[data-theme="dark"] {
+  --color-bg: #0E0E0E;
+  --color-surface: #1A1A1A;            /* text 대비 17.40:1 */
+  --color-surface-raised: #242424;
+  --color-surface-pressed: #2E2E2E;
+
+  --color-text: #FFFFFF;               /* bg 대비 19.30:1 */
+  --color-text-sub: #ABABAB;           /* bg 8.41:1 / surface 7.58:1 */
+  --color-text-tertiary: #8A8A8A;      /* bg 5.59:1 / surface 5.04:1 */
+  --color-text-on-dark: #FFFFFF;
+
+  --color-primary: #FFFFFF;            /* 반전: 흰 버튼. 검정 텍스트 21.00:1 */
+  --color-primary-text: #000000;
+  --color-primary-pressed: #E2E2E2;
+
+  --color-accent: #276EF1;             /* 버튼 채움(흰 텍스트 4.58:1). 검정 위 UI 4.22:1 */
+  --color-accent-text: #5B9BF7;        /* 링크/텍스트. bg 6.87:1 / surface 6.20:1 */
+  --color-accent-soft: #12233F;
+  --color-accent-soft-text: #6BA5FF;   /* soft 대비 6.32:1 */
+
+  --color-danger: #FF5B47;             /* 텍스트·아이콘. bg 6.29:1 / surface 5.67:1. 채움 버튼은 검정 텍스트(6.84:1) */
+  --color-danger-soft: #351512;
+  --color-danger-soft-text: #FF8A7A;
+  --color-warning: #FFC043;            /* bg 11.83:1 */
+  --color-warning-soft: #33270D;
+  --color-warning-soft-text: #FFCF6E;
+  --color-success: #33C27A;            /* bg 8.40:1 / surface 7.57:1 */
+  --color-success-soft: #12291F;
+  --color-success-soft-text: #4FD08E;
+
+  --color-border: #333333;
+  --color-border-strong: #4A4A4A;
+  --color-dim: rgba(0, 0, 0, 0.64);
+  --color-map: #1F1F1F;
+  --color-map-road: #3A3A3A;
+  --color-frame-backdrop: #000000;
+
+  --shadow-1: 0 2px 8px rgba(0, 0, 0, 0.5);
+  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.55);
+  --shadow-3: 0 8px 32px rgba(0, 0, 0, 0.65);
+}
+
+/* ============================================================
+ * b 변형 (앰버 포인트, hue 18) — 포인트(accent) 색 토큰만 오버라이드 (§2.4)
+ * primary(검정)·뉴트럴·danger/warning/success는 절대 건드리지 않는다.
+ * 간격·타이포·radius·모션도 건드리지 않는다.
+ * ============================================================ */
+:root[data-variant="b"] {
+  --color-accent: #C2410C;             /* 흰 텍스트 5.18:1 */
+  --color-accent-text: #9A3200;        /* bg 7.42:1 / surface 6.87:1 */
+  --color-accent-soft: #FBEAE0;
+  --color-accent-soft-text: #9A3200;   /* soft 대비 6.34:1 */
+}
+
+:root[data-variant="b"][data-theme="dark"] {
+  --color-accent: #FF8355;             /* 검정 텍스트 8.63:1 (채움 버튼은 검정 텍스트) */
+  --color-accent-text: #FF8355;        /* bg 7.93:1 / surface 7.15:1 */
+  --color-accent-soft: #2E1A10;
+  --color-accent-soft-text: #FF8355;   /* soft 대비 6.79:1 */
+}
+
+/* ============================================================
+ * prefers-reduced-motion — 전역 (§7)
+ * transform 기반 애니메이션 제거, opacity 전환만 유지.
+ * ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 120ms !important;
+    transition-property: opacity !important;
+    scroll-behavior: auto !important;
+  }
+}

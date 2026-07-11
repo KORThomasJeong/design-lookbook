@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="9" data-variants="a,b" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>빛 — 속성 편집 · Prism 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 속성 편집 (§9) — 화면 고유 레이아웃 치수 */
+.artboard { width: 440px; height: 300px; }
+.ab-heading { position: absolute; left: 40px; top: 96px; color: var(--color-text); font-size: var(--font-size-heading-l); font-weight: var(--font-weight-bold); letter-spacing: var(--letter-spacing-heading); }
+.swatch-row { display: flex; align-items: center; gap: var(--space-3); }
+.opacity-val { width: 48px; text-align: right; font-variant-numeric: tabular-nums; color: var(--color-text-sub); font-size: var(--font-size-caption); }
+.seg-fill { flex: 1; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="studio">
+
+  <header class="menubar">
+    <span class="appmark"><span class="glyph" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8v8l9 5 9-5V8z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>
+    </span>빛</span>
+    <span class="menubar-doc t-caption"><span class="docname">청춘 포스터 · 리뉴얼</span><span class="save-dot" aria-hidden="true"></span>저장됨 · 1분 전</span>
+    <div class="menubar-actions">
+      <a class="btn btn-primary" href="screen-4.html">내보내기</a>
+    </div>
+  </header>
+
+  <div class="workspace">
+
+    <nav class="rail" aria-label="도구 및 화면">
+      <button class="toolbtn" type="button" aria-pressed="false" aria-label="선택 도구 (V)" title="선택 (V)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4l7 16 2.5-6.5L21 11z"/></svg>
+      </button>
+      <button class="toolbtn" type="button" aria-pressed="true" aria-label="텍스트 (T)" title="텍스트 (T)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14M12 6v13M9 19h6"/></svg>
+      </button>
+      <button class="toolbtn" type="button" aria-pressed="false" aria-label="도형 (R)" title="도형 (R)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+      </button>
+      <span class="rail-spacer"></span>
+      <span class="rail-divider" aria-hidden="true"></span>
+      <a class="toolbtn" href="screen-2.html" aria-label="에셋 라이브러리" title="에셋 라이브러리">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      </a>
+      <a class="toolbtn" href="screen-5.html" aria-label="환경설정" title="환경설정">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2l-.3-2.5H8.7l-.3 2.5a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 4 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.3 2.5h4.6l.3-2.5a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/></svg>
+      </a>
+    </nav>
+
+    <main class="canvaswrap enter" aria-label="캔버스">
+      <div class="artboard">
+        <span class="artboard-label t-micro num">아트보드 1 · 1920 × 1080</span>
+        <span class="ab-heading">봄날의 기록</span>
+        <div class="selbox" style="left:40px; top:92px; width:220px; height:44px;" aria-hidden="true">
+          <span class="handle nw"></span><span class="handle n"></span><span class="handle ne"></span>
+          <span class="handle e"></span><span class="handle se"></span><span class="handle s"></span>
+          <span class="handle sw"></span><span class="handle w"></span>
+        </div>
+      </div>
+    </main>
+
+    <aside class="panel" id="panel" aria-label="속성">
+      <span class="grabbar" aria-hidden="true"></span>
+
+      <!-- 선택 요약 헤더 -->
+      <div style="padding: var(--space-5) var(--space-5) var(--space-4); border-bottom: var(--border-width) solid var(--color-border); display:flex; align-items:center; gap: var(--space-3);">
+        <span class="thumb" style="color: var(--color-text-sub);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6h14M12 6v13M9 19h6"/></svg></span>
+        <span class="t-heading-s" style="flex:1;">텍스트 레이어</span>
+        <span class="badge badge-primary">선택됨</span>
+      </div>
+
+      <div class="panel-scroll">
+        <!-- 텍스트 섹션 -->
+        <section class="pgroup" data-open="true">
+          <button class="pgroup-head" type="button" data-toggle aria-expanded="true">
+            <svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            <span class="pgroup-title">텍스트</span>
+          </button>
+          <div class="pgroup-body">
+            <label class="field-stack"><span class="label">글꼴</span>
+              <span class="select"><select aria-label="글꼴"><option>Pretendard</option><option>본고딕</option><option>나눔스퀘어</option><option>Apple SD Gothic Neo</option></select><span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span>
+            </label>
+            <div class="field-grid">
+              <label class="field-stack"><span class="label">크기</span>
+                <span class="field stepper"><input type="text" value="48" aria-label="글자 크기" inputmode="numeric"><span class="unit">pt</span>
+                  <span class="carets"><button type="button" data-step="up" aria-label="크기 증가"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button><button type="button" data-step="down" aria-label="크기 감소"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></span></span>
+              </label>
+              <label class="field-stack"><span class="label">자간</span>
+                <span class="field stepper"><input type="text" value="-2" aria-label="자간" inputmode="numeric"><span class="unit">%</span>
+                  <span class="carets"><button type="button" data-step="up" aria-label="자간 증가"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button><button type="button" data-step="down" aria-label="자간 감소"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></span></span>
+              </label>
+            </div>
+            <div class="field-row">
+              <span class="label">정렬</span>
+              <span class="seg stretch seg-fill" data-seg role="group" aria-label="텍스트 정렬">
+                <button type="button" aria-pressed="true" aria-label="왼쪽 정렬"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h13"/></svg></button>
+                <button type="button" aria-pressed="false" aria-label="가운데 정렬"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M7 12h10M6 18h12"/></svg></button>
+                <button type="button" aria-pressed="false" aria-label="오른쪽 정렬"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M10 12h10M7 18h13"/></svg></button>
+                <button type="button" aria-pressed="false" aria-label="양쪽 정렬"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 레이아웃 섹션 -->
+        <section class="pgroup" data-open="true">
+          <button class="pgroup-head" type="button" data-toggle aria-expanded="true">
+            <svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            <span class="pgroup-title">레이아웃</span>
+          </button>
+          <div class="pgroup-body">
+            <div class="field-grid">
+              <label class="field-stack"><span class="label">X</span>
+                <span class="field stepper"><input type="text" value="160" aria-label="X 좌표" inputmode="numeric"><span class="unit">px</span>
+                  <span class="carets"><button type="button" data-step="up" aria-label="X 증가"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button><button type="button" data-step="down" aria-label="X 감소"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></span></span>
+              </label>
+              <label class="field-stack"><span class="label">Y</span>
+                <span class="field stepper"><input type="text" value="368" aria-label="Y 좌표" inputmode="numeric"><span class="unit">px</span>
+                  <span class="carets"><button type="button" data-step="up" aria-label="Y 증가"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button><button type="button" data-step="down" aria-label="Y 감소"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></span></span>
+              </label>
+              <label class="field-stack"><span class="label">W</span>
+                <span class="field stepper"><input type="text" value="880" aria-label="너비" inputmode="numeric"><span class="unit">px</span>
+                  <span class="carets"><button type="button" data-step="up" aria-label="너비 증가"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button><button type="button" data-step="down" aria-label="너비 감소"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></span></span>
+              </label>
+              <label class="field-stack"><span class="label">회전</span>
+                <span class="field stepper"><input type="text" value="0" aria-label="회전" inputmode="numeric"><span class="unit">°</span>
+                  <span class="carets"><button type="button" data-step="up" aria-label="회전 증가"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button><button type="button" data-step="down" aria-label="회전 감소"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></span></span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <!-- 모양 섹션 -->
+        <section class="pgroup" data-open="true">
+          <button class="pgroup-head" type="button" data-toggle aria-expanded="true">
+            <svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            <span class="pgroup-title">모양</span>
+          </button>
+          <div class="pgroup-body">
+            <div class="field-row"><span class="label">채움</span>
+              <span class="swatch-row"><span class="swatch" style="background: var(--color-text);" aria-hidden="true"></span><span class="mono t-caption">1F1F1F</span></span>
+            </div>
+            <div class="field-row"><span class="label">불투명도</span>
+              <span class="slider"><input type="range" min="0" max="100" value="100" aria-label="불투명도"></span>
+              <span class="opacity-val">100%</span>
+            </div>
+            <div class="field-row"><span class="label">선 색</span>
+              <span class="swatch-row"><span class="swatch" style="background: var(--color-primary);" aria-hidden="true"></span><span class="mono t-caption">3B63FB</span></span>
+            </div>
+            <label class="field-row"><span class="label">선 두께</span>
+              <span class="field stepper" style="max-width: 96px;"><input type="text" value="2" aria-label="선 두께" inputmode="numeric"><span class="unit">px</span>
+                <span class="carets"><button type="button" data-step="up" aria-label="선 두께 증가"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg></button><button type="button" data-step="down" aria-label="선 두께 감소"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></span></span>
+            </label>
+            <div class="field-row"><span class="label">그림자</span>
+              <span class="toggle" role="switch" tabindex="0" aria-checked="true" aria-label="그림자" data-toast="그림자를"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 효과 아코디언 (접힘) -->
+        <section class="pgroup" data-open="false">
+          <button class="pgroup-head" type="button" data-toggle aria-expanded="false">
+            <svg class="caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+            <span class="pgroup-title">효과</span>
+            <span class="action t-micro">2</span>
+          </button>
+          <div class="pgroup-body">
+            <div class="field-row"><span class="label">가우시안 블러</span>
+              <span class="slider"><input type="range" min="0" max="40" value="6" aria-label="블러"></span>
+              <span class="opacity-val">6px</span>
+            </div>
+            <div class="field-row"><span class="label">노이즈</span>
+              <span class="slider"><input type="range" min="0" max="100" value="12" aria-label="노이즈"></span>
+              <span class="opacity-val">12%</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </aside>
+
+  </div>
+
+  <footer class="statusbar">
+    <span>줌 100%</span>
+    <span>텍스트 레이어 선택됨</span>
+    <span class="push">X 160　Y 368　W 880</span>
+  </footer>
+
+  <nav class="tabbar" aria-label="화면 이동">
+    <a class="tab" href="screen-1.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 18h18"/></svg><span class="tlabel">캔버스</span></a>
+    <a class="tab" href="screen-2.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tlabel">에셋</span></a>
+    <a class="tab" href="screen-3.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h7"/></svg><span class="tlabel">속성</span></a>
+    <a class="tab" href="screen-4.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 21h14"/></svg><span class="tlabel">내보내기</span></a>
+    <a class="tab" href="screen-5.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2l-.3-2.5H8.7l-.3 2.5a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 4 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.3 2.5h4.6l.3-2.5a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/></svg><span class="tlabel">설정</span></a>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+    <span class="toast-msg"></span>
+  </div>
+
+</div>
+</body>
+</html>

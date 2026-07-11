@@ -5,7 +5,7 @@ inspired-by: Stripe (stripe.com / Stripe Dashboard) — 서술 참조만, 상표
 mood: 결제 인프라의 차분한 자신감. 뉴트럴 슬레이트 위 인디고 한 점, 정교한 데이터 밀도, 깔끔한 표와 차트, 소리 없이 정착하는 모션
 best-for: 결제·핀테크 데스크톱 대시보드, 백오피스 콘솔, B2B SaaS 어드민, 데이터 밀도 높은 관리자 화면
 variants: [a, b]
-status: spec-draft
+status: complete
 ---
 
 # 12 · Ink

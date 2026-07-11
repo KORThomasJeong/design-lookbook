@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="11" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>가자 — 홈 · Asphalt 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-1 홈 (§9) — 풀블리드 지도 + 목적지 입력 */
+.home-stage { flex: 1; }
+.recent-title { margin-bottom: var(--space-3); }
+.fab-me { bottom: 236px; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <div class="map-stage home-stage" role="img" aria-label="현재 위치 주변 지도. 서울 강남 일대 회색조 지도.">
+    <svg class="map-svg" viewBox="0 0 390 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g class="map-road" stroke-width="18"><path d="M-20 150 H410"/><path d="M-20 430 H410"/></g>
+      <g class="map-road" stroke-width="12"><path d="M90 -20 V660"/><path d="M300 -20 V660"/><path d="M-20 290 H410"/></g>
+      <g class="map-road" stroke-width="7"><path d="M180 -20 V660"/><path d="M-20 540 H410"/><path d="M-20 60 H410"/><path d="M245 -20 L120 660"/></g>
+      <!-- 현재 위치 -->
+      <circle class="dot-me" cx="180" cy="360" r="9"/>
+    </svg>
+
+    <!-- 상단 sticky 검색 (§6.2) -->
+    <div class="map-search field" role="button" tabindex="0" onclick="location.href='screen-2.html'" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='screen-2.html'}">
+      <svg class="field-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <span class="field-btn placeholder">어디로 갈까요?</span>
+    </div>
+
+    <!-- 현재 위치 FAB (§9) -->
+    <button class="fab fab-me" type="button" aria-label="현재 위치로 이동" onclick="gToast('현재 위치로 이동했어요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+    </button>
+
+    <!-- 하단 오버레이 카드 (§6.10) -->
+    <section class="overlay" aria-label="최근 목적지">
+      <div class="grabber" aria-hidden="true"></div>
+      <h2 class="t-title2 recent-title">최근 목적지</h2>
+      <div class="list stagger">
+        <a class="row" href="screen-2.html">
+          <span class="ico-circle" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </span>
+          <span class="row-main">
+            <span class="row-title">강남역 2호선</span>
+            <span class="row-sub">서울 강남구 강남대로 396</span>
+          </span>
+          <span class="row-amt mono">4.2km</span>
+        </a>
+        <a class="row" href="screen-2.html">
+          <span class="ico-circle" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </span>
+          <span class="row-main">
+            <span class="row-title">스타필드 코엑스몰</span>
+            <span class="row-sub">서울 강남구 영동대로 513</span>
+          </span>
+          <span class="row-amt mono">3.1km</span>
+        </a>
+        <a class="row" href="screen-2.html">
+          <span class="ico-circle" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11a7 7 0 1 0-14 0c0 4.7 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          </span>
+          <span class="row-main">
+            <span class="row-title">김포공항 국내선</span>
+            <span class="row-sub">서울 강서구 하늘길 112</span>
+          </span>
+          <span class="row-amt mono">18.6km</span>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html" aria-current="page">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 21 3l-8 18-2-7-8-3z"/></svg>
+      <span class="tab-label">이동</span></a>
+    <a class="tab" href="screen-5.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+      <span class="tab-label">기록</span></a>
+    <button class="tab" type="button" onclick="gToast('계정은 준비 중이에요')">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+      <span class="tab-label">계정</span></button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+</body>
+</html>

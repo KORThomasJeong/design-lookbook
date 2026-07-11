@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="15" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>톡톡 — 채팅 · Amber 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-1 채팅 목록 (§9) — 밀도 있는 리스트, 노랑은 FAB 1곳만 */
+.search-wrap { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.chat-list { margin-top: var(--space-2); }
+.chat-preview { display: flex; align-items: center; gap: var(--space-1); }
+.mute-ico { color: var(--color-text-tertiary); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <h1 class="t-title1 appbar-lead">채팅</h1>
+    <span class="appbar-spacer"></span>
+    <button class="icon-btn" type="button" aria-label="검색" onclick="tkToast('검색은 준비 중이에요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </button>
+    <button class="icon-btn" type="button" aria-label="새 채팅" onclick="tkToast('새 채팅을 시작해요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    </button>
+  </header>
+
+  <main class="scroll scroll-pad-tab page-enter">
+    <div class="search-wrap">
+      <div class="search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" placeholder="이름, 채팅방 검색" aria-label="채팅 검색">
+      </div>
+    </div>
+
+    <ul class="chat-list stagger" aria-label="채팅방 목록">
+      <li><a class="row" href="screen-2.html" aria-label="김서연, 안 읽은 메시지 3개">
+        <span class="av-wrap"><span class="avatar avatar-48" aria-hidden="true">서</span><span class="status-dot" title="접속 중"></span></span>
+        <span class="row-main">
+          <span class="row-title unread ellip">김서연</span>
+          <span class="row-sub ellip">내일 회의 자료 공유할게요 📄</span>
+        </span>
+        <span class="row-end">
+          <span class="row-time num">오후 2:14</span>
+          <span class="badge-unread">3</span>
+        </span>
+      </a></li>
+
+      <li><a class="row" href="screen-2.html" aria-label="디자인 번개, 안 읽은 메시지 12개">
+        <span class="avatar avatar-48 av-neutral" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18a4 4 0 0 0-8 0"/><circle cx="12" cy="8" r="3"/><path d="M4 18a3 3 0 0 1 4-2.8M20 18a3 3 0 0 0-4-2.8"/></svg>
+        </span>
+        <span class="row-main">
+          <span class="row-title unread ellip">디자인 번개 <span class="t-caption tertiary">4</span></span>
+          <span class="row-sub ellip">박준호: 홍대입구 7시 어때요?</span>
+        </span>
+        <span class="row-end">
+          <span class="row-time num">오후 1:02</span>
+          <span class="badge-unread">12</span>
+        </span>
+      </a></li>
+
+      <li><a class="row" href="screen-2.html" aria-label="엄마, 안 읽은 메시지 1개">
+        <span class="avatar avatar-48" aria-hidden="true">엄</span>
+        <span class="row-main">
+          <span class="row-title unread ellip">엄마</span>
+          <span class="row-sub ellip">밥은 먹었니? 국 끓여놨어</span>
+        </span>
+        <span class="row-end">
+          <span class="row-time num">오전 9:15</span>
+          <span class="badge-unread">1</span>
+        </span>
+      </a></li>
+
+      <li><a class="row" href="screen-2.html" aria-label="이도현, 읽음">
+        <span class="avatar avatar-48" aria-hidden="true">도</span>
+        <span class="row-main">
+          <span class="row-title ellip">이도현</span>
+          <span class="row-sub chat-preview"><span class="ellip">네 감사합니다! 조심히 들어가세요</span></span>
+        </span>
+        <span class="row-end">
+          <span class="row-time num">오전 11:40</span>
+        </span>
+      </a></li>
+
+      <li><a class="row" href="screen-2.html" aria-label="회사 공지, 알림 꺼짐">
+        <span class="avatar avatar-48 av-neutral" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8a8 8 0 0 1 16 0v5l1.5 2H2.5L4 13z"/><path d="M9.5 19a2.5 2.5 0 0 0 5 0"/></svg>
+        </span>
+        <span class="row-main">
+          <span class="row-title ellip">회사 공지방</span>
+          <span class="row-sub ellip">[안내] 7월 워크숍 일정을 확인해 주세요</span>
+        </span>
+        <span class="row-end">
+          <span class="row-time num">어제</span>
+          <svg class="mute-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-label="알림 꺼짐"><path d="M4 8a8 8 0 0 1 12-6.9"/><path d="M18 8v5l2 2H8"/><path d="m3 3 18 18"/></svg>
+        </span>
+      </a></li>
+
+      <li><a class="row" href="screen-2.html" aria-label="정하늘, 읽음">
+        <span class="avatar avatar-48" aria-hidden="true">하</span>
+        <span class="row-main">
+          <span class="row-title ellip">정하늘</span>
+          <span class="row-sub ellip">사진 잘 나왔다 ㅋㅋ 다음에 또 가자</span>
+        </span>
+        <span class="row-end">
+          <span class="row-time num">어제</span>
+        </span>
+      </a></li>
+
+      <li><a class="row" href="screen-2.html" aria-label="최민재, 읽음">
+        <span class="avatar avatar-48" aria-hidden="true">민</span>
+        <span class="row-main">
+          <span class="row-title ellip">최민재</span>
+          <span class="row-sub ellip">ㅇㅋ 그때 봐</span>
+        </span>
+        <span class="row-end">
+          <span class="row-time num">7월 8일</span>
+        </span>
+      </a></li>
+
+      <li><a class="row" href="screen-3.html" aria-label="윤지우 프로필, 읽음">
+        <span class="avatar avatar-48" aria-hidden="true">지</span>
+        <span class="row-main">
+          <span class="row-title ellip">윤지우</span>
+          <span class="row-sub ellip">주말에 등산 같이 가실 분 구해요 🏔️</span>
+        </span>
+        <span class="row-end">
+          <span class="row-time num">7월 7일</span>
+        </span>
+      </a></li>
+    </ul>
+  </main>
+
+  <button class="fab" type="button" aria-label="새 채팅 시작" onclick="tkToast('새 채팅을 시작해요')">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-3.4-6.5"/><path d="M12 8v8M8 12h8"/></svg>
+  </button>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html" aria-current="page">
+      <span class="tab-ico-wrap"><svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.3 7.3L4 21l1.7-5.7A8 8 0 1 1 21 12z"/></svg><span class="tab-dot" aria-hidden="true"></span></span>
+      <span class="tab-label">채팅</span></a>
+    <a class="tab" href="screen-3.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>
+      <span class="tab-label">친구</span></a>
+    <a class="tab" href="screen-4.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="2"/><rect x="14" y="4" width="6" height="6" rx="2"/><rect x="4" y="14" width="6" height="6" rx="2"/><rect x="14" y="14" width="6" height="6" rx="2"/></svg>
+      <span class="tab-label">더보기</span></a>
+    <a class="tab" href="screen-5.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.1a2 2 0 1 1-4 0v-.2a1.7 1.7 0 0 0-2.9-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 4.6 13a1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.2A1.7 1.7 0 0 0 4.6 6.4l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 2.9-.3 1.7 1.7 0 0 0 .1-.7V3a2 2 0 1 1 4 0v.2a1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1a2 2 0 1 1 0 4h-.2a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      <span class="tab-label">설정</span></a>
+  </nav>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<html lang="ko" data-preset="16" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>누리 — MY · Jade 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 마이페이지 (§9) */
+.profile-card { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-4); }
+.profile-main { flex: 1; min-width: 0; }
+.profile-email { margin-top: var(--space-05); }
+.stat-card { margin-top: var(--space-4); }
+.logout-wrap { margin-top: var(--space-6); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="gnb">
+    <span class="gnb-wordmark" style="color: var(--color-text)">MY</span>
+    <span class="gnb-spacer"></span>
+    <button class="icon-btn" type="button" aria-label="설정" onclick="nToast('설정으로 이동해요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M4.5 7l2.2 1.3M17.3 15.7 19.5 17M4.5 17l2.2-1.3M17.3 8.3 19.5 7"/></svg>
+    </button>
+  </header>
+
+  <main class="scroll pad-tab page-enter">
+
+    <!-- 프로필 카드 -->
+    <div class="card profile-card">
+      <span class="avatar avatar-56" aria-hidden="true">박</span>
+      <div class="profile-main">
+        <p class="t-title3">박지훈</p>
+        <p class="t-label sub profile-email ellip">jihoon.park@nuri.com</p>
+      </div>
+      <a class="btn btn-secondary btn-sm" href="screen-4.html">프로필 편집</a>
+    </div>
+
+    <!-- 포인트/활동 요약 -->
+    <div class="card stat-card">
+      <div class="stat-row">
+        <div class="stat">
+          <p class="t-num-lg" data-count="12400" data-suffix="">12,400</p>
+          <p class="stat-label">포인트</p>
+        </div>
+        <div class="stat">
+          <p class="t-num-lg num">3</p>
+          <p class="stat-label">쿠폰</p>
+        </div>
+        <div class="stat">
+          <p class="t-num-lg num">27</p>
+          <p class="stat-label">찜</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 내 활동 -->
+    <section class="section" aria-label="내 활동">
+      <h2 class="t-title2 section-head">내 활동</h2>
+      <div class="card list">
+        <a class="list-item" href="screen-2.html">
+          <span class="list-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.5 2"/></svg></span>
+          <span class="list-label">최근 본 상품</span>
+          <span class="list-count">12</span>
+          <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span>
+        </a>
+        <a class="list-item" href="screen-2.html">
+          <span class="list-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+          <span class="list-label">구독한 채널</span>
+          <span class="list-count">8</span>
+          <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span>
+        </a>
+        <a class="list-item" href="screen-3.html">
+          <span class="list-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-6-3.5L6 20z"/></svg></span>
+          <span class="list-label">저장한 글</span>
+          <span class="list-count">24</span>
+          <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 설정 -->
+    <section class="section" aria-label="설정">
+      <h2 class="t-title2 section-head">설정</h2>
+      <div class="card list">
+        <a class="list-item" href="screen-4.html" onclick="event.preventDefault(); nToast('알림 설정으로 이동해요')">
+          <span class="list-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></span>
+          <span class="list-label">알림 설정</span>
+          <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span>
+        </a>
+        <div class="list-item">
+          <span class="list-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14A8 8 0 0 1 10 4a7 7 0 1 0 10 10z"/></svg></span>
+          <span class="list-label">다크 모드</span>
+          <span class="switch" data-theme-switch role="switch" aria-checked="false" tabindex="0" aria-label="다크 모드" onclick="nTheme(this)" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();nTheme(this);}"></span>
+        </div>
+        <a class="list-item" href="screen-4.html" onclick="event.preventDefault(); nToast('로그인 기기 관리로 이동해요')">
+          <span class="list-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M9 20h6M12 16v4"/></svg></span>
+          <span class="list-label">로그인 기기 관리</span>
+          <span class="list-count">3</span>
+          <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span>
+        </a>
+        <a class="list-item" href="screen-4.html" onclick="event.preventDefault(); nToast('고객센터로 이동해요')">
+          <span class="list-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4 2c0 1.5-2 1.8-2 3"/><path d="M12 17h.01"/></svg></span>
+          <span class="list-label">고객센터</span>
+          <span class="chev"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <div class="logout-wrap">
+      <a class="btn btn-ghost" href="screen-4.html">로그아웃</a>
+    </div>
+
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+      <span class="tab-label">홈</span></a>
+    <a class="tab" href="screen-2.html">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M8 9h5M8 13h8M8 16h6"/></svg>
+      <span class="tab-label">뉴스</span></a>
+    <a class="tab" href="screen-2.html">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 11H7z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+      <span class="tab-label">쇼핑</span></a>
+    <a class="tab" href="screen-5.html" aria-current="page">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c0-3.6 3.1-5.5 7-5.5s7 1.9 7 5.5"/></svg>
+      <span class="tab-label">MY</span></a>
+  </nav>
+
+</div>
+</body>
+</html>

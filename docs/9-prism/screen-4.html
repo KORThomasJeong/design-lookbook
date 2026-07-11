@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="9" data-variants="a,b" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>빛 — 내보내기 · Prism 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-4 내보내기 모달 (§9) — 화면 고유 레이아웃 치수 */
+.artboard { width: 460px; height: 260px; }
+.ab-rect { position: absolute; left: 60px; top: 52px; width: 200px; height: 120px; background: var(--color-primary-soft); border-radius: var(--radius-sm); }
+.ab-circle { position: absolute; right: 44px; top: 40px; width: 80px; height: 80px; background: var(--color-success-soft); border-radius: var(--radius-full); }
+.ab-text { position: absolute; left: 60px; bottom: 32px; color: var(--color-text); font-size: var(--font-size-body-lg); font-weight: var(--font-weight-semibold); }
+
+.export-body { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-8); }
+.export-preview { display: flex; flex-direction: column; gap: var(--space-4); }
+.export-thumb {
+  aspect-ratio: 16 / 10; border-radius: var(--radius-md);
+  border: var(--border-width) solid var(--color-border);
+  background: var(--color-surface-sunken);
+  position: relative; overflow: hidden;
+}
+.et-rect { position: absolute; left: 24px; top: 24px; width: 84px; height: 52px; background: var(--color-primary-soft); border-radius: var(--radius-sm); }
+.et-circle { position: absolute; right: 20px; top: 18px; width: 36px; height: 36px; background: var(--color-success-soft); border-radius: var(--radius-full); }
+.size-row { display: flex; align-items: baseline; justify-content: space-between; }
+.export-fields { display: flex; flex-direction: column; gap: var(--space-6); }
+.export-fields .flabel { display: block; color: var(--color-text-sub); font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); margin-bottom: var(--space-3); }
+.chiprow { display: flex; gap: var(--space-3); }
+.radio-list { display: flex; flex-direction: column; gap: var(--space-1); }
+@media (max-width: 600px) {
+  .export-body { grid-template-columns: 1fr; gap: var(--space-6); }
+}
+.bg-studio { filter: saturate(0.9); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<!-- 배경: 편집 화면 (컨텍스트) -->
+<div class="studio bg-studio" aria-hidden="true">
+  <header class="menubar">
+    <span class="appmark"><span class="glyph" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8v8l9 5 9-5V8z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>
+    </span>빛</span>
+    <span class="menubar-doc t-caption"><span class="docname">청춘 포스터 · 리뉴얼</span><span class="save-dot"></span>저장됨</span>
+    <div class="menubar-actions"><span class="btn btn-primary">내보내기</span></div>
+  </header>
+  <div class="workspace">
+    <nav class="rail">
+      <span class="toolbtn" aria-pressed="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4l7 16 2.5-6.5L21 11z"/></svg></span>
+      <span class="toolbtn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/></svg></span>
+    </nav>
+    <main class="canvaswrap">
+      <div class="artboard">
+        <span class="artboard-label t-micro num">아트보드 1 · 1920 × 1080</span>
+        <div class="ab-circle"></div><div class="ab-rect"></div>
+        <span class="ab-text">봄날의 기록</span>
+      </div>
+    </main>
+    <aside class="panel"></aside>
+  </div>
+  <footer class="statusbar"><span>줌 100%</span><span>1920 × 1080px</span></footer>
+</div>
+
+<!-- 내보내기 모달 (§6.7) -->
+<div class="scrim" role="presentation">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="export-title">
+    <div class="modal-head">
+      <h1 class="t-heading-s" id="export-title" style="flex:1;">내보내기</h1>
+      <a class="iconbtn" href="screen-1.html" aria-label="닫기">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </a>
+    </div>
+
+    <div class="modal-body">
+      <div class="export-body">
+        <!-- 미리보기 -->
+        <div class="export-preview">
+          <div class="export-thumb" aria-hidden="true"><span class="et-rect"></span><span class="et-circle"></span></div>
+          <div class="size-row">
+            <span class="t-caption sub">예상 크기</span>
+            <span class="t-caption num" style="font-weight: var(--font-weight-semibold);">1.8MB</span>
+          </div>
+          <div class="size-row">
+            <span class="t-caption sub">해상도</span>
+            <span class="t-caption num" style="font-weight: var(--font-weight-semibold);">3840 × 2160px</span>
+          </div>
+        </div>
+
+        <!-- 옵션 -->
+        <div class="export-fields">
+          <div>
+            <span class="flabel">형식</span>
+            <span class="seg stretch" data-seg role="group" aria-label="파일 형식">
+              <button type="button" aria-pressed="true">PNG</button>
+              <button type="button" aria-pressed="false">SVG</button>
+              <button type="button" aria-pressed="false">PDF</button>
+              <button type="button" aria-pressed="false">JPG</button>
+            </span>
+          </div>
+
+          <div>
+            <span class="flabel">배율</span>
+            <span class="chiprow" data-chips="single" role="group" aria-label="배율">
+              <button class="chip" type="button" aria-pressed="false">1×</button>
+              <button class="chip" type="button" aria-pressed="true">2×</button>
+              <button class="chip" type="button" aria-pressed="false">3×</button>
+            </span>
+          </div>
+
+          <div>
+            <span class="flabel">범위</span>
+            <div class="radio-list" data-radios role="radiogroup" aria-label="내보낼 범위">
+              <span class="radio" role="radio" tabindex="0" aria-checked="true">
+                <span class="dot" aria-hidden="true"></span><span class="t-body">아트보드 전체</span>
+              </span>
+              <span class="radio" role="radio" tabindex="0" aria-checked="false">
+                <span class="dot" aria-hidden="true"></span><span class="t-body">선택 항목만</span>
+              </span>
+            </div>
+          </div>
+
+          <label class="field-stack">
+            <span class="label">파일명</span>
+            <span class="field"><input type="text" value="청춘포스터_리뉴얼" aria-label="파일명"><span class="unit">.png</span></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-foot">
+      <a class="btn btn-secondary" href="screen-1.html">취소</a>
+      <button class="btn btn-primary" type="button" onclick="bitToast('PNG로 내보냈어요')">내보내기</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+  <span class="toast-msg"></span>
+</div>
+
+</body>
+</html>

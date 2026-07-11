@@ -1,0 +1,556 @@
+/* docs/9-prism/app.css — 프리셋 9 "Prism" 데모 디자인 툴 "빛(Bit)" 공용 스타일
+ * 규칙 원본: presets/9-prism/SPEC.md §3~§10.
+ * 색·간격·radius·shadow·모션은 전부 tokens.css 변수만 사용한다.
+ * 하드코딩 px는 토큰에 없는 순수 레이아웃 치수(width/height/grid/아이콘)만 허용. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { height: 100%; }
+
+body {
+  min-height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: none; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+svg { flex: none; display: block; }
+:focus-visible { outline: 0; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+
+/* ── 타입 스케일 (§3) — 이 8단계 외 font-size 금지 ─────────────── */
+.t-display   { font-size: var(--font-size-display);   font-weight: var(--font-weight-bold);     line-height: var(--line-height-display);   letter-spacing: var(--letter-spacing-heading); }
+.t-heading-l { font-size: var(--font-size-heading-l); font-weight: var(--font-weight-bold);     line-height: var(--line-height-heading-l); letter-spacing: var(--letter-spacing-heading); }
+.t-heading-m { font-size: var(--font-size-heading-m); font-weight: var(--font-weight-bold);     line-height: var(--line-height-heading-m); letter-spacing: var(--letter-spacing-heading); }
+.t-heading-s { font-size: var(--font-size-heading-s); font-weight: var(--font-weight-semibold); line-height: var(--line-height-heading-s); }
+.t-body-lg   { font-size: var(--font-size-body-lg);   font-weight: var(--font-weight-medium);   line-height: var(--line-height-body-lg); }
+.t-body      { font-size: var(--font-size-body);      font-weight: var(--font-weight-regular);  line-height: var(--line-height-body); }
+.t-caption   { font-size: var(--font-size-caption);   font-weight: var(--font-weight-medium);   line-height: var(--line-height-caption); }
+.t-micro     { font-size: var(--font-size-micro);     font-weight: var(--font-weight-semibold); line-height: var(--line-height-micro); letter-spacing: var(--letter-spacing-micro); }
+.sub { color: var(--color-text-sub); }
+.tertiary { color: var(--color-text-tertiary); }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--font-family-mono); font-variant-numeric: tabular-nums; }
+.ellip { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+/* ── 앱 셸: 데스크톱 3존 (§4·§9) ────────────────────────────── */
+.studio {
+  display: grid;
+  grid-template-rows: var(--size-topbar) minmax(0, 1fr) var(--size-statusbar);
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--color-bg);
+}
+.workspace {
+  display: grid;
+  grid-template-columns: var(--layout-rail-width) minmax(0, 1fr) var(--layout-panel-width);
+  min-height: 0;
+}
+
+/* ── 메뉴바 (§6.5) ─────────────────────────────────────────── */
+.menubar {
+  display: flex; align-items: center; gap: var(--space-4);
+  height: var(--size-topbar);
+  padding: 0 var(--space-5);
+  background: var(--color-surface);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+.appmark {
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  font-size: var(--font-size-body); font-weight: var(--font-weight-semibold);
+}
+.appmark .glyph {
+  width: 24px; height: 24px; border-radius: var(--radius-sm);
+  display: grid; place-items: center;
+  background: var(--color-primary); color: var(--color-primary-text);
+}
+.menubar-menu { display: flex; gap: var(--space-1); }
+.menu-item {
+  height: var(--control-height-m); padding: 0 var(--space-4);
+  display: inline-flex; align-items: center; border-radius: var(--radius-md);
+  color: var(--color-text-sub);
+  transition: background-color var(--motion-micro) var(--ease-in-out), color var(--motion-micro) var(--ease-in-out);
+}
+.menu-item:hover { background: var(--color-surface-sunken); color: var(--color-text); }
+.menubar-doc {
+  margin: 0 auto;
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  color: var(--color-text-sub);
+}
+.menubar-doc .docname { color: var(--color-text); font-weight: var(--font-weight-medium); }
+.save-dot { width: 6px; height: 6px; border-radius: var(--radius-full); background: var(--color-success); }
+.menubar-actions { display: flex; align-items: center; gap: var(--space-3); }
+
+/* ── 좌측 툴 레일 (§6.5) — 화면 간 사이드바 내비 겸용 ─────────── */
+.rail {
+  display: flex; flex-direction: column; align-items: center; gap: var(--space-2);
+  width: var(--layout-rail-width);
+  padding: var(--space-4) 0;
+  background: var(--color-surface);
+  border-right: var(--border-width) solid var(--color-border);
+}
+.rail-spacer { margin-top: auto; }
+.rail-divider { width: 24px; height: var(--border-width); background: var(--color-border); margin: var(--space-2) 0; }
+.toolbtn {
+  width: 32px; height: 32px; border-radius: var(--radius-md);
+  display: grid; place-items: center;
+  color: var(--color-text-sub);
+  transition: background-color var(--motion-micro) var(--ease-in-out), color var(--motion-micro) var(--ease-in-out);
+}
+.toolbtn:hover { background: var(--color-surface-sunken); color: var(--color-text); }
+.toolbtn:active { filter: brightness(0.94); }
+.toolbtn[aria-pressed="true"], .toolbtn[aria-current="page"] {
+  background: var(--color-primary-soft); color: var(--color-primary);
+}
+:root[data-theme="dark"] .toolbtn[aria-pressed="true"],
+:root[data-theme="dark"] .toolbtn[aria-current="page"] { color: var(--color-primary-soft-text); }
+
+/* ── 캔버스 (§9) ──────────────────────────────────────────── */
+.canvaswrap {
+  position: relative;
+  min-width: 0; min-height: 0;
+  background: var(--color-canvas);
+  overflow: auto;
+  display: grid; place-items: center;
+  padding: var(--space-11);
+}
+.artboard {
+  position: relative;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-2);
+  border-radius: 0;
+}
+.artboard-label {
+  position: absolute; left: 0; top: -20px;
+  color: var(--color-text-sub);
+}
+:root[data-theme="dark"] .artboard-label { color: var(--color-text-tertiary); }
+/* 선택 핸들 8개 (§9) */
+.selbox { position: absolute; outline: var(--border-width-strong) solid var(--color-primary); }
+.handle {
+  position: absolute; width: 8px; height: 8px;
+  background: var(--color-surface); border: var(--border-width-strong) solid var(--color-primary);
+  border-radius: 0;
+}
+.handle.nw { left: -5px; top: -5px; } .handle.n { left: calc(50% - 4px); top: -5px; }
+.handle.ne { right: -5px; top: -5px; } .handle.e { right: -5px; top: calc(50% - 4px); }
+.handle.se { right: -5px; bottom: -5px; } .handle.s { left: calc(50% - 4px); bottom: -5px; }
+.handle.sw { left: -5px; bottom: -5px; } .handle.w { left: -5px; top: calc(50% - 4px); }
+
+/* ── 우측 속성 패널 (§6.3) ─────────────────────────────────── */
+.panel {
+  display: flex; flex-direction: column; min-height: 0;
+  width: var(--layout-panel-width);
+  background: var(--color-surface);
+  border-left: var(--border-width) solid var(--color-border);
+  overflow-y: auto;
+}
+.panel-scroll { flex: 1; min-height: 0; overflow-y: auto; }
+
+/* 패널 섹션(그룹) + 접기 헤더 (§6.3) */
+.pgroup { border-bottom: var(--border-width) solid var(--color-border); }
+.pgroup-head {
+  display: flex; align-items: center; gap: var(--space-3);
+  width: 100%; height: var(--size-list-row);
+  padding: 0 var(--space-5);
+  color: var(--color-text); text-align: left;
+  transition: background-color var(--motion-micro) var(--ease-in-out);
+}
+.pgroup-head:hover { background: var(--color-surface-sunken); }
+.pgroup-head .caret { transition: transform var(--motion-fast) var(--ease-in-out); color: var(--color-text-sub); }
+.pgroup[data-open="false"] .caret { transform: rotate(-90deg); }
+.pgroup-title { font-size: var(--font-size-caption); font-weight: var(--font-weight-semibold); }
+.pgroup-head .action { margin-left: auto; color: var(--color-text-sub); }
+.pgroup-body {
+  padding: var(--space-2) var(--space-5) var(--space-5);
+  display: flex; flex-direction: column; gap: var(--space-4);
+  overflow: hidden;
+}
+.pgroup[data-open="false"] .pgroup-body { display: none; }
+
+/* ── 폼: 라벨-값 행 (§4·§6.2) ──────────────────────────────── */
+.field-row { display: flex; align-items: center; gap: var(--space-4); }
+.field-row .label { width: 96px; flex: none; color: var(--color-text-sub); font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+.field-stack { display: flex; flex-direction: column; gap: var(--space-2); }
+.field-stack > .label { color: var(--color-text-sub); font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); }
+
+/* 텍스트/숫자 입력 (§6.2) */
+.field {
+  display: flex; align-items: center;
+  height: var(--control-height-m); flex: 1; min-width: 0;
+  padding: 0 var(--space-4);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  transition: border-color var(--motion-fast) var(--ease-in-out), box-shadow var(--motion-fast) var(--ease-in-out);
+}
+.field:focus-within, .field:focus { border-color: var(--color-primary); box-shadow: var(--focus-ring); }
+.field input { flex: 1; min-width: 0; border: 0; background: transparent; outline: none; }
+.field .unit { color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
+
+/* number stepper (§6.2) */
+.stepper { position: relative; }
+.stepper input { font-variant-numeric: tabular-nums; }
+.stepper .carets { display: flex; flex-direction: column; margin-left: var(--space-2); }
+.stepper .carets button {
+  width: 16px; height: 12px; display: grid; place-items: center;
+  color: var(--color-text-sub); border-radius: var(--radius-sm);
+  transition: background-color var(--motion-micro) var(--ease-in-out), color var(--motion-micro) var(--ease-in-out);
+}
+.stepper .carets button:hover { background: var(--color-surface-sunken); color: var(--color-text); }
+
+/* ── 버튼 (§6.1) ──────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-3);
+  height: var(--control-height-m); padding: 0 var(--space-6);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-body); font-weight: var(--font-weight-semibold);
+  border: var(--border-width) solid transparent;
+  transition: background-color var(--motion-micro) var(--ease-in-out), border-color var(--motion-micro) var(--ease-in-out), color var(--motion-micro) var(--ease-in-out);
+}
+.btn:active { filter: brightness(0.94); }
+.btn:disabled { opacity: 0.4; pointer-events: none; }
+.btn-lg { height: var(--control-height-l); }
+.btn-primary { background: var(--color-primary); color: var(--color-primary-text); }
+.btn-primary:hover { background: var(--color-primary-hover); }
+.btn-secondary { background: var(--color-surface); border-color: var(--color-border-strong); color: var(--color-text); }
+.btn-secondary:hover { background: var(--color-surface-sunken); }
+.btn-quiet { background: transparent; color: var(--color-primary-soft-text); }
+.btn-quiet:hover { background: var(--color-primary-soft); }
+.btn-negative { background: var(--color-danger); color: var(--color-primary-text); }
+.btn-negative:hover { filter: brightness(0.94); }
+.iconbtn {
+  width: 32px; height: 32px; border-radius: var(--radius-md);
+  display: grid; place-items: center; color: var(--color-text-sub);
+  transition: background-color var(--motion-micro) var(--ease-in-out), color var(--motion-micro) var(--ease-in-out);
+}
+.iconbtn:hover { background: var(--color-surface-sunken); color: var(--color-text); }
+.iconbtn:active { filter: brightness(0.94); }
+
+/* ── 컨텍스트 툴바 (§6.5) ──────────────────────────────────── */
+.ctxbar {
+  display: flex; align-items: center; gap: var(--space-2);
+  height: var(--size-toolbar);
+  padding: 0 var(--space-4);
+  background: var(--color-surface);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+.ctx-sep { width: var(--border-width); height: 24px; background: var(--color-border); margin: 0 var(--space-3); }
+
+/* ── 리스트 아이템 (§6.4) ─────────────────────────────────── */
+.row {
+  position: relative;
+  display: flex; align-items: center; gap: var(--space-3);
+  min-height: var(--size-list-row); padding: 0 var(--space-4);
+  border-radius: var(--radius-md); color: var(--color-text); width: 100%;
+  transition: background-color var(--motion-micro) var(--ease-in-out);
+}
+.row:hover { background: var(--color-surface-sunken); }
+.row[aria-selected="true"], .row[aria-current="true"] { background: var(--color-primary-soft); }
+.row[aria-selected="true"]::before, .row[aria-current="true"]::before {
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 2px; background: var(--color-primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.row .thumb { width: 20px; height: 20px; flex: none; display: grid; place-items: center; color: var(--color-text-sub); }
+.row .rlabel { flex: 1; min-width: 0; }
+.row .meta { margin-left: auto; font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); color: var(--color-text-sub); font-variant-numeric: tabular-nums; }
+
+/* ── 상태바 (§6.6) ────────────────────────────────────────── */
+.statusbar {
+  display: flex; align-items: center; gap: var(--space-6);
+  height: var(--size-statusbar);
+  padding: 0 var(--space-5);
+  background: var(--color-bg);
+  border-top: var(--border-width) solid var(--color-border);
+  font-size: var(--font-size-micro); font-weight: var(--font-weight-semibold);
+  color: var(--color-text-sub); font-variant-numeric: tabular-nums;
+}
+.statusbar .push { margin-left: auto; }
+
+/* ── 스와치 (§6.9) ────────────────────────────────────────── */
+.swatch {
+  width: 20px; height: 20px; flex: none;
+  border-radius: var(--radius-sm);
+  border: var(--border-width) solid var(--color-border);
+}
+.swatch.round { border-radius: var(--radius-full); }
+.swatch.selected { outline: var(--border-width-strong) solid var(--color-primary); outline-offset: 2px; }
+.swatch-btn { display: inline-grid; place-items: center; border-radius: var(--radius-sm); padding: var(--space-1); transition: background-color var(--motion-micro) var(--ease-in-out); }
+.swatch-btn:hover { background: var(--color-surface-sunken); }
+
+/* ── 토글 스위치 (§6.9) ───────────────────────────────────── */
+.toggle {
+  position: relative; width: 28px; height: 16px; flex: none;
+  border-radius: var(--radius-full);
+  background: var(--color-border-strong);
+  transition: background-color var(--motion-fast) var(--ease-in-out);
+}
+.toggle::after {
+  content: ""; position: absolute; top: 2px; left: 2px;
+  width: 12px; height: 12px; border-radius: var(--radius-full);
+  background: var(--color-primary-text);
+  transition: transform var(--motion-fast) var(--ease-in-out);
+}
+.toggle[aria-checked="true"] { background: var(--color-primary); }
+.toggle[aria-checked="true"]::after { transform: translateX(12px); }
+
+/* ── 세그먼트 컨트롤 (§6·§9) ──────────────────────────────── */
+.seg {
+  display: inline-flex; padding: var(--space-1); gap: var(--space-1);
+  background: var(--color-surface-sunken);
+  border-radius: var(--radius-md);
+}
+.seg button {
+  height: 24px; padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-caption); font-weight: var(--font-weight-medium);
+  color: var(--color-text-sub);
+  transition: background-color var(--motion-fast) var(--ease-in-out), color var(--motion-fast) var(--ease-in-out);
+}
+.seg button[aria-pressed="true"] { background: var(--color-surface); color: var(--color-text); box-shadow: var(--shadow-1); }
+.seg.stretch { display: flex; }
+.seg.stretch button { flex: 1; }
+
+/* ── 칩 (§6.9) ────────────────────────────────────────────── */
+.chip {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  height: 24px; padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-caption); font-weight: var(--font-weight-medium);
+  background: var(--color-surface); border: var(--border-width) solid var(--color-border-strong);
+  color: var(--color-text);
+  transition: background-color var(--motion-micro) var(--ease-in-out), border-color var(--motion-micro) var(--ease-in-out), color var(--motion-micro) var(--ease-in-out);
+}
+.chip:hover { background: var(--color-surface-sunken); }
+.chip[aria-pressed="true"] {
+  background: var(--color-primary-soft); color: var(--color-primary-soft-text);
+  border-color: var(--color-primary);
+}
+
+/* ── 뱃지 (§6.9) ──────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center;
+  height: 20px; padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-micro); font-weight: var(--font-weight-semibold);
+}
+.badge-primary { background: var(--color-primary-soft); color: var(--color-primary-soft-text); }
+.badge-accent { background: var(--color-success-soft); color: var(--color-success); }
+
+/* ── 셀렉트 (§6) ─────────────────────────────────────────── */
+.select {
+  position: relative; display: flex; align-items: center;
+  height: var(--control-height-m); flex: 1; min-width: 0;
+  padding: 0 var(--space-4);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  transition: border-color var(--motion-fast) var(--ease-in-out);
+}
+.select:hover { border-color: var(--color-text-sub); }
+.select select {
+  appearance: none; border: 0; background: transparent; outline: none;
+  flex: 1; min-width: 0; cursor: pointer; padding-right: var(--space-5);
+}
+.select .chev { position: absolute; right: var(--space-4); pointer-events: none; color: var(--color-text-sub); }
+
+/* ── 슬라이더 (§6.2 opacity 등) ───────────────────────────── */
+.slider { flex: 1; display: flex; align-items: center; }
+.slider input[type="range"] {
+  appearance: none; width: 100%; height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  outline: none;
+}
+.slider input[type="range"]::-webkit-slider-thumb {
+  appearance: none; width: 14px; height: 14px; border-radius: var(--radius-full);
+  background: var(--color-primary); border: var(--border-width-strong) solid var(--color-surface);
+  cursor: pointer; box-shadow: var(--shadow-1);
+}
+.slider input[type="range"]::-moz-range-thumb {
+  width: 14px; height: 14px; border-radius: var(--radius-full);
+  background: var(--color-primary); border: var(--border-width-strong) solid var(--color-surface);
+  cursor: pointer;
+}
+
+/* ── 라디오 (§6) ─────────────────────────────────────────── */
+.radio { display: flex; align-items: center; gap: var(--space-3); min-height: var(--size-list-row); cursor: pointer; }
+.radio .dot {
+  width: 16px; height: 16px; flex: none; border-radius: var(--radius-full);
+  border: var(--border-width-strong) solid var(--color-border-strong);
+  display: grid; place-items: center;
+  transition: border-color var(--motion-fast) var(--ease-in-out);
+}
+.radio[aria-checked="true"] .dot { border-color: var(--color-primary); }
+.radio[aria-checked="true"] .dot::after {
+  content: ""; width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--color-primary);
+}
+
+/* ── 인라인 배너 (§6.8) ──────────────────────────────────── */
+.banner {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-text);
+  font-size: var(--font-size-caption);
+}
+.banner.warning { border-left-color: var(--color-warning); background: var(--color-warning-soft); }
+
+/* ── 에셋 카드 그리드 (§6.3·§9 screen-2) ─────────────────── */
+.assetgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: var(--space-5);
+}
+.assetcard {
+  display: flex; flex-direction: column; gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer; text-align: left; width: 100%;
+  transition: border-color var(--motion-micro) var(--ease-in-out), background-color var(--motion-micro) var(--ease-in-out);
+}
+.assetcard:hover { border-color: var(--color-border-strong); }
+.assetcard[aria-selected="true"] {
+  border: var(--border-width-strong) solid var(--color-primary);
+  background: var(--color-primary-soft);
+}
+.assetcard .preview {
+  aspect-ratio: 4 / 3; border-radius: var(--radius-sm);
+  background: var(--color-surface-sunken);
+  display: grid; place-items: center; color: var(--color-text-sub);
+  overflow: hidden;
+}
+.assetcard .cname { color: var(--color-text); font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); }
+
+/* ── 모달 + 스크림 (§6.7) ─────────────────────────────────── */
+.scrim {
+  position: fixed; inset: 0; z-index: 400;
+  background: var(--color-overlay);
+  display: grid; place-items: center;
+  padding: var(--space-6);
+  animation: prism-scrim var(--motion-fast) var(--ease-out) both;
+}
+.modal {
+  width: 100%; max-width: 560px;
+  max-height: calc(100dvh - var(--space-12));
+  display: flex; flex-direction: column;
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+  animation: prism-modal var(--motion-base) var(--ease-out) both;
+}
+.modal-head {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-6);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+.modal-body { padding: var(--space-6); overflow-y: auto; }
+.modal-foot {
+  display: flex; justify-content: flex-end; gap: var(--space-4);
+  padding: var(--space-6);
+  border-top: var(--border-width) solid var(--color-border);
+}
+
+/* ── 토스트 (§6.8) — 우하단, 로더 바 위로 띄운다 ──────────── */
+.toast {
+  position: fixed; right: var(--space-5); bottom: var(--space-12); z-index: 500;
+  display: none; align-items: center; gap: var(--space-3);
+  max-width: 320px; padding: var(--space-4) var(--space-5);
+  background: var(--color-surface-raised);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  font-size: var(--font-size-body); font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+}
+.toast.show { display: flex; animation: prism-toast var(--motion-base) var(--ease-out) both; }
+.toast .ico { color: var(--color-success); }
+
+/* ── 빈 상태 (§6.10) ─────────────────────────────────────── */
+.empty { display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--space-11) var(--space-6); color: var(--color-text-sub); }
+.empty .eico { color: var(--color-text-tertiary); margin-bottom: var(--space-5); }
+.empty .etitle { color: var(--color-text); margin-bottom: var(--space-2); }
+.empty .edesc { max-width: 280px; margin-bottom: var(--space-6); }
+
+/* ── 진입 애니메이션 유틸 (§7) ────────────────────────────── */
+.enter { animation: prism-enter var(--motion-base) var(--ease-out) both; }
+@keyframes prism-enter { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes prism-scrim { from { opacity: 0; } to { opacity: 1; } }
+@keyframes prism-modal { from { opacity: 0; } to { opacity: 1; } }
+@keyframes prism-toast { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes prism-tray { from { transform: translateY(100%); } to { transform: none; } }
+
+/* ── 모바일 하단 탭바 (§6.6) — 기본 숨김, 모바일에서만 표시 ── */
+.tabbar { display: none; }
+
+/* ── 반응형 (§4) — 태블릿/모바일 ─────────────────────────── */
+@media (max-width: 1023px) {
+  /* 우측 패널은 캔버스 위 오버레이 드로어로 (태블릿) */
+  .workspace { grid-template-columns: var(--layout-rail-width) minmax(0, 1fr); }
+  .panel {
+    position: absolute; top: 0; right: 0; bottom: 0; z-index: 200;
+    box-shadow: var(--shadow-2);
+    animation: prism-tray var(--motion-slow) var(--ease-out) both;
+  }
+  .panel[hidden] { display: none; }
+}
+
+@media (max-width: 767px) {
+  .studio { grid-template-rows: var(--size-topbar) minmax(0, 1fr) auto; }
+  .workspace { grid-template-columns: minmax(0, 1fr); position: relative; }
+  .rail { display: none; }
+  .menubar { padding: 0 var(--space-4); gap: var(--space-3); }
+  .menubar-menu { display: none; }
+  .statusbar { display: none; }
+  /* 모바일: 우측 패널 → 바텀 트레이 (§6.7) */
+  .panel {
+    top: auto; left: 0; right: 0; bottom: 0;
+    width: auto; max-height: 62dvh;
+    border-left: 0; border-top: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    background: var(--color-surface-raised);
+  }
+  .panel .grabbar {
+    display: block; width: 32px; height: 4px; margin: var(--space-4) auto 0;
+    border-radius: var(--radius-full); background: var(--color-border-strong);
+  }
+  /* 하단 탭바 표시 */
+  .tabbar {
+    display: flex;
+    height: calc(var(--size-tabbar) + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--color-surface);
+    border-top: var(--border-width) solid var(--color-border);
+  }
+  .tab {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-1);
+    min-height: var(--size-touch-min);
+    color: var(--color-text-sub);
+    transition: color var(--motion-micro) var(--ease-in-out);
+  }
+  .tab .tlabel { font-size: var(--font-size-micro); font-weight: var(--font-weight-semibold); }
+  .tab[aria-current="page"] { color: var(--color-primary); }
+  :root[data-theme="dark"] .tab[aria-current="page"] { color: var(--color-primary-soft-text); }
+  .canvaswrap { padding: var(--space-6); }
+  .modal { border-radius: var(--radius-xl) var(--radius-xl) 0 0; align-self: end; max-width: none; animation: prism-tray var(--motion-slow) var(--ease-out) both; }
+  .scrim { padding: 0; align-items: end; }
+  .toast { left: var(--space-5); right: var(--space-5); bottom: var(--space-12); max-width: none; }
+}
+/* 그랩바는 데스크톱에서 숨김 */
+.panel .grabbar { display: none; }

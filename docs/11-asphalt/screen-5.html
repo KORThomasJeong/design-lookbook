@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="11" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>가자 — 이용 기록 · Asphalt 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 이용 기록 (§9) — 밀도 있는 리스트 */
+.seg-wrap { margin-top: var(--space-4); }
+.grp-title { color: var(--color-text-sub); }
+.row-fare { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: var(--font-size-body); font-weight: var(--font-weight-bold); }
+.empty { display: none; }
+.empty.show { display: flex; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <span class="appbar-title">이용 기록</span>
+  </header>
+
+  <main class="scroll scroll-pad-tab page-enter">
+    <div class="seg-wrap">
+      <div class="segment" data-active="0" role="tablist" aria-label="기록 필터">
+        <span class="seg-indicator" aria-hidden="true"></span>
+        <button type="button" role="tab" aria-selected="true">전체</button>
+        <button type="button" role="tab" aria-selected="false">이번 달</button>
+      </div>
+    </div>
+
+    <!-- 7월 그룹 -->
+    <section class="month-grp month-7" aria-label="7월 이용 기록">
+      <h2 class="t-caption grp-title group-head">7월</h2>
+      <div class="list stagger">
+        <a class="row" href="screen-4.html">
+          <span class="map-thumb" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><g stroke="var(--color-map-road)" stroke-width="5" fill="none"><path d="M-4 14H44"/><path d="M26 -4V44"/></g><path d="M8 32 L26 32 L26 10" stroke="var(--color-accent)" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+          </span>
+          <span class="row-main">
+            <span class="row-title">강남역 2호선</span>
+            <span class="row-sub">7월 8일 · 가자 스탠다드</span>
+          </span>
+          <span class="row-end">
+            <span class="row-fare">12,400원</span>
+            <span class="badge badge-success">완료</span>
+          </span>
+        </a>
+        <a class="row" href="screen-4.html">
+          <span class="map-thumb" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><g stroke="var(--color-map-road)" stroke-width="5" fill="none"><path d="M-4 26H44"/><path d="M14 -4V44"/></g><path d="M14 8 L14 26 L32 26" stroke="var(--color-accent)" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+          </span>
+          <span class="row-main">
+            <span class="row-title">스타필드 코엑스몰</span>
+            <span class="row-sub">7월 5일 · 가자 라이트</span>
+          </span>
+          <span class="row-end">
+            <span class="row-fare">8,600원</span>
+            <span class="badge badge-success">완료</span>
+          </span>
+        </a>
+        <a class="row" href="screen-4.html">
+          <span class="map-thumb" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><g stroke="var(--color-map-road)" stroke-width="5" fill="none"><path d="M-4 18H44"/><path d="M20 -4V44"/></g><path d="M6 30 L20 30 L20 8" stroke="var(--color-accent)" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+          </span>
+          <span class="row-main">
+            <span class="row-title">김포공항 국내선</span>
+            <span class="row-sub">7월 2일 · 가자 블랙</span>
+          </span>
+          <span class="row-end">
+            <span class="row-fare">32,700원</span>
+            <span class="badge badge-danger">취소</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 6월 그룹 (이번 달 필터 시 숨김) -->
+    <section class="month-grp month-6" aria-label="6월 이용 기록">
+      <h2 class="t-caption grp-title group-head">6월</h2>
+      <div class="list">
+        <a class="row" href="screen-4.html">
+          <span class="map-thumb" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><g stroke="var(--color-map-road)" stroke-width="5" fill="none"><path d="M-4 22H44"/><path d="M24 -4V44"/></g><path d="M8 10 L8 22 L28 22" stroke="var(--color-accent)" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+          </span>
+          <span class="row-main">
+            <span class="row-title">서울역 KTX</span>
+            <span class="row-sub">6월 28일 · 가자 스탠다드</span>
+          </span>
+          <span class="row-end">
+            <span class="row-fare">9,800원</span>
+            <span class="badge badge-success">완료</span>
+          </span>
+        </a>
+        <a class="row" href="screen-4.html">
+          <span class="map-thumb" aria-hidden="true">
+            <svg viewBox="0 0 40 40"><g stroke="var(--color-map-road)" stroke-width="5" fill="none"><path d="M-4 16H44"/><path d="M16 -4V44"/></g><path d="M32 30 L16 30 L16 8" stroke="var(--color-accent)" stroke-width="3.5" fill="none" stroke-linecap="round"/></svg>
+          </span>
+          <span class="row-main">
+            <span class="row-title">홍대입구역 9번 출구</span>
+            <span class="row-sub">6월 21일 · 가자 라이트</span>
+          </span>
+          <span class="row-end">
+            <span class="row-fare">7,300원</span>
+            <span class="badge badge-success">완료</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 빈 상태 (§6.11) — 필터 결과 없음 -->
+    <div class="empty" id="empty">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="8" y="14" width="32" height="24" rx="4" fill="var(--color-border)"/><path d="M16 30 L24 30 L24 20" stroke="var(--color-text)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p class="t-body-lg w700">아직 이용 기록이 없어요</p>
+      <p class="t-body-sm sub" style="margin-top: var(--space-1)">첫 이동을 시작해 보세요</p>
+      <a class="btn btn-secondary" href="screen-1.html" style="width: auto; padding: 0 var(--space-6); margin-top: var(--space-6)">목적지 정하기</a>
+    </div>
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 21 3l-8 18-2-7-8-3z"/></svg>
+      <span class="tab-label">이동</span></a>
+    <a class="tab" href="screen-5.html" aria-current="page">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 7v5l3 2"/><circle cx="12" cy="12" r="9"/></svg>
+      <span class="tab-label">기록</span></a>
+    <button class="tab" type="button" onclick="gToast('계정은 준비 중이에요')">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+      <span class="tab-label">계정</span></button>
+  </nav>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+/* 세그먼트 필터: 이번 달=7월만 (§9) */
+window.gOnSegment = function (seg, i) {
+  var m6 = document.querySelector('.month-6');
+  if (m6) m6.style.display = i === 1 ? 'none' : '';
+};
+</script>
+</body>
+</html>

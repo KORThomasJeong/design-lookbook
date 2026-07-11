@@ -1,0 +1,118 @@
+<html lang="ko" data-preset="16" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>누리 — 검색 결과 · Jade 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-2 검색 결과 (§9) */
+.gnb-search { flex: 1; display: flex; align-items: center; gap: var(--space-2); padding-right: var(--space-2); }
+.result-tabs { margin-top: 0; }
+.result-tabs-wrap { padding-top: var(--space-2); }
+.ad-line { display: flex; align-items: center; gap: var(--space-2); }
+.strip-head { margin: var(--space-4) 0 var(--space-2); }
+.more-wrap { margin: var(--space-5) 0; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="gnb">
+    <a class="icon-btn" href="screen-1.html" aria-label="뒤로">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg>
+    </a>
+    <div class="gnb-search">
+      <button class="searchbar-mini" type="button" onclick="location.href='screen-1.html'" aria-label="검색어 편집">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-3.2-3.2"/></svg>
+        <span class="q ellip">제주 여행</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4l10-10-4-4L4 16z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="result-tabs-wrap" style="padding-left: var(--layout-screen-padding); padding-right: var(--layout-screen-padding);">
+    <div class="result-tabs" role="tablist" aria-label="검색 탭">
+      <button class="rtab" role="tab" aria-selected="true">통합</button>
+      <button class="rtab" role="tab" aria-selected="false">뉴스</button>
+      <button class="rtab" role="tab" aria-selected="false">이미지</button>
+      <button class="rtab" role="tab" aria-selected="false">쇼핑</button>
+      <button class="rtab" role="tab" aria-selected="false">지식</button>
+    </div>
+  </div>
+
+  <main class="scroll pad-tab page-enter">
+
+    <!-- 스폰서 결과 -->
+    <div class="result">
+      <div class="ad-line">
+        <span class="badge badge-primary">AD</span>
+        <span class="result-url ellip">ad.jejupass.co.kr</span>
+      </div>
+      <a class="result-title" href="screen-3.html">제주 렌터카 최저가 실시간 비교 — 제주패스</a>
+      <p class="result-desc clamp2">공항 픽업 무료, 완전 자차 포함 특가. 오늘 예약 시 추가 10% 할인 쿠폰을 드려요.</p>
+    </div>
+
+    <!-- 웹문서 결과 -->
+    <div class="stagger">
+      <div class="result">
+        <span class="result-url ellip">blog.jejutrip.kr › course › 2night3day</span>
+        <a class="result-title" href="screen-3.html">제주 여행 코스 추천 BEST 10 (2박 3일 완벽 정리)</a>
+        <p class="result-desc clamp2">동부·서부·남부 권역별 이동 동선과 맛집, 카페까지 한 번에. 렌터카 없이 다니는 팁도 담았어요.</p>
+      </div>
+      <div class="result">
+        <span class="result-url ellip">weather.nuri.kr › jeju</span>
+        <a class="result-title" href="screen-3.html">7월 제주 날씨와 옷차림, 우산은 꼭 챙기세요</a>
+        <p class="result-desc clamp2">장마와 무더위가 겹치는 7월, 평균 기온 28도에 습도가 높아요. 얇은 겉옷과 우산을 권해요.</p>
+      </div>
+      <div class="result">
+        <span class="result-url ellip">cafe.nuri.kr › jejulife › 48213</span>
+        <a class="result-title" href="screen-3.html">현지인이 알려주는 제주 흑돼지 맛집 5곳</a>
+        <p class="result-desc clamp2">관광지 근처보다 애월과 성산 골목에 숨은 노포가 진짜예요. 예약 필수인 곳 위주로 정리했어요.</p>
+      </div>
+    </div>
+
+    <!-- 이미지 스트립 -->
+    <h2 class="t-label sub strip-head">이미지</h2>
+    <div class="img-strip" aria-label="제주 여행 이미지">
+      <span class="img-sq" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg></span>
+      <span class="img-sq" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18l5-9 4 5 3-3 4 7z"/><circle cx="8" cy="7" r="1.5"/></svg></span>
+      <span class="img-sq" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg></span>
+      <span class="img-sq" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18l5-9 4 5 3-3 4 7z"/><circle cx="8" cy="7" r="1.5"/></svg></span>
+      <span class="img-sq" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg></span>
+      <span class="img-sq" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18l5-9 4 5 3-3 4 7z"/><circle cx="8" cy="7" r="1.5"/></svg></span>
+    </div>
+
+    <!-- 추가 웹문서 -->
+    <div class="result">
+      <span class="result-url ellip">map.nuri.kr › jeju › olle</span>
+      <a class="result-title" href="screen-3.html">제주 올레길 7코스, 초보자도 걷기 좋은 해안 구간</a>
+      <p class="result-desc clamp2">외돌개에서 월평까지 약 17km. 바다를 끼고 걷는 대표 코스로 4~5시간 정도 걸려요.</p>
+    </div>
+
+    <div class="more-wrap">
+      <button class="btn btn-secondary" type="button" onclick="nToast('결과를 더 불러왔어요')">결과 더보기</button>
+    </div>
+
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+      <span class="tab-label">홈</span></a>
+    <a class="tab" href="screen-2.html" aria-current="page">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M8 9h5M8 13h8M8 16h6"/></svg>
+      <span class="tab-label">뉴스</span></a>
+    <a class="tab" href="screen-2.html">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 11H7z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+      <span class="tab-label">쇼핑</span></a>
+    <a class="tab" href="screen-5.html">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c0-3.6 3.1-5.5 7-5.5s7 1.9 7 5.5"/></svg>
+      <span class="tab-label">MY</span></a>
+  </nav>
+
+</div>
+</body>
+</html>

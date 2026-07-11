@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="11" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>가자 — 이동 중 · Asphalt 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 이동 중 (§9) — 실시간 트래킹 */
+.driver { display: flex; align-items: center; gap: var(--space-3); }
+.driver-main { flex: 1; min-width: 0; }
+.driver-name { font-size: var(--font-size-body); font-weight: var(--font-weight-medium); }
+.driver-meta { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1); }
+.star { display: inline-flex; align-items: center; gap: var(--space-1); color: var(--color-text-sub); font-size: var(--font-size-body-sm); }
+.plate { margin-left: auto; }
+.actions { display: flex; gap: var(--space-2); margin-top: var(--space-4); }
+.actions .btn { flex: 1; }
+.status { margin-top: var(--space-3); text-align: center; }
+.eta-num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <div class="map-stage" role="img" aria-label="배차된 차량 위치와 목적지까지 경로가 표시된 회색조 지도.">
+    <svg class="map-svg" viewBox="0 0 390 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <g class="map-road" stroke-width="18"><path d="M-20 210 H410"/><path d="M-20 480 H410"/></g>
+      <g class="map-road" stroke-width="12"><path d="M120 -20 V660"/><path d="M280 -20 V660"/></g>
+      <g class="map-road" stroke-width="7"><path d="M-20 350 H410"/><path d="M210 -20 V660"/></g>
+      <path class="map-route route-draw" d="M120 470 L120 350 L210 350 L210 210 L280 210"/>
+      <!-- 차량 마커 (검정 원) -->
+      <circle class="car-marker" cx="120" cy="350" r="10"/>
+      <!-- 목적지 핀 -->
+      <path class="pin-fill" d="M280 196c-8 0-14 6-14 14 0 10 14 22 14 22s14-12 14-22c0-8-6-14-14-14z"/>
+      <circle cx="280" cy="210" r="5" fill="var(--color-bg)"/>
+    </svg>
+
+    <button class="map-back" type="button" aria-label="뒤로" onclick="location.href='screen-2.html'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+
+    <!-- ETA 배너 pill (§9) -->
+    <div class="eta-banner" role="status" aria-live="polite">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <span class="t-body-lg w700"><span class="eta-num" id="eta">3</span>분 후 도착</span>
+    </div>
+
+    <!-- 오버레이 카드 (§6.10) -->
+    <section class="overlay" aria-label="기사 정보">
+      <div class="grabber" aria-hidden="true"></div>
+      <div class="driver">
+        <span class="avatar avatar-48" aria-hidden="true">김</span>
+        <span class="driver-main">
+          <span class="driver-name">김도현 기사</span>
+          <span class="driver-meta">
+            <span class="star">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.6 5.6 6 .7-4.5 4 1.3 6-5.4-3-5.4 3 1.3-6-4.5-4 6-.7z"/></svg>
+              <span class="mono">4.9</span>
+            </span>
+            <span class="t-body-sm sub">쏘나타 · 흰색</span>
+          </span>
+        </span>
+        <span class="plate badge badge-accent mono">12가 3456</span>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-secondary" type="button" onclick="gToast('김도현 기사에게 전화를 걸어요')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h3l1.5 4-2 1.5a11 11 0 0 0 5 5l1.5-2 4 1.5v3a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+          연락
+        </button>
+        <button class="btn btn-ghost" type="button" onclick="gOpenModal('cancel-modal')">취소</button>
+      </div>
+
+      <p class="status t-body-sm sub" id="status">목적지로 이동 중</p>
+    </section>
+  </div>
+
+  <!-- 취소 확인 모달 (§6.7) -->
+  <div class="dim" id="dim" onclick="gCloseModal('cancel-modal')"></div>
+  <div class="modal-wrap" id="cancel-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cancel-title">
+      <h2 class="t-title2" id="cancel-title">요청을 취소할까요?</h2>
+      <p class="t-body sub" style="margin-top: var(--space-2)">지금 취소하면 김도현 기사 배차가 사라져요.</p>
+      <div class="modal-actions">
+        <button class="btn btn-danger" type="button" onclick="location.href='screen-1.html'">요청 취소</button>
+        <button class="btn btn-ghost" type="button" onclick="gCloseModal('cancel-modal')">계속 이용</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+/* 실시간 숫자 crossfade 데모 (§7 — 카운트업 없이 즉시 갱신) */
+(function () {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var eta = document.getElementById('eta');
+  var status = document.getElementById('status');
+  var steps = [['2', '목적지로 이동 중'], ['1', '곧 도착해요']];
+  var i = 0;
+  var t = setInterval(function () {
+    if (i >= steps.length) { clearInterval(t); return; }
+    eta.textContent = steps[i][0];
+    status.textContent = steps[i][1];
+    [eta, status].forEach(function (el) {
+      el.classList.remove('live-update'); void el.offsetWidth; el.classList.add('live-update');
+    });
+    i++;
+  }, 3200);
+})();
+</script>
+</body>
+</html>

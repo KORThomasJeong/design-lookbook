@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="12" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>정산소 — 결제 · Ink 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-2 결제 내역 (§9): 필터 바 + 데이터 테이블 + 페이지네이션 */
+.filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-12); }
+.filter-bar .search-input { flex: 1; min-width: 220px; }
+.applied-filters { display: flex; flex-wrap: wrap; gap: var(--space-8); margin-top: var(--space-12); }
+.stagger-rows tr:nth-child(1) { animation-delay: 0ms; }
+.stagger-rows tr:nth-child(2) { animation-delay: 30ms; }
+.stagger-rows tr:nth-child(3) { animation-delay: 60ms; }
+.stagger-rows tr:nth-child(4) { animation-delay: 90ms; }
+.stagger-rows tr:nth-child(5) { animation-delay: 120ms; }
+.stagger-rows tr:nth-child(6) { animation-delay: 150ms; }
+.stagger-rows tr:nth-child(7) { animation-delay: 180ms; }
+.stagger-rows tr:nth-child(8) { animation-delay: 210ms; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidenav" aria-label="주 메뉴">
+    <div class="sidenav-brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
+      <span class="t-subheading">정산소</span>
+    </div>
+    <div class="sidenav-scroll">
+      <div class="nav-group">
+        <span class="nav-group-label t-label">워크스페이스</span>
+        <a class="nav-item" href="screen-1.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h6V4H4zM14 20h6V4h-6zM4 20h6v-4H4z"/></svg><span class="t-body">개요</span></a>
+        <a class="nav-item" href="screen-2.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span class="t-body-strong">결제</span></a>
+        <a class="nav-item" href="screen-4.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v11H3zM3 11h18M7 15h4"/></svg><span class="t-body">정산</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label t-label">개발</span>
+        <a class="nav-item" href="screen-5.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 6l-4 12"/></svg><span class="t-body">개발자</span></a>
+      </div>
+    </div>
+    <div class="sidenav-foot">
+      <div class="user-chip">
+        <span class="avatar" aria-hidden="true">한</span>
+        <span class="stack-8" style="gap:0"><span class="t-body-strong">한지우</span><span class="t-caption tert">코스모스페이</span></span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="appbar">
+      <button class="hamburger" type="button" aria-label="메뉴 열기" onclick="inkToggleNav()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <div class="env-switch" data-envswitch role="group" aria-label="환경 전환">
+        <button type="button" class="env-live is-on">Live</button>
+        <button type="button" class="env-test">Test</button>
+      </div>
+      <div class="appbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+        <input type="search" placeholder="결제·고객·정산 검색" aria-label="검색">
+      </div>
+      <span class="appbar-spacer"></span>
+      <button class="icon-btn" type="button" aria-label="알림" onclick="inkToast('새 알림이 없어요', 'info')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></button>
+      <span class="avatar" aria-hidden="true">한</span>
+    </header>
+
+    <main class="content page-enter">
+      <div class="page-head">
+        <div>
+          <h1 class="t-title">결제</h1>
+          <p class="t-body sub">최근 결제를 훑어보고 상태별로 걸러 보세요.</p>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="inkToast('결제 만들기 창을 열었어요', 'info')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>결제 만들기</button>
+      </div>
+
+      <section class="panel" aria-label="필터">
+        <div class="filter-bar">
+          <label class="search-input">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+            <input type="search" placeholder="고객 이메일 또는 결제 ID" aria-label="결제 검색">
+          </label>
+          <select class="select" aria-label="상태 필터">
+            <option>모든 상태</option><option>완료</option><option>실패</option><option>환불</option><option>대기</option>
+          </select>
+          <select class="select" aria-label="금액 범위">
+            <option>모든 금액</option><option>1만원 미만</option><option>1만~10만원</option><option>10만원 이상</option>
+          </select>
+          <select class="select" aria-label="기간">
+            <option selected>최근 7일</option><option>최근 30일</option><option>이번 달</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" type="button" onclick="inkToast('필터를 추가했어요', 'info')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>필터 추가</button>
+        </div>
+        <div class="applied-filters">
+          <span class="chip is-selected">최근 7일
+            <button class="chip-remove" type="button" aria-label="필터 제거" onclick="this.closest('.chip').remove()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span>
+          <span class="chip is-selected">완료
+            <button class="chip-remove" type="button" aria-label="필터 제거" onclick="this.closest('.chip').remove()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></span>
+        </div>
+      </section>
+
+      <div class="table-wrap section" style="margin-top:var(--space-16)">
+        <table class="tbl responsive">
+          <thead>
+            <tr>
+              <th class="col-check"><input type="checkbox" class="checkbox" aria-label="전체 선택"></th>
+              <th class="num-col sortable">금액 <span class="sort-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 10l4-4 4 4M8 14l4 4 4-4"/></svg></span></th>
+              <th>상태</th>
+              <th>결제수단</th>
+              <th>고객</th>
+              <th class="sortable">날짜 <span class="sort-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 15l6 6 6-6"/></svg></span></th>
+              <th>결제 ID</th>
+            </tr>
+          </thead>
+          <tbody class="stagger-rows">
+            <tr class="clickable" onclick="location.href='screen-3.html'">
+              <td class="col-check"><input type="checkbox" class="checkbox" aria-label="행 선택" onclick="event.stopPropagation()"></td>
+              <td class="num-col amt" data-mlabel="금액">₩290,000</td>
+              <td data-mlabel="상태"><span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>완료</span></td>
+              <td class="hide-mobile" data-mlabel="수단"><span class="card-brand"><span class="brand-glyph" aria-hidden="true"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="22" height="14" rx="2"/><path d="M1 6h22"/></svg></span><span class="t-body">···4021</span></span></td>
+              <td class="hide-mobile" data-mlabel="고객"><span class="t-body">이하준</span><br><span class="t-caption tert">hjlee@navercorp.example</span></td>
+              <td class="hide-mobile" data-mlabel="날짜"><span class="t-body num">2026-07-10 14:22</span></td>
+              <td class="id-cell hide-mobile" data-mlabel="ID">py_3Rk9Ax4Qm2</td>
+            </tr>
+            <tr class="clickable" onclick="location.href='screen-3.html'">
+              <td class="col-check"><input type="checkbox" class="checkbox" aria-label="행 선택" onclick="event.stopPropagation()"></td>
+              <td class="num-col amt" data-mlabel="금액">₩49,000</td>
+              <td data-mlabel="상태"><span class="badge badge-danger"><span class="badge-dot" aria-hidden="true"></span>실패</span></td>
+              <td class="hide-mobile" data-mlabel="수단"><span class="card-brand"><span class="brand-glyph" aria-hidden="true"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="22" height="14" rx="2"/><path d="M1 6h22"/></svg></span><span class="t-body">···8830</span></span></td>
+              <td class="hide-mobile" data-mlabel="고객"><span class="t-body">박도윤</span><br><span class="t-caption tert">dypark@kakao.example</span></td>
+              <td class="hide-mobile" data-mlabel="날짜"><span class="t-body num">2026-07-10 13:58</span></td>
+              <td class="id-cell hide-mobile" data-mlabel="ID">py_3Rk8Zt7Lp0</td>
+            </tr>
+            <tr class="clickable" onclick="location.href='screen-3.html'">
+              <td class="col-check"><input type="checkbox" class="checkbox" aria-label="행 선택" onclick="event.stopPropagation()"></td>
+              <td class="num-col amt" data-mlabel="금액">₩1,240,000</td>
+              <td data-mlabel="상태"><span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>완료</span></td>
+              <td class="hide-mobile" data-mlabel="수단"><span class="card-brand"><span class="brand-glyph" aria-hidden="true"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="22" height="14" rx="2"/><path d="M6 8h6"/></svg></span><span class="t-body">계좌이체</span></span></td>
+              <td class="hide-mobile" data-mlabel="고객"><span class="t-body">주식회사 한빛물류</span><br><span class="t-caption tert">pay@hanbit.example</span></td>
+              <td class="hide-mobile" data-mlabel="날짜"><span class="t-body num">2026-07-10 11:40</span></td>
+              <td class="id-cell hide-mobile" data-mlabel="ID">py_3Rk7Wf1Nb8</td>
+            </tr>
+            <tr class="clickable" onclick="location.href='screen-3.html'">
+              <td class="col-check"><input type="checkbox" class="checkbox" aria-label="행 선택" onclick="event.stopPropagation()"></td>
+              <td class="num-col amt" data-mlabel="금액">₩15,000</td>
+              <td data-mlabel="상태"><span class="badge badge-warning"><span class="badge-dot" aria-hidden="true"></span>대기</span></td>
+              <td class="hide-mobile" data-mlabel="수단"><span class="card-brand"><span class="brand-glyph" aria-hidden="true"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="22" height="14" rx="2"/><circle cx="9" cy="8" r="3"/><circle cx="14" cy="8" r="3"/></svg></span><span class="t-body">간편결제</span></span></td>
+              <td class="hide-mobile" data-mlabel="고객"><span class="t-body">최유나</span><br><span class="t-caption tert">yn.choi@daum.example</span></td>
+              <td class="hide-mobile" data-mlabel="날짜"><span class="t-body num">2026-07-10 10:12</span></td>
+              <td class="id-cell hide-mobile" data-mlabel="ID">py_3Rk6Uq5Hc3</td>
+            </tr>
+            <tr class="clickable" onclick="location.href='screen-3.html'">
+              <td class="col-check"><input type="checkbox" class="checkbox" aria-label="행 선택" onclick="event.stopPropagation()"></td>
+              <td class="num-col amt" data-mlabel="금액">₩29,000</td>
+              <td data-mlabel="상태"><span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>완료</span></td>
+              <td class="hide-mobile" data-mlabel="수단"><span class="card-brand"><span class="brand-glyph" aria-hidden="true"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="22" height="14" rx="2"/><path d="M1 6h22"/></svg></span><span class="t-body">···1188</span></span></td>
+              <td class="hide-mobile" data-mlabel="고객"><span class="t-body">김서연</span><br><span class="t-caption tert">seoyeon.k@gmail.example</span></td>
+              <td class="hide-mobile" data-mlabel="날짜"><span class="t-body num">2026-07-10 09:05</span></td>
+              <td class="id-cell hide-mobile" data-mlabel="ID">py_3Rk5Sd9Fa1</td>
+            </tr>
+            <tr class="clickable" onclick="location.href='screen-3.html'">
+              <td class="col-check"><input type="checkbox" class="checkbox" aria-label="행 선택" onclick="event.stopPropagation()"></td>
+              <td class="num-col amt" data-mlabel="금액">₩89,000</td>
+              <td data-mlabel="상태"><span class="badge badge-danger"><span class="badge-dot" aria-hidden="true"></span>환불</span></td>
+              <td class="hide-mobile" data-mlabel="수단"><span class="card-brand"><span class="brand-glyph" aria-hidden="true"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="22" height="14" rx="2"/><path d="M1 6h22"/></svg></span><span class="t-body">···7702</span></span></td>
+              <td class="hide-mobile" data-mlabel="고객"><span class="t-body">정민재</span><br><span class="t-caption tert">mj.jung@nate.example</span></td>
+              <td class="hide-mobile" data-mlabel="날짜"><span class="t-body num">2026-07-09 18:33</span></td>
+              <td class="id-cell hide-mobile" data-mlabel="ID">py_3Rk4Rc2Ee7</td>
+            </tr>
+            <tr class="clickable" onclick="location.href='screen-3.html'">
+              <td class="col-check"><input type="checkbox" class="checkbox" aria-label="행 선택" onclick="event.stopPropagation()"></td>
+              <td class="num-col amt" data-mlabel="금액">₩450,000</td>
+              <td data-mlabel="상태"><span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>완료</span></td>
+              <td class="hide-mobile" data-mlabel="수단"><span class="card-brand"><span class="brand-glyph" aria-hidden="true"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="22" height="14" rx="2"/><path d="M6 8h6"/></svg></span><span class="t-body">가상계좌</span></span></td>
+              <td class="hide-mobile" data-mlabel="고객"><span class="t-body">주식회사 별빛스튜디오</span><br><span class="t-caption tert">finance@byeolbit.example</span></td>
+              <td class="hide-mobile" data-mlabel="날짜"><span class="t-body num">2026-07-09 16:20</span></td>
+              <td class="id-cell hide-mobile" data-mlabel="ID">py_3Rk3Qb6Dd4</td>
+            </tr>
+            <tr class="clickable" onclick="location.href='screen-3.html'">
+              <td class="col-check"><input type="checkbox" class="checkbox" aria-label="행 선택" onclick="event.stopPropagation()"></td>
+              <td class="num-col amt" data-mlabel="금액">₩12,000</td>
+              <td data-mlabel="상태"><span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>완료</span></td>
+              <td class="hide-mobile" data-mlabel="수단"><span class="card-brand"><span class="brand-glyph" aria-hidden="true"><svg viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="22" height="14" rx="2"/><path d="M1 6h22"/></svg></span><span class="t-body">···2245</span></span></td>
+              <td class="hide-mobile" data-mlabel="고객"><span class="t-body">강태오</span><br><span class="t-caption tert">taeo.kang@gmail.example</span></td>
+              <td class="hide-mobile" data-mlabel="날짜"><span class="t-body num">2026-07-09 14:47</span></td>
+              <td class="id-cell hide-mobile" data-mlabel="ID">py_3Rk2Pa0Cc9</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <span class="t-caption tert">전체 342건 중 1–8건</span>
+        <div class="pg-btns">
+          <button class="btn btn-secondary btn-sm" type="button" disabled>이전</button>
+          <button class="btn btn-secondary btn-sm" type="button" onclick="inkToast('다음 페이지를 불러왔어요', 'info')">다음</button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

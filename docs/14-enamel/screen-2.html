@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="14" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>한끼 — 치킨 · Enamel 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-2 가게 목록 (§9) */
+.filter-wrap { margin-top: var(--space-2); }
+.result-count { margin-top: var(--space-4); margin-bottom: var(--space-2); }
+
+.srow {
+  position: relative;
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-4) 0;
+  border-radius: var(--radius-lg);
+  transition: transform var(--motion-base) var(--ease-bounce), background-color var(--motion-quick) linear;
+}
+.srow:active { transform: scale(0.99); background: var(--color-surface); transition: transform var(--motion-quick) var(--ease-exit); }
+:root[data-theme="dark"] .srow:active { background: var(--color-surface-raised); }
+.srow-thumb { flex: none; }
+.srow-body { flex: 1; min-width: 0; padding-right: var(--space-8); }
+.srow-meta { display: flex; align-items: center; gap: var(--space-1); margin-top: var(--space-1); color: var(--color-text-sub); }
+.srow-meta svg { color: var(--color-accent); }
+.srow-sub { margin-top: var(--space-1); }
+.srow-menu { margin-top: var(--space-2); }
+.srow-badges { display: flex; gap: var(--space-1); margin-top: var(--space-2); }
+.dot-sep { color: var(--color-text-tertiary); }
+
+/* 찜 하트 (우상단, 히트 44px) */
+.heart {
+  position: absolute; top: var(--space-2); right: 0;
+  width: var(--size-touch-min); height: var(--size-touch-min);
+  display: grid; place-items: center;
+  color: var(--color-text-tertiary);
+  transition: transform var(--motion-slow) var(--ease-bounce), color var(--motion-fast) linear;
+}
+.heart:active { transform: scale(0.9); transition: transform var(--motion-quick) var(--ease-exit); }
+.heart[aria-pressed="true"] { color: var(--color-accent); transform: scale(1); }
+.heart[aria-pressed="true"] svg { fill: var(--color-accent); }
+
+/* 정렬 시트 라디오 리스트 */
+.opt {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; min-height: var(--size-touch-min); padding: var(--space-3) 0;
+  color: var(--color-text); font-size: var(--font-size-body-1); font-weight: var(--font-weight-medium);
+}
+.opt[aria-checked="true"] { font-weight: var(--font-weight-bold); color: var(--color-primary-soft-text); }
+.opt .tick { color: var(--color-primary-vivid); opacity: 0; }
+.opt[aria-checked="true"] .tick { opacity: 1; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <a class="icon-btn" href="screen-1.html" aria-label="뒤로가기">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <span class="appbar-title static">치킨</span>
+    <span class="appbar-spacer"></span>
+    <button class="icon-btn" type="button" aria-label="검색" onclick="hkToast('검색은 준비 중이에요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+    </button>
+  </header>
+
+  <main class="scroll scroll-pad-tab page-enter">
+    <div class="chip-row filter-wrap" role="group" aria-label="필터">
+      <button class="chip" type="button" onclick="hkSheet.open('sort')" aria-haspopup="dialog">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M7 12h10M10 17h4"/></svg>
+        <span id="sort-label">기본순</span>
+      </button>
+      <button class="chip" type="button" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true')">배달비 무료</button>
+      <button class="chip" type="button" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true')">별점 4.5+</button>
+      <button class="chip" type="button" aria-pressed="false" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true')">쿠폰</button>
+    </div>
+
+    <p class="t-caption tertiary result-count num">근처 42곳</p>
+
+    <div class="stagger">
+
+      <div class="srow">
+        <a class="srow-thumb" href="screen-3.html" aria-label="역삼 교촌치킨 본점 보기">
+          <span class="thumb thumb-88" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20M12 14.5 11 20"/></svg>
+          </span>
+        </a>
+        <a class="srow-body" href="screen-3.html">
+          <p class="t-body1 w800">역삼 교촌치킨 본점</p>
+          <p class="t-caption num srow-meta"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L4.3 9.4l6-.9z"/></svg> 4.8 <span class="dot-sep">·</span> 리뷰 1,204</p>
+          <p class="t-caption sub num srow-sub">25분 <span class="dot-sep">·</span> 배달 3,000원</p>
+          <p class="t-caption tertiary srow-menu">허니콤보 · 레드윙</p>
+          <div class="srow-badges"><span class="badge badge-accent num">최소주문 15,000원</span><span class="badge badge-primary">쿠폰 3,000원</span></div>
+        </a>
+        <button class="heart" type="button" aria-pressed="false" aria-label="찜하기" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.6-7-9.5A3.7 3.7 0 0 1 12 7a3.7 3.7 0 0 1 7 3.5C19 15.4 12 20 12 20z"/></svg>
+        </button>
+      </div>
+
+      <div class="srow">
+        <a class="srow-thumb" href="screen-3.html" aria-label="굽네치킨 역삼점 보기">
+          <span class="thumb thumb-88" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20M12 14.5 11 20"/></svg>
+          </span>
+        </a>
+        <a class="srow-body" href="screen-3.html">
+          <p class="t-body1 w800">굽네치킨 역삼점</p>
+          <p class="t-caption num srow-meta"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L4.3 9.4l6-.9z"/></svg> 4.6 <span class="dot-sep">·</span> 리뷰 842</p>
+          <p class="t-caption sub num srow-sub">32분 <span class="dot-sep">·</span> 배달 무료</p>
+          <p class="t-caption tertiary srow-menu">고추바사삭 · 오리지널</p>
+          <div class="srow-badges"><span class="badge badge-accent num">최소주문 14,000원</span></div>
+        </a>
+        <button class="heart" type="button" aria-pressed="true" aria-label="찜 해제" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.6-7-9.5A3.7 3.7 0 0 1 12 7a3.7 3.7 0 0 1 7 3.5C19 15.4 12 20 12 20z"/></svg>
+        </button>
+      </div>
+
+      <div class="srow">
+        <a class="srow-thumb" href="screen-3.html" aria-label="BBQ 역삼중앙점 보기">
+          <span class="thumb thumb-88" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20M12 14.5 11 20"/></svg>
+          </span>
+        </a>
+        <a class="srow-body" href="screen-3.html">
+          <p class="t-body1 w800">BBQ 역삼중앙점</p>
+          <p class="t-caption num srow-meta"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L4.3 9.4l6-.9z"/></svg> 4.7 <span class="dot-sep">·</span> 리뷰 2,038</p>
+          <p class="t-caption sub num srow-sub">28분 <span class="dot-sep">·</span> 배달 2,500원</p>
+          <p class="t-caption tertiary srow-menu">황금올리브 · 자메이카통다리</p>
+          <div class="srow-badges"><span class="badge badge-accent num">최소주문 16,000원</span><span class="badge badge-hot">할인중</span></div>
+        </a>
+        <button class="heart" type="button" aria-pressed="false" aria-label="찜하기" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.6-7-9.5A3.7 3.7 0 0 1 12 7a3.7 3.7 0 0 1 7 3.5C19 15.4 12 20 12 20z"/></svg>
+        </button>
+      </div>
+
+      <div class="srow">
+        <a class="srow-thumb" href="screen-3.html" aria-label="처갓집양념치킨 역삼점 보기">
+          <span class="thumb thumb-88" aria-hidden="true">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20M12 14.5 11 20"/></svg>
+          </span>
+        </a>
+        <a class="srow-body" href="screen-3.html">
+          <p class="t-body1 w800">처갓집양념치킨 역삼점</p>
+          <p class="t-caption num srow-meta"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L4.3 9.4l6-.9z"/></svg> 4.5 <span class="dot-sep">·</span> 리뷰 519</p>
+          <p class="t-caption sub num srow-sub">35분 <span class="dot-sep">·</span> 배달 3,000원</p>
+          <p class="t-caption tertiary srow-menu">슈프림양념 · 후라이드반반</p>
+          <div class="srow-badges"><span class="badge badge-accent num">최소주문 13,000원</span></div>
+        </a>
+        <button class="heart" type="button" aria-pressed="false" aria-label="찜하기" onclick="this.setAttribute('aria-pressed', this.getAttribute('aria-pressed')==='true'?'false':'true')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.6-7-9.5A3.7 3.7 0 0 1 12 7a3.7 3.7 0 0 1 7 3.5C19 15.4 12 20 12 20z"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+      <span class="tab-label">홈</span></a>
+    <a class="tab" href="screen-2.html" aria-current="page">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.2-3.2"/></svg>
+      <span class="tab-label">검색</span></a>
+    <a class="tab" href="screen-5.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12v16l-2.5-1.5L13 20l-2.5-1.5L8 20 6 18.5z"/><path d="M9 9h6M9 13h4"/></svg>
+      <span class="tab-label">주문내역</span></a>
+    <a class="tab" href="screen-4.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0z"/></svg>
+      <span class="tab-label">마이</span></a>
+  </nav>
+
+  <!-- 정렬 바텀시트 (§6.7) -->
+  <div id="sort-dim" class="dim" onclick="hkSheet.close('sort')"></div>
+  <div id="sort" class="sheet" role="dialog" aria-modal="true" aria-label="정렬 방식">
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <h2 class="t-title2 sheet-title">어떻게 정렬할까요?</h2>
+    <div role="radiogroup" aria-label="정렬 방식">
+      <button class="opt" type="button" role="radio" aria-checked="true" onclick="pickSort(this,'기본순')">기본순<svg class="tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg></button>
+      <button class="opt" type="button" role="radio" aria-checked="false" onclick="pickSort(this,'별점순')">별점순<svg class="tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg></button>
+      <button class="opt" type="button" role="radio" aria-checked="false" onclick="pickSort(this,'배달 빠른순')">배달 빠른순<svg class="tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg></button>
+      <button class="opt" type="button" role="radio" aria-checked="false" onclick="pickSort(this,'가까운순')">가까운순<svg class="tick" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg></button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function pickSort(el, label) {
+  document.querySelectorAll('#sort .opt').forEach(function (o) { o.setAttribute('aria-checked', 'false'); });
+  el.setAttribute('aria-checked', 'true');
+  document.getElementById('sort-label').textContent = label;
+  setTimeout(function () { hkSheet.close('sort'); }, hkReduce ? 0 : 150);
+}
+</script>
+</body>
+</html>

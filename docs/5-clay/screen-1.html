@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="5" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>메모리 — 노트 · Clay 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <span class="appbar-title fade">노트</span>
+    <span class="appbar-actions">
+      <a class="icon-btn state" href="screen-3.html" aria-label="검색">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </a>
+      <button class="icon-btn state" type="button" aria-label="더보기" onclick="mSnack('정렬·보기 설정은 준비 중이에요')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+      </button>
+    </span>
+  </header>
+
+  <main class="scroll pad-nav page-enter">
+    <div class="appbar-large">
+      <h1 class="appbar-headline">노트</h1>
+    </div>
+
+    <div class="pad">
+      <div class="chip-row" role="group" aria-label="노트 필터">
+        <button class="chip state" type="button" data-toggle aria-pressed="true">
+          <svg class="chip-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>전체</button>
+        <button class="chip state" type="button" data-toggle aria-pressed="false">
+          <svg class="chip-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>즐겨찾기</button>
+        <button class="chip state" type="button" data-toggle aria-pressed="false">
+          <svg class="chip-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>업무</button>
+        <button class="chip state" type="button" data-toggle aria-pressed="false">
+          <svg class="chip-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>개인</button>
+        <button class="chip state" type="button" data-toggle aria-pressed="false">
+          <svg class="chip-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>아이디어</button>
+      </div>
+    </div>
+
+    <div class="pad section">
+      <div class="note-grid stagger">
+        <a class="note-card state" href="screen-2.html">
+          <div class="note-head">
+            <span class="t-title note-title">3분기 팀 회고 정리</span>
+            <svg class="note-star" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-label="즐겨찾기"><path d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg>
+          </div>
+          <p class="t-body-sm note-preview">배포 자동화가 크게 개선됐어요. 다음 분기엔 알림 채널을 슬랙으로 통합하고, 온콜 순번을 격주로 돌리기로 했어요.</p>
+          <p class="t-label-sm note-date num">어제</p>
+        </a>
+
+        <a class="note-card state" href="screen-2.html">
+          <span class="t-title note-title">장보기 목록</span>
+          <p class="t-body-sm note-preview">우유, 달걀 두 판, 대파, 두부, 사과 6개, 커피 원두 200g, 키친타월</p>
+          <p class="t-label-sm note-date num">10월 2일</p>
+        </a>
+
+        <a class="note-card state" href="screen-2.html">
+          <div class="note-head">
+            <span class="t-title note-title">제주 여행 메모</span>
+            <svg class="note-star" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-label="즐겨찾기"><path d="m12 3 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9 6.8 19.2l1-5.8L3.5 9.2l5.9-.9z"/></svg>
+          </div>
+          <p class="t-body-sm note-preview">성산일출봉 새벽 5시 40분 일출, 흑돼지 거리 저녁 예약, 렌터카는 공항점 오후 3시 반납.</p>
+          <p class="t-label-sm note-date num">9월 28일</p>
+        </a>
+
+        <a class="note-card state" href="screen-2.html">
+          <span class="t-title note-title">독서 노트 — 미드나잇 라이브러리</span>
+          <p class="t-body-sm note-preview">후회 없는 삶이란 없다. 다만 다른 선택의 무게를 나란히 견디는 법을 배우는 것.</p>
+          <p class="t-label-sm note-date num">9월 25일</p>
+        </a>
+
+        <a class="note-card state" href="screen-2.html">
+          <span class="t-title note-title">9월 가계부 정산</span>
+          <p class="t-body-sm note-preview">총지출 1,284,000원. 고정비 620,000원, 식비 340,000원, 교통 88,000원, 여가 236,000원.</p>
+          <p class="t-label-sm note-date num">9월 24일</p>
+        </a>
+
+        <a class="note-card state" href="screen-2.html">
+          <span class="t-title note-title">운동 루틴</span>
+          <p class="t-body-sm note-preview">월·수·금 상체, 화·목 하체. 스쿼트 60kg 5×5, 벤치 45kg 5×5, 주말은 러닝 5km.</p>
+          <p class="t-label-sm note-date num">9월 20일</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <a class="fab state" href="screen-2.html" aria-label="새 노트">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    <span class="t-label fab-label">새 노트</span>
+  </a>
+
+  <nav class="navbar" aria-label="주 메뉴">
+    <a class="nav-item state" href="screen-1.html" aria-current="page">
+      <span class="nav-ind"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm8 1.5V9h4.5z"/></svg></span>
+      <span class="nav-label">노트</span>
+    </a>
+    <a class="nav-item state" href="screen-3.html">
+      <span class="nav-ind"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
+      <span class="nav-label">검색</span>
+    </a>
+    <a class="nav-item state" href="screen-4.html">
+      <span class="nav-ind"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.1a2 2 0 1 1-4 0 1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.4l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H2a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.4-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H8a1.7 1.7 0 0 0 1-1.5V2a2 2 0 1 1 4 0 1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.4l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V8a1.7 1.7 0 0 0 1.5 1H22a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>
+      <span class="nav-label">설정</span>
+    </a>
+  </nav>
+
+</div>
+</body>
+</html>

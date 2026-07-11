@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="5" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>메모리 — 편집 · Clay 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+  /* screen-2 편집 — 본문 스크롤 영역이 툴바 위까지 (§9) */
+  .edit-scroll { padding-top: var(--space-2); padding-bottom: var(--space-6); }
+  .edit-title { margin-bottom: var(--space-2); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <button class="icon-btn state appbar-lead" type="button" aria-label="뒤로" onclick="location.href='screen-1.html'">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <span class="appbar-actions">
+      <button class="icon-btn state" type="button" aria-label="실행 취소" onclick="mSnack('한 단계 되돌렸어요')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 7 4 12l5 5"/><path d="M4 12h11a5 5 0 0 1 0 10h-2"/></svg>
+      </button>
+      <button class="btn btn-text state" type="button" onclick="mSnack('저장했어요', '실행 취소')">저장</button>
+      <button class="icon-btn state" type="button" aria-label="더보기" onclick="mDialog.open('del')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg>
+      </button>
+    </span>
+  </header>
+
+  <main class="scroll pad edit-scroll page-enter">
+    <input class="edit-title" type="text" value="3분기 팀 회고 정리" aria-label="제목" placeholder="제목">
+    <textarea class="edit-body" rows="16" aria-label="내용" placeholder="내용을 입력하세요">잘된 것
+· 배포 자동화 파이프라인을 도입해 릴리스 시간이 40분에서 8분으로 줄었어요.
+· 코드 리뷰 규칙을 바꾼 뒤 머지까지 걸리는 시간이 확실히 짧아졌어요.
+
+아쉬운 것
+· 온콜 순번이 몰려서 특정 인원에게 부담이 컸어요.
+· QA 환경이 자주 불안정했어요.
+
+다음 분기 액션
+· 알림 채널을 슬랙으로 통합하기 (담당: 지현)
+· 온콜을 격주 순번으로 돌리기
+· QA 서버 이중화 검토하기 (10월 15일까지)</textarea>
+  </main>
+
+  <div class="toolbar" role="toolbar" aria-label="서식">
+    <button class="icon-btn state" type="button" aria-label="굵게">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 5h6a3.5 3.5 0 0 1 0 7H7z"/><path d="M7 12h7a3.5 3.5 0 0 1 0 7H7z"/></svg>
+    </button>
+    <button class="icon-btn state" type="button" aria-label="목록">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="4.5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="4.5" cy="18" r="1.2" fill="currentColor" stroke="none"/></svg>
+    </button>
+    <button class="icon-btn state" type="button" aria-label="체크박스">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="m8 12 3 3 5-6"/></svg>
+    </button>
+    <button class="icon-btn state" type="button" aria-label="사진" onclick="mSnack('사진 첨부는 준비 중이에요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="8.5" cy="10" r="1.5"/><path d="m5 18 5-5 4 4 2-2 3 3"/></svg>
+    </button>
+    <button class="icon-btn state" type="button" aria-label="더보기" onclick="mSnack('더 많은 서식은 준비 중이에요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
+    </button>
+  </div>
+
+  <div class="scrim" id="del-scrim" onclick="mDialog.close('del')"></div>
+  <div class="dialog" id="del" role="dialog" aria-modal="true" aria-labelledby="del-t">
+    <h2 class="t-title-lg dialog-title" id="del-t">이 노트를 삭제할까요?</h2>
+    <p class="t-body-sm dialog-body">삭제하면 되돌릴 수 없어요.</p>
+    <div class="dialog-actions">
+      <button class="btn btn-text state" type="button" onclick="mDialog.close('del')">취소</button>
+      <button class="btn btn-text btn-danger state" type="button" onclick="location.href='screen-1.html'">삭제할게요</button>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

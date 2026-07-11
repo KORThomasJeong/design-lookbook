@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="12" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>정산소 — 개요 · Ink 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-1 홈·개요 (§9): KPI 4열 + 매출 추이 라인차트 + 활동 리스트 + 결제수단 분포 */
+.chart-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-16); margin-bottom: var(--space-16); }
+.act-panel { align-self: stretch; }
+.date-range { display: inline-flex; align-items: center; gap: var(--space-8); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidenav" aria-label="주 메뉴">
+    <div class="sidenav-brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
+      <span class="t-subheading">정산소</span>
+    </div>
+    <div class="sidenav-scroll">
+      <div class="nav-group">
+        <span class="nav-group-label t-label">워크스페이스</span>
+        <a class="nav-item" href="screen-1.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h6V4H4zM14 20h6V4h-6zM4 20h6v-4H4z"/></svg><span class="t-body-strong">개요</span></a>
+        <a class="nav-item" href="screen-2.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span class="t-body">결제</span></a>
+        <a class="nav-item" href="screen-4.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v11H3zM3 11h18M7 15h4"/></svg><span class="t-body">정산</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label t-label">개발</span>
+        <a class="nav-item" href="screen-5.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 6l-4 12"/></svg><span class="t-body">개발자</span></a>
+      </div>
+    </div>
+    <div class="sidenav-foot">
+      <div class="user-chip">
+        <span class="avatar" aria-hidden="true">한</span>
+        <span class="stack-8" style="gap:0"><span class="t-body-strong">한지우</span><span class="t-caption tert">코스모스페이</span></span>
+      </div>
+    </div>
+  </aside>
+
+  <div class="main-col">
+    <header class="appbar">
+      <button class="hamburger" type="button" aria-label="메뉴 열기" onclick="inkToggleNav()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <div class="env-switch" data-envswitch role="group" aria-label="환경 전환">
+        <button type="button" class="env-live is-on">Live</button>
+        <button type="button" class="env-test">Test</button>
+      </div>
+      <div class="appbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+        <input type="search" placeholder="결제·고객·정산 검색" aria-label="검색">
+      </div>
+      <span class="appbar-spacer"></span>
+      <button class="icon-btn" type="button" aria-label="알림" onclick="inkToast('새 알림이 없어요', 'info')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></button>
+      <span class="avatar" aria-hidden="true">한</span>
+    </header>
+
+    <main class="content page-enter">
+      <div class="page-head">
+        <div>
+          <h1 class="t-title">개요</h1>
+          <p class="t-body sub">오늘 들어온 매출과 잔액을 한눈에 확인해요.</p>
+        </div>
+        <label class="date-range">
+          <span class="t-label sub">기간</span>
+          <select class="select" aria-label="날짜 범위">
+            <option>오늘</option>
+            <option selected>최근 7일</option>
+            <option>최근 30일</option>
+            <option>이번 달</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi card kpi-hero">
+          <div class="kpi-label t-label">총 잔액
+            <span class="badge badge-info"><span class="badge-dot" aria-hidden="true"></span>KRW</span>
+          </div>
+          <div class="kpi-value t-display num" data-count="184529400" data-from="180000000" data-prefix="₩">₩184,529,400</div>
+          <div class="kpi-delta"><span class="delta up"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 5l7 12H5z"/></svg>2.4%</span> <span class="t-caption tert">어제 대비</span></div>
+        </div>
+        <div class="kpi card">
+          <div class="kpi-label t-label">오늘 매출</div>
+          <div class="kpi-value t-display num" data-count="12480000" data-from="11000000" data-prefix="₩">₩12,480,000</div>
+          <div class="kpi-delta"><span class="delta up"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 5l7 12H5z"/></svg>8.1%</span> <span class="t-caption tert">지난주 평균</span></div>
+        </div>
+        <div class="kpi card">
+          <div class="kpi-label t-label">결제 건수</div>
+          <div class="kpi-value t-display num" data-count="342" data-from="300">342</div>
+          <div class="kpi-delta"><span class="delta up"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 5l7 12H5z"/></svg>5.0%</span> <span class="t-caption tert">어제 대비</span></div>
+        </div>
+        <div class="kpi card">
+          <div class="kpi-label t-label">성공률</div>
+          <div class="kpi-value t-display num" data-count="97.6" data-from="96" data-suffix="%">97.6%</div>
+          <div class="kpi-delta"><span class="delta down"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 19 5 7h14z"/></svg>0.3%</span> <span class="t-caption tert">어제 대비</span></div>
+        </div>
+      </div>
+
+      <div class="two-col section">
+        <section class="panel" aria-labelledby="s1-chart-h">
+          <div class="chart-head">
+            <h2 id="s1-chart-h" class="t-heading">매출 추이</h2>
+            <div class="seg" data-seg role="group" aria-label="차트 기간">
+              <button type="button">일간</button>
+              <button type="button" class="is-on">주간</button>
+              <button type="button">월간</button>
+            </div>
+          </div>
+          <svg class="chart-line" viewBox="0 0 640 240" role="img" aria-label="이번 주와 지난 주 매출 추이 라인 차트. 이번 주 상승세.">
+            <line class="grid-line" x1="48" y1="16" x2="620" y2="16"/>
+            <line class="grid-line" x1="48" y1="62" x2="620" y2="62"/>
+            <line class="grid-line" x1="48" y1="108" x2="620" y2="108"/>
+            <line class="grid-line" x1="48" y1="154" x2="620" y2="154"/>
+            <line class="grid-line" x1="48" y1="200" x2="620" y2="200"/>
+            <text class="axis-label" x="4" y="20">3.0M</text>
+            <text class="axis-label" x="4" y="112">1.5M</text>
+            <text class="axis-label" x="4" y="204">0</text>
+            <path class="chart-area-1" d="M48 150 L143 120 L238 135 L333 90 L428 105 L523 60 L620 45 L620 200 L48 200 Z"/>
+            <path class="series series-2 chart-draw" d="M48 170 L143 155 L238 160 L333 130 L428 140 L523 120 L620 110"/>
+            <path class="series series-1 chart-draw" d="M48 150 L143 120 L238 135 L333 90 L428 105 L523 60 L620 45"/>
+            <text class="axis-label" x="44" y="228">월</text>
+            <text class="axis-label" x="139" y="228">화</text>
+            <text class="axis-label" x="234" y="228">수</text>
+            <text class="axis-label" x="329" y="228">목</text>
+            <text class="axis-label" x="424" y="228">금</text>
+            <text class="axis-label" x="519" y="228">토</text>
+            <text class="axis-label" x="614" y="228">일</text>
+          </svg>
+          <div class="legend">
+            <span class="leg t-caption"><span class="swatch" style="background:var(--chart-1)"></span>이번 주</span>
+            <span class="leg t-caption"><span class="swatch" style="background:var(--chart-2)"></span>지난 주</span>
+          </div>
+        </section>
+
+        <section class="panel act-panel" aria-labelledby="s1-act-h">
+          <div class="panel-head">
+            <h2 id="s1-act-h" class="t-heading">최근 활동</h2>
+            <a class="btn btn-ghost btn-sm" href="screen-2.html">전체 보기</a>
+          </div>
+          <ul class="activity">
+            <li><span class="act-dot" style="background:var(--color-success)" aria-hidden="true"></span>
+              <span class="act-main"><span class="t-body-strong">결제 승인</span> <span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>완료</span><br><span class="t-caption tert">김서연 · 스탠다드 플랜</span></span>
+              <span class="act-amt t-body">₩29,000</span></li>
+            <li><span class="act-dot" style="background:var(--color-primary)" aria-hidden="true"></span>
+              <span class="act-main"><span class="t-body-strong">정산 예약</span> <span class="badge badge-info"><span class="badge-dot" aria-hidden="true"></span>처리중</span><br><span class="t-caption tert">신한은행 ···4021</span></span>
+              <span class="act-amt t-body">₩8,240,000</span></li>
+            <li><span class="act-dot" style="background:var(--color-danger)" aria-hidden="true"></span>
+              <span class="act-main"><span class="t-body-strong">결제 실패</span> <span class="badge badge-danger"><span class="badge-dot" aria-hidden="true"></span>실패</span><br><span class="t-caption tert">박도윤 · 카드 거절</span></span>
+              <span class="act-amt t-body">₩49,000</span></li>
+            <li><span class="act-dot" style="background:var(--color-success)" aria-hidden="true"></span>
+              <span class="act-main"><span class="t-body-strong">결제 승인</span> <span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>완료</span><br><span class="t-caption tert">이하준 · 연간 구독</span></span>
+              <span class="act-amt t-body">₩290,000</span></li>
+            <li><span class="act-dot" style="background:var(--color-warning)" aria-hidden="true"></span>
+              <span class="act-main"><span class="t-body-strong">환불 검토</span> <span class="badge badge-warning"><span class="badge-dot" aria-hidden="true"></span>대기</span><br><span class="t-caption tert">최유나 · 부분 환불 요청</span></span>
+              <span class="act-amt t-body">₩15,000</span></li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="panel section" aria-labelledby="s1-dist-h">
+        <div class="panel-head panel-head-bordered">
+          <h2 id="s1-dist-h" class="t-heading">결제 수단 분포</h2>
+          <span class="t-caption tert">최근 7일 · 342건</span>
+        </div>
+        <div class="dist-row">
+          <span class="t-body-strong">신용·체크카드</span>
+          <span class="dist-track"><span class="dist-fill" style="width:62%;background:var(--chart-1)"></span></span>
+          <span class="dist-val num t-body" style="text-align:right">62%</span>
+        </div>
+        <div class="dist-row">
+          <span class="t-body-strong">계좌이체</span>
+          <span class="dist-track"><span class="dist-fill" style="width:21%;background:var(--chart-2)"></span></span>
+          <span class="dist-val num t-body" style="text-align:right">21%</span>
+        </div>
+        <div class="dist-row">
+          <span class="t-body-strong">간편결제</span>
+          <span class="dist-track"><span class="dist-fill" style="width:12%;background:var(--chart-3)"></span></span>
+          <span class="dist-val num t-body" style="text-align:right">12%</span>
+        </div>
+        <div class="dist-row">
+          <span class="t-body-strong">가상계좌</span>
+          <span class="dist-track"><span class="dist-fill" style="width:5%;background:var(--chart-4)"></span></span>
+          <span class="dist-val num t-body" style="text-align:right">5%</span>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+</body>
+</html>

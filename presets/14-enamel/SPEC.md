@@ -5,7 +5,7 @@ inspired-by: 배달의민족 (Baemin) — 서술 참조만, 상표는 파일/클
 mood: 크림 종이 위 밝은 민트 큰 버튼과 먹색 굵은 글씨. 뉴트로 간판(을지로 법랑) 감성에 장난기와 위트를 얹은 따뜻한 대중 배달앱
 best-for: 소비자용 모바일 배달·주문·커머스 앱, 로컬 서비스, 친근한 대중 브랜드
 variants: [a, b]
-status: spec-draft
+status: complete
 ---
 
 # 14 · Enamel

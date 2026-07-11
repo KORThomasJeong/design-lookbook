@@ -5,7 +5,7 @@ inspired-by: GitHub Primer (primer.style) — 서술 참조만, 상표는 파일
 mood: 개발자 협업 플랫폼. 뉴트럴 그레이 + 파란 링크, 초록 머지 버튼, 촘촘한 리스트·타임라인, 색 라벨과 mono 병기, 절제된 즉각 모션
 best-for: 개발자 도구·코드 호스팅·이슈 트래커·관리 콘솔·정보 밀도 높은 협업 웹앱
 variants: [a, b]
-status: spec-draft
+status: complete
 ---
 
 # 10 · Slate

@@ -1,0 +1,159 @@
+<html lang="ko" data-preset="16" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>누리 — 홈 · Jade 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-1 홈 (§9) — 검색 + 통합 피드 */
+.home-search { padding-top: var(--space-4); }
+.shortcuts { margin-top: var(--space-5); }
+.widget-value.pos, .widget-value.neg { font-variant-numeric: tabular-nums; }
+.widget-delta { display: inline-flex; align-items: center; gap: var(--space-05); font-size: var(--font-size-label); font-weight: var(--font-weight-bold); font-variant-numeric: tabular-nums; margin-top: var(--space-1); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="gnb">
+    <span class="gnb-wordmark">누리</span>
+    <span class="gnb-spacer"></span>
+    <button class="icon-btn" type="button" aria-label="알림" onclick="nToast('새로운 알림이 없어요')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+    </button>
+    <a class="icon-btn" href="screen-5.html" aria-label="내 프로필">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c0-3.6 3.1-5.5 7-5.5s7 1.9 7 5.5"/></svg>
+    </a>
+  </header>
+
+  <main class="scroll pad-tab page-enter">
+
+    <!-- 검색바 (§6.2 시그니처) -->
+    <form class="searchbar home-search" role="search" onsubmit="event.preventDefault(); location.href='screen-2.html';">
+      <input class="search-input" type="search" aria-label="검색어 입력" placeholder="검색어를 입력하세요" value="">
+      <button class="search-btn" type="submit" aria-label="검색">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-3.2-3.2"/></svg>
+      </button>
+    </form>
+
+    <!-- 바로가기 아이콘 행 (가로 스크롤) -->
+    <nav class="shortcut-row shortcuts" aria-label="바로가기">
+      <a class="shortcut" href="screen-2.html"><span class="shortcut-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M8 9h5M8 13h8M8 16h8"/></svg></span><span class="shortcut-label">뉴스</span></a>
+      <a class="shortcut" href="screen-2.html"><span class="shortcut-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 11H7z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span><span class="shortcut-label">쇼핑</span></a>
+      <a class="shortcut" href="screen-2.html"><span class="shortcut-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16l4-5 4 3 4-7 4 5"/><path d="M4 20h16"/></svg></span><span class="shortcut-label">증권</span></a>
+      <a class="shortcut" href="screen-2.html"><span class="shortcut-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V9l7-5 7 5v11"/><path d="M10 20v-5h4v5"/></svg></span><span class="shortcut-label">부동산</span></a>
+      <a class="shortcut" href="screen-2.html"><span class="shortcut-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21c4-4 6-7 6-10a6 6 0 1 0-12 0c0 3 2 6 6 10z"/><circle cx="12" cy="11" r="2"/></svg></span><span class="shortcut-label">지도</span></a>
+      <a class="shortcut" href="screen-2.html"><span class="shortcut-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M6 6l1.5 1.5M16.5 16.5 18 18M18 6l-1.5 1.5M7.5 16.5 6 18"/></svg></span><span class="shortcut-label">날씨</span></a>
+      <a class="shortcut" href="screen-2.html"><span class="shortcut-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="16" rx="1.5"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span><span class="shortcut-label">웹툰</span></a>
+      <a class="shortcut" href="screen-5.html"><span class="shortcut-ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/></svg></span><span class="shortcut-label">더보기</span></a>
+    </nav>
+
+    <!-- 날씨·주가 위젯 (2열) -->
+    <section class="section" aria-label="날씨와 증시">
+      <div class="widget-grid">
+        <div class="card">
+          <p class="t-label widget-label">서울 강남구</p>
+          <p class="t-num-lg widget-value">24°</p>
+          <p class="t-label widget-sub">구름 조금 · 미세먼지 좋음</p>
+        </div>
+        <div class="card">
+          <p class="t-label widget-label">코스피</p>
+          <p class="t-num-lg widget-value">2,681.44</p>
+          <p class="widget-delta pos">▲ 18.20 (0.68%)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 뉴스 피드 -->
+    <section class="section" aria-label="뉴스">
+      <div class="section-head">
+        <h2 class="t-title2">뉴스</h2>
+        <a class="t-label link w600" href="screen-2.html">더보기</a>
+      </div>
+      <div class="stagger">
+        <a class="feed-item" href="screen-3.html">
+          <div class="feed-main">
+            <p class="feed-title clamp2">한은 기준금리 3.25% 동결… 물가 둔화 흐름 지켜본다</p>
+            <p class="feed-summary clamp2">한국은행 금융통화위원회가 기준금리를 동결하며 하반기 인하 가능성을 시사했다.</p>
+            <p class="feed-meta">연합뉴스 · 12분 전</p>
+          </div>
+          <span class="thumb" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg></span>
+        </a>
+        <a class="feed-item" href="screen-3.html">
+          <div class="feed-main">
+            <p class="feed-title clamp2">여름 휴가철 KTX 예매 시작… 주말 좌석 벌써 매진 행렬</p>
+            <p class="feed-summary clamp2">7월 넷째 주 주말 하행선 좌석이 예매 시작 30분 만에 대부분 매진됐다.</p>
+            <p class="feed-meta">한국경제 · 34분 전</p>
+          </div>
+          <span class="thumb" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg></span>
+        </a>
+        <a class="feed-item" href="screen-3.html">
+          <div class="feed-main">
+            <p class="feed-title clamp2">서울 아파트 전셋값 8주 연속 상승… 강남권이 주도</p>
+            <p class="feed-summary clamp2">전세 매물 부족이 이어지며 강남 3구를 중심으로 상승 폭이 커지고 있다.</p>
+            <p class="feed-meta">중앙일보 · 1시간 전</p>
+          </div>
+          <span class="thumb" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg></span>
+        </a>
+        <a class="feed-item" href="screen-3.html">
+          <div class="feed-main">
+            <p class="feed-title clamp2">국내 완성차 4사 7월 내수 판매 소폭 반등</p>
+            <p class="feed-summary clamp2">전기차 보조금 확대와 신차 출시 효과로 전월 대비 3.1% 늘었다.</p>
+            <p class="feed-meta">매일경제 · 2시간 전</p>
+          </div>
+          <span class="thumb" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg></span>
+        </a>
+        <a class="feed-item" href="screen-3.html">
+          <div class="feed-main">
+            <p class="feed-title clamp2">장마 전선 남부 집중호우… 주말 최대 200mm 예보</p>
+            <p class="feed-summary clamp2">기상청은 남부 지방에 호우 특보 가능성을 예고하며 안전에 유의할 것을 당부했다.</p>
+            <p class="feed-meta">YTN · 3시간 전</p>
+          </div>
+          <span class="thumb" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m3 17 5-4 4 3 3-2 6 5"/></svg></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 쇼핑 상품 그리드 (2열) -->
+    <section class="section" aria-label="쇼핑">
+      <div class="section-head">
+        <h2 class="t-title2">쇼핑</h2>
+        <a class="t-label link w600" href="screen-2.html">더보기</a>
+      </div>
+      <div class="product-grid">
+        <a href="screen-2.html">
+          <span class="product-img" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9a5 5 0 0 1 10 0v3a3 3 0 0 1-3 3M7 9v3a3 3 0 0 0 3 3"/><rect x="4" y="12" width="3" height="5" rx="1.5"/><rect x="17" y="12" width="3" height="5" rx="1.5"/></svg></span>
+          <p class="product-name clamp2">노이즈 캔슬링 무선 이어폰</p>
+          <p class="product-price">89,000원</p>
+        </a>
+        <a href="screen-2.html">
+          <span class="product-img" aria-hidden="true"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6l3 8h8l3-8"/><path d="M8 14l-1 5M16 14l1 5"/><path d="M4 6h16"/></svg></span>
+          <p class="product-name clamp2">접이식 경량 캠핑 의자</p>
+          <p class="product-price">42,900원</p>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html" aria-current="page">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+      <span class="tab-label">홈</span></a>
+    <a class="tab" href="screen-2.html">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M8 9h5M8 13h8M8 16h6"/></svg>
+      <span class="tab-label">뉴스</span></a>
+    <a class="tab" href="screen-2.html">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 11H7z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+      <span class="tab-label">쇼핑</span></a>
+    <a class="tab" href="screen-5.html">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c0-3.6 3.1-5.5 7-5.5s7 1.9 7 5.5"/></svg>
+      <span class="tab-label">MY</span></a>
+  </nav>
+
+</div>
+</body>
+</html>

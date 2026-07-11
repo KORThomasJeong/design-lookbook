@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="13" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>머물다 — 예약 확정 · Coral 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-4 예약 확인 (§9) */
+.confirm { min-height: 100%; display: flex; flex-direction: column; justify-content: center; padding: var(--space-12) 0; }
+.confirm-head { text-align: center; }
+.res-card { display: flex; gap: var(--space-4); align-items: center; }
+.res-card .res-main { flex: 1; min-width: 0; }
+.res-num { font-size: var(--font-size-caption); font-weight: var(--font-weight-medium); color: var(--color-text-sub); font-variant-numeric: tabular-nums; }
+.actions { display: flex; flex-direction: column; gap: var(--space-3); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <main class="scroll">
+    <div class="confirm success-block">
+
+      <div class="confirm-head">
+        <div class="success-circle" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path class="chk-path" d="M6 12.5l3.5 3.5 8-9"/></svg>
+        </div>
+        <h1 class="t-display" style="margin-top:var(--space-4)">예약이 확정됐어요</h1>
+        <p class="t-body-1 sub" style="margin-top:var(--space-2)">지원님, 즐거운 여행 되세요 🌿</p>
+      </div>
+
+      <div class="box box-lg res-card" style="margin-top:var(--space-8)">
+        <span class="thumb thumb-64" aria-hidden="true">
+          <svg class="ph" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" style="color:var(--color-primary-vivid);position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"><rect width="100" height="100" fill="var(--color-surface)"/><circle cx="77" cy="23" r="11" fill="currentColor" opacity="0.85"/><path d="M8 60 L50 38 L92 60 Z" fill="currentColor" opacity="0.28"/><rect x="20" y="60" width="60" height="28" fill="currentColor" opacity="0.5"/></svg>
+        </span>
+        <div class="res-main">
+          <p class="stay-title ellip">북촌 한옥 스테이</p>
+          <p class="t-body-2 num" style="margin-top:var(--space-1)">7월 24일 – 27일 · 3박</p>
+          <p class="t-body-2 sub" style="margin-top:var(--space-1)">서울 종로구 가회동</p>
+        </div>
+      </div>
+
+      <div class="pad" style="padding:0;margin-top:var(--space-4)">
+        <div class="box box-lg">
+          <span class="res-num">예약번호 MEO-2K7X</span>
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top:var(--space-8)">
+        <a class="btn btn-primary" href="screen-5.html">예약 상세 보기</a>
+        <a class="btn btn-ghost" href="screen-1.html">홈으로</a>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+</body>
+</html>

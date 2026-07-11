@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="10" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>#88 핸드오버 소켓 순서 수정 · Slate 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-4 PR diff (§9) */
+.pr-head { padding-top: var(--space-6); }
+.pr-head .title-line { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
+.pr-head .num { font-size: var(--text-title-1); font-weight: var(--fw-normal); color: var(--color-text-sub); }
+.pr-sub { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-3); flex-wrap: wrap; }
+.subtabs { display: flex; align-items: center; gap: var(--space-4); border-bottom: 1px solid var(--color-border); margin-top: var(--space-4); }
+.subtab { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) 0; border-bottom: 2px solid transparent; color: var(--color-text-sub); font-size: var(--text-body); font-weight: var(--fw-medium); }
+.subtab.on { color: var(--color-text); font-weight: var(--fw-semibold); border-bottom-color: var(--color-text); }
+.diff-summary { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-4); font-family: var(--font-mono); font-size: var(--text-code); }
+.add-num { color: var(--color-success); }
+.del-num { color: var(--color-danger); }
+.diff-head .path { font-family: var(--font-mono); font-size: var(--text-code); color: var(--color-text); }
+.diff-head .stat { font-family: var(--font-mono); font-size: var(--text-code); }
+.chevron-btn { display: grid; place-items: center; width: 20px; height: 20px; color: var(--color-text-sub); border-radius: var(--radius-sm); }
+.chevron-btn[aria-expanded="false"] svg { transform: rotate(-90deg); }
+.review-bar {
+  position: sticky; bottom: 0; z-index: 20;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-3) 0;
+  margin-top: var(--space-6);
+}
+.review-bar-inner { display: flex; align-items: center; gap: var(--space-2); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="appbar-inner">
+    <a class="appbar-path" href="screen-1.html">
+      <span class="appbar-mark" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H19a1 1 0 0 1 1 1v13H6a2 2 0 0 0-2 2z"/><path d="M6 18a2 2 0 0 0-2 2"/></svg>
+      </span>
+      <span class="mono appbar-org">octo</span>
+      <span class="appbar-sep mono">/</span>
+      <span class="mono appbar-repo">starship</span>
+    </a>
+    <span class="appbar-spacer"></span>
+    <div class="appbar-actions">
+      <button class="icon-btn" type="button" aria-label="알림" onclick="gToast('새 알림이 없습니다')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+      </button>
+      <button class="icon-btn avatar-btn" type="button" aria-label="내 계정: 강민준">
+        <span class="avatar avatar-24 av-1" aria-hidden="true">강</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav" aria-label="저장소 메뉴">
+  <div class="subnav-inner">
+    <a class="tab" href="screen-1.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 8-4 4 4 4M15 8l4 4-4 4"/></svg>
+      코드
+    </a>
+    <a class="tab" href="screen-2.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/></svg>
+      이슈 <span class="count counter">42</span>
+    </a>
+    <a class="tab" href="screen-4.html" aria-current="page">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="2.5"/><circle cx="7" cy="17" r="2.5"/><circle cx="17" cy="17" r="2.5"/><path d="M7 9.5v5M17 14.5V11a2 2 0 0 0-2-2h-3l2-2m-2 2 2 2"/></svg>
+      풀 리퀘스트 <span class="count counter">7</span>
+    </a>
+    <span class="tab" aria-disabled="true" style="cursor: default;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      액션
+    </span>
+    <a class="tab" href="screen-5.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M5 5l1.5 1.5M17.5 17.5 19 19M3 12h2M19 12h2M5 19l1.5-1.5M17.5 6.5 19 5"/></svg>
+      설정
+    </a>
+  </div>
+</nav>
+
+<main class="page-enter">
+  <div class="container">
+    <div class="pr-head">
+      <div class="title-line">
+        <h1 class="t-title-1">핸드오버 소켓 전환 순서 수정</h1>
+        <span class="num mono">#88</span>
+      </div>
+      <div class="pr-sub">
+        <span class="state-badge merged">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="2.5"/><circle cx="7" cy="17" r="2.5"/><circle cx="17" cy="17" r="2.5"/><path d="M7 9.5v5"/></svg>
+          Merged
+        </span>
+        <span class="t-small sub"><span class="t-body-strong" style="color: var(--color-text);">강민준</span> 님이 <span class="mono">feat/handover-order</span> 브랜치를 <span class="mono">main</span> 에 병합했습니다 · <span class="mono">#123</span> 참조</span>
+      </div>
+
+      <div class="subtabs" role="tablist" aria-label="PR 보기">
+        <a class="subtab" href="screen-4.html" onclick="gToast('대화 보기'); return false;" role="tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14v10H9l-4 4z"/></svg>
+          대화 <span class="counter">6</span>
+        </a>
+        <a class="subtab" href="screen-1.html" onclick="gToast('커밋 보기'); return false;" role="tab">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M3 12h6M15 12h6"/></svg>
+          커밋 <span class="counter">4</span>
+        </a>
+        <span class="subtab on" role="tab" aria-selected="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>
+          변경된 파일 <span class="counter">3</span>
+        </span>
+      </div>
+
+      <div class="diff-summary">
+        <span><span class="mono" style="color: var(--color-text);">3</span> files changed</span>
+        <span class="add-num">+42</span>
+        <span class="del-num">−12</span>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="diff-file">
+        <div class="diff-head">
+          <button class="chevron-btn" type="button" aria-expanded="true" aria-controls="diff-1" aria-label="파일 접기" onclick="gToggleCollapse(this)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+          </button>
+          <span class="path">src/handover.ts</span>
+          <span class="spacer"></span>
+          <span class="stat add-num">+20</span>
+          <span class="stat del-num">−4</span>
+        </div>
+        <div id="diff-1">
+          <table class="diff-table">
+            <tbody>
+              <tr class="hunk"><td class="diff-ln"> </td><td class="diff-ln"> </td><td class="diff-mark"> </td><td class="diff-code">@@ -18,7 +18,11 @@ async function switchStation(next: Station) {</td></tr>
+              <tr><td class="diff-ln">18</td><td class="diff-ln">18</td><td class="diff-mark"> </td><td class="diff-code">  const prev = this.active;</td></tr>
+              <tr class="del"><td class="diff-ln">19</td><td class="diff-ln"> </td><td class="diff-mark">−</td><td class="diff-code">  prev.socket.close();</td></tr>
+              <tr class="del"><td class="diff-ln">20</td><td class="diff-ln"> </td><td class="diff-mark">−</td><td class="diff-code">  this.active = next;</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">19</td><td class="diff-mark">+</td><td class="diff-code">  await next.socket.waitReady();</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">20</td><td class="diff-mark">+</td><td class="diff-code">  this.active = next;</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">21</td><td class="diff-mark">+</td><td class="diff-code">  await prev.socket.drain();</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">22</td><td class="diff-mark">+</td><td class="diff-code">  prev.socket.close();</td></tr>
+              <tr><td class="diff-ln">21</td><td class="diff-ln">23</td><td class="diff-mark"> </td><td class="diff-code">  this.log.info("station switched", { to: next.id });</td></tr>
+              <tr><td class="diff-ln">22</td><td class="diff-ln">24</td><td class="diff-mark"> </td><td class="diff-code">}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="diff-file">
+        <div class="diff-head">
+          <button class="chevron-btn" type="button" aria-expanded="true" aria-controls="diff-2" aria-label="파일 접기" onclick="gToggleCollapse(this)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+          </button>
+          <span class="path">src/socket.ts</span>
+          <span class="spacer"></span>
+          <span class="stat add-num">+15</span>
+          <span class="stat del-num">−2</span>
+        </div>
+        <div id="diff-2">
+          <table class="diff-table">
+            <tbody>
+              <tr class="hunk"><td class="diff-ln"> </td><td class="diff-ln"> </td><td class="diff-mark"> </td><td class="diff-code">@@ -42,3 +42,16 @@ export class GroundSocket {</td></tr>
+              <tr><td class="diff-ln">42</td><td class="diff-ln">42</td><td class="diff-mark"> </td><td class="diff-code">  private state: State = "idle";</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">43</td><td class="diff-mark">+</td><td class="diff-code">  async waitReady(timeoutMs = 3000): Promise&lt;void&gt; {</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">44</td><td class="diff-mark">+</td><td class="diff-code">    if (this.state === "ready") return;</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">45</td><td class="diff-mark">+</td><td class="diff-code">    await once(this, "ready", { timeout: timeoutMs });</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">46</td><td class="diff-mark">+</td><td class="diff-code">  }</td></tr>
+              <tr class="del"><td class="diff-ln">43</td><td class="diff-ln"> </td><td class="diff-mark">−</td><td class="diff-code">  // TODO: 준비 상태 대기 미구현</td></tr>
+              <tr><td class="diff-ln">44</td><td class="diff-ln">47</td><td class="diff-mark"> </td><td class="diff-code">}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="diff-file">
+        <div class="diff-head">
+          <button class="chevron-btn" type="button" aria-expanded="true" aria-controls="diff-3" aria-label="파일 접기" onclick="gToggleCollapse(this)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg>
+          </button>
+          <span class="path">tests/handover.test.ts</span>
+          <span class="spacer"></span>
+          <span class="stat add-num">+7</span>
+          <span class="stat del-num">−6</span>
+        </div>
+        <div id="diff-3">
+          <table class="diff-table">
+            <tbody>
+              <tr class="hunk"><td class="diff-ln"> </td><td class="diff-ln"> </td><td class="diff-mark"> </td><td class="diff-code">@@ -10,6 +10,7 @@ describe("switchStation", () =&gt; {</td></tr>
+              <tr><td class="diff-ln">10</td><td class="diff-ln">10</td><td class="diff-mark"> </td><td class="diff-code">  it("전환 중 프레임 유실이 없다", async () =&gt; {</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">11</td><td class="diff-mark">+</td><td class="diff-code">    const frames = await runHandover({ times: 10 });</td></tr>
+              <tr class="add"><td class="diff-ln"> </td><td class="diff-ln">12</td><td class="diff-mark">+</td><td class="diff-code">    expect(frames.dropped).toBe(0);</td></tr>
+              <tr class="del"><td class="diff-ln">11</td><td class="diff-ln"> </td><td class="diff-mark">−</td><td class="diff-code">    expect(true).toBe(true); // placeholder</td></tr>
+              <tr><td class="diff-ln">12</td><td class="diff-ln">13</td><td class="diff-mark"> </td><td class="diff-code">  });</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="flash flash-success section">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+        <span>모든 검사 통과 · 회귀 테스트 <span class="mono">3</span>건 추가 · <span class="mono">a1c9f3e</span> 에서 <span class="mono">main</span> 에 병합됨</span>
+      </div>
+    </div>
+
+    <div class="review-bar">
+      <div class="review-bar-inner">
+        <span class="t-small sub">리뷰어 <span class="t-body-strong" style="color: var(--color-text);">박도윤</span> · <span class="t-body-strong" style="color: var(--color-success);">승인함</span></span>
+        <span style="flex:1;"></span>
+        <button class="btn" type="button" onclick="gToast('변경 요청을 등록했습니다')">변경 요청</button>
+        <button class="btn btn-primary" type="button" onclick="gToast('리뷰를 승인했습니다')">승인</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite">
+  <svg class="toast-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+  <span class="toast-msg"></span>
+</div>
+
+</body>
+</html>

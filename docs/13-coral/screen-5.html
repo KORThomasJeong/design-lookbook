@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="13" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>머물다 — 여행 · Coral 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 여행 목록 (§9) */
+.trips-top { padding-top: var(--space-4); }
+.trip-list { display: flex; flex-direction: column; gap: var(--space-6); }
+.trip-body .status { margin-top: var(--space-2); }
+.past-actions { margin-top: var(--space-4); }
+.trip-body .rev-title { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <span class="appbar-title static" style="opacity:1">여행</span>
+  </header>
+
+  <main class="scroll scroll-pad-tab page-enter">
+
+    <section class="trips-top">
+      <div class="seg-row" role="group" aria-label="여행 구분">
+        <button class="chip" type="button" aria-pressed="true" id="seg-up" onclick="mSeg('up')">예정</button>
+        <button class="chip" type="button" aria-pressed="false" id="seg-past" onclick="mSeg('past')">지난</button>
+      </div>
+    </section>
+
+    <section class="section trip-list stagger" id="panel-up" aria-label="예정된 여행">
+
+      <a class="trip stay" href="screen-4.html">
+        <div class="photo-frame">
+          <svg class="ph" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" style="color:var(--color-primary-vivid)" aria-hidden="true"><rect width="100" height="100" fill="var(--color-surface)"/><circle cx="77" cy="23" r="11" fill="currentColor" opacity="0.85"/><path d="M8 60 L50 38 L92 60 Z" fill="currentColor" opacity="0.28"/><rect x="20" y="60" width="60" height="28" fill="currentColor" opacity="0.5"/></svg>
+        </div>
+        <div class="trip-body">
+          <p class="stay-title ellip">북촌 한옥 스테이</p>
+          <p class="stay-place">서울 종로구</p>
+          <p class="stay-dates num">7월 24일 – 27일 · 3박</p>
+          <span class="badge badge-success status">확정</span>
+        </div>
+      </a>
+
+      <a class="trip stay" href="screen-4.html">
+        <div class="photo-frame">
+          <svg class="ph" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" style="color:var(--color-accent)" aria-hidden="true"><rect width="100" height="100" fill="var(--color-surface)"/><circle cx="24" cy="26" r="10" fill="currentColor" opacity="0.8"/><path d="M0 64 Q25 56 50 64 T100 64 V100 H0 Z" fill="currentColor" opacity="0.28"/><path d="M0 74 Q25 66 50 74 T100 74 V100 H0 Z" fill="currentColor" opacity="0.45"/><path d="M0 84 Q25 78 50 84 T100 84 V100 H0 Z" fill="currentColor" opacity="0.6"/></svg>
+        </div>
+        <div class="trip-body">
+          <p class="stay-title ellip">양양 서피비치 하우스</p>
+          <p class="stay-place">강원 양양군</p>
+          <p class="stay-dates num">8월 1일 – 3일 · 2박</p>
+          <span class="badge badge-success status">확정</span>
+        </div>
+      </a>
+
+    </section>
+
+    <section class="section trip-list stagger" id="panel-past" aria-label="지난 여행" hidden>
+
+      <div class="trip past">
+        <div class="photo-frame">
+          <svg class="ph" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" style="color:var(--color-primary-vivid)" aria-hidden="true"><rect width="100" height="100" fill="var(--color-surface)"/><path d="M20 8 L34 34 H6 Z" fill="currentColor" opacity="0.5"/><path d="M50 2 L68 36 H32 Z" fill="currentColor" opacity="0.35"/><path d="M80 10 L94 34 H66 Z" fill="currentColor" opacity="0.5"/><rect x="0" y="60" width="100" height="40" fill="currentColor" opacity="0.22"/><rect x="38" y="52" width="24" height="26" fill="currentColor" opacity="0.55"/></svg>
+        </div>
+        <div class="trip-body">
+          <p class="stay-title ellip">제주 곶자왈 통유리집</p>
+          <p class="stay-place">제주 서귀포시</p>
+          <p class="stay-dates num">5월 10일 – 12일 · 2박</p>
+        </div>
+      </div>
+      <button class="btn btn-secondary past-actions" type="button" onclick="mToast('후기 작성은 곧 만나요')">후기 남기기</button>
+
+    </section>
+
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <span class="tab-label">탐색</span></a>
+    <button class="tab" type="button" onclick="mToast('찜 목록은 곧 만나요')">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-9.5-9C1 8 2.5 4.5 6 4.5c2 0 3.2 1.2 4 2.3.8-1.1 2-2.3 4-2.3 3.5 0 5 3.5 3.5 6.5C19 15.5 12 20 12 20z"/></svg>
+      <span class="tab-label">찜</span></button>
+    <a class="tab" href="screen-5.html" aria-current="page">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16M4 8l2-3h12l2 3M4 8v10a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V8"/><path d="M9 12h6"/></svg>
+      <span class="tab-label">여행</span></a>
+    <button class="tab" type="button" onclick="mToast('프로필은 곧 만나요')">
+      <svg class="tab-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+      <span class="tab-label">프로필</span></button>
+  </nav>
+
+</div>
+
+<script>
+  window.mSeg = function (which) {
+    var up = which === 'up';
+    document.getElementById('seg-up').setAttribute('aria-pressed', up ? 'true' : 'false');
+    document.getElementById('seg-past').setAttribute('aria-pressed', up ? 'false' : 'true');
+    document.getElementById('panel-up').hidden = !up;
+    document.getElementById('panel-past').hidden = up;
+  };
+</script>
+</body>
+</html>

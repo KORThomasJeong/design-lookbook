@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="8" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>상점 — 설정 · Canvas 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 설정 (§9) — 2단: 카테고리 리스트 + 선택된 폼 카드 */
+.geo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--space-4); }
+.card-save { display: flex; justify-content: flex-end; margin-top: var(--space-4); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="topbar-wordmark"><span class="topbar-mark" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16l-1 3H5z"/><path d="M5 12v7h14v-7"/><path d="M4 9l1.5-4h13L20 9"/></svg>
+  </span>상점</span>
+  <label class="topbar-search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+    <input type="search" placeholder="주문·상품·고객 검색" aria-label="검색">
+  </label>
+  <span class="topbar-spacer"></span>
+  <div class="topbar-actions">
+    <button class="icon-btn" type="button" aria-label="알림" data-toast="아직 새 알림이 없어요">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+    </button>
+    <span class="avatar" aria-hidden="true">상</span>
+  </div>
+</header>
+
+<aside class="sidebar" aria-label="주 메뉴">
+  <div class="nav-group">
+    <a class="nav-item" href="screen-1.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+      <span>홈</span></a>
+    <a class="nav-item" href="screen-2.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>
+      <span>주문</span></a>
+    <a class="nav-item" href="screen-4.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>
+      <span>상품</span></a>
+  </div>
+  <div class="nav-group">
+    <p class="nav-group-title t-micro">계정</p>
+    <a class="nav-item is-active" href="screen-5.html" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.2-1.3L14 2h-4l-.4 2.4a7 7 0 0 0-2.2 1.3L5 4.8l-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.2 1.3L10 22h4l.4-2.4a7 7 0 0 0 2.2-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></svg>
+      <span>설정</span></a>
+  </div>
+</aside>
+
+<main class="content">
+  <div class="content-inner">
+
+    <div class="page-head enter">
+      <h1 class="t-title">설정</h1>
+    </div>
+
+    <div class="settings-cols enter-2">
+      <!-- 카테고리 리스트 -->
+      <nav class="cat-list" aria-label="설정 카테고리" data-chip-group>
+        <a class="cat-item is-active" href="screen-5.html" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+          <span>일반</span></a>
+        <a class="cat-item" href="screen-5.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>
+          <span>결제</span></a>
+        <a class="cat-item" href="screen-5.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v8H3z"/><path d="M14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>
+          <span>배송</span></a>
+        <a class="cat-item" href="screen-5.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+          <span>알림</span></a>
+        <a class="cat-item" href="screen-5.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 11h5M18.5 8.5v5"/></svg>
+          <span>사용자·권한</span></a>
+      </nav>
+
+      <!-- 선택된 카테고리(일반) 폼 -->
+      <div class="stack">
+        <section class="card" aria-label="스토어 정보">
+          <div class="card-head"><h2 class="t-heading">스토어 정보</h2></div>
+          <div class="field">
+            <label class="field-label" for="s-name">스토어 이름</label>
+            <input class="input" id="s-name" type="text" value="상점 셀렉트숍">
+          </div>
+          <div class="field">
+            <label class="field-label" for="s-email">스토어 이메일</label>
+            <input class="input" id="s-email" type="email" value="help@sangjeom.example.com">
+            <p class="field-hint">주문 확인과 고객 문의 답변에 쓰이는 주소예요</p>
+          </div>
+          <div class="field">
+            <label class="field-label" for="s-addr">사업장 주소</label>
+            <input class="input" id="s-addr" type="text" value="서울특별시 성동구 성수이로 88, 4층">
+          </div>
+          <div class="card-save"><button class="btn btn-secondary" type="button" data-toast="스토어 정보를 저장했어요">저장</button></div>
+        </section>
+
+        <section class="card" aria-label="지역">
+          <div class="card-head"><h2 class="t-heading">지역</h2></div>
+          <div class="geo-grid">
+            <div class="field">
+              <label class="field-label" for="s-currency">통화</label>
+              <div class="select-wrap">
+                <select class="select" id="s-currency"><option>원 (KRW ₩)</option><option>달러 (USD $)</option><option>엔 (JPY ¥)</option></select>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label" for="s-tz">시간대</label>
+              <div class="select-wrap">
+                <select class="select" id="s-tz"><option>서울 (GMT+9)</option><option>도쿄 (GMT+9)</option><option>뉴욕 (GMT-4)</option></select>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label" for="s-unit">무게 단위</label>
+              <div class="select-wrap">
+                <select class="select" id="s-unit"><option>킬로그램 (kg)</option><option>그램 (g)</option></select>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="card-save"><button class="btn btn-secondary" type="button" data-toast="지역 설정을 저장했어요">저장</button></div>
+        </section>
+
+        <section class="card" aria-label="환경설정">
+          <div class="card-head"><h2 class="t-heading">환경설정</h2></div>
+          <div class="setting-row">
+            <div class="meta"><p class="name">다크 모드</p><p class="desc">어두운 배경으로 눈의 피로를 줄여요. 우하단 바에서도 바꿀 수 있어요</p></div>
+            <label class="toggle"><input type="checkbox" aria-label="다크 모드"><span class="toggle-track"></span><span class="toggle-knob"></span></label>
+          </div>
+          <div class="setting-row">
+            <div class="meta"><p class="name">이메일 알림</p><p class="desc">새 주문과 재고 부족 소식을 이메일로 받아요</p></div>
+            <label class="toggle"><input type="checkbox" checked aria-label="이메일 알림"><span class="toggle-track"></span><span class="toggle-knob"></span></label>
+          </div>
+          <div class="setting-row">
+            <div class="meta"><p class="name">주간 요약 리포트</p><p class="desc">매주 월요일 아침에 지난주 매출 요약을 보내요</p></div>
+            <label class="toggle"><input type="checkbox" checked aria-label="주간 요약 리포트"><span class="toggle-track"></span><span class="toggle-knob"></span></label>
+          </div>
+        </section>
+
+        <!-- 위험 구역 -->
+        <section class="card" aria-label="위험 구역">
+          <div class="card-head"><h2 class="t-heading">위험 구역</h2></div>
+          <div class="banner banner-danger">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 4.3 2.8 17a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+            <div><p class="banner-title">스토어를 삭제하면 되돌릴 수 없어요</p><p class="banner-body t-caption">주문·상품·고객 데이터가 모두 사라져요</p></div>
+          </div>
+          <div class="card-save"><button class="btn btn-danger" type="button" data-toast="스토어 삭제는 데모에서 막아 뒀어요">스토어 삭제</button></div>
+        </section>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<nav class="tabbar" aria-label="주 메뉴">
+  <a class="tab" href="screen-1.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+    <span>홈</span></a>
+  <a class="tab" href="screen-2.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>
+    <span>주문</span></a>
+  <a class="tab" href="screen-4.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>
+    <span>상품</span></a>
+  <a class="tab is-active" href="screen-5.html" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.2-1.3L14 2h-4l-.4 2.4a7 7 0 0 0-2.2 1.3L5 4.8l-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.2 1.3L10 22h4l.4-2.4a7 7 0 0 0 2.2-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></svg>
+    <span>설정</span></a>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="5" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>메모리 — 검색 · Clay 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+  /* screen-3 검색 (§9) */
+  .search-top { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+  .search-clear { color: var(--color-text-sub); }
+  .recent-head { padding: 0 var(--layout-screen-padding); margin-bottom: var(--space-2); }
+  .empty {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    padding: var(--space-16) var(--layout-screen-padding);
+  }
+  .empty-ico {
+    width: 64px; height: 64px; border-radius: var(--radius-full);
+    display: grid; place-items: center;
+    background: var(--color-primary-container); color: var(--color-on-primary-container);
+    margin-bottom: var(--space-4);
+  }
+  .empty-desc { color: var(--color-text-sub); margin-top: var(--space-2); }
+  .hidden { display: none; }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <span class="appbar-title" style="opacity:1">검색</span>
+  </header>
+
+  <main class="scroll pad-nav page-enter">
+    <div class="pad search-top">
+      <div class="searchbar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="노트 검색" aria-label="노트 검색" autocomplete="off">
+        <button class="icon-btn state search-clear hidden" id="clear" type="button" aria-label="지우기" style="width:40px;height:40px">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- 입력 전: 최근 검색 + 태그 -->
+    <section id="recent" class="section">
+      <h2 class="t-title recent-head">최근 검색</h2>
+      <div class="pad chip-row">
+        <span class="chip chip-input state" role="button" tabindex="0">회의록<svg class="chip-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+        <span class="chip chip-input state" role="button" tabindex="0">제주<svg class="chip-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+        <span class="chip chip-input state" role="button" tabindex="0">가계부<svg class="chip-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></span>
+      </div>
+      <h2 class="t-title recent-head" style="margin-top: var(--space-6)">태그로 찾기</h2>
+      <div class="pad chip-row">
+        <button class="chip state" type="button">업무</button>
+        <button class="chip state" type="button">여행</button>
+        <button class="chip state" type="button">독서</button>
+        <button class="chip state" type="button">가계</button>
+        <button class="chip state" type="button">운동</button>
+      </div>
+    </section>
+
+    <!-- 입력 후: 결과 리스트 -->
+    <section id="results" class="hidden"></section>
+
+    <!-- 결과 없음 -->
+    <div id="empty" class="empty hidden">
+      <span class="empty-ico">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      </span>
+      <h2 class="t-title-lg" id="empty-title">검색 결과가 없어요</h2>
+      <p class="t-body-sm empty-desc">다른 단어로 다시 찾아볼까요?</p>
+    </div>
+  </main>
+
+  <nav class="navbar" aria-label="주 메뉴">
+    <a class="nav-item state" href="screen-1.html">
+      <span class="nav-ind"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v6h6"/></svg></span>
+      <span class="nav-label">노트</span>
+    </a>
+    <a class="nav-item state" href="screen-3.html" aria-current="page">
+      <span class="nav-ind"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 3a7 7 0 0 1 5.3 11.6l4.5 4.5-1.4 1.4-4.5-4.5A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg></span>
+      <span class="nav-label">검색</span>
+    </a>
+    <a class="nav-item state" href="screen-4.html">
+      <span class="nav-ind"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2v.1a2 2 0 1 1-4 0 1.7 1.7 0 0 0-1.1-1.6 1.7 1.7 0 0 0-1.9.4l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0-1.2-2.9H2a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.6-1.1 1.7 1.7 0 0 0-.4-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H8a1.7 1.7 0 0 0 1-1.5V2a2 2 0 1 1 4 0 1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.4l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V8a1.7 1.7 0 0 0 1.5 1H22a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></span>
+      <span class="nav-label">설정</span>
+    </a>
+  </nav>
+
+</div>
+
+<script>
+(function () {
+  var notes = [
+    { t: '3분기 팀 회고 정리', s: '알림 채널을 슬랙으로 통합하고 온콜을 격주 순번으로 돌리기로 했어요' },
+    { t: '주간 회의록 — 9월 4주차', s: '디자인 QA 일정과 배포 체크리스트를 함께 정리했어요' },
+    { t: '거래처 미팅 준비', s: '회의 자료 인쇄, 견적서 최종 검토, 시연 순서 확인' },
+    { t: '제주 여행 메모', s: '성산일출봉 새벽 일출, 흑돼지 거리 저녁 예약' },
+    { t: '장보기 목록', s: '우유, 달걀 두 판, 대파, 두부, 사과 여섯 개' },
+    { t: '독서 노트 — 미드나잇 라이브러리', s: '다른 선택의 무게를 나란히 견디는 법' },
+    { t: '9월 가계부 정산', s: '총지출 1,284,000원, 고정비 620,000원' }
+  ];
+  var q = document.getElementById('q');
+  var clear = document.getElementById('clear');
+  var recent = document.getElementById('recent');
+  var results = document.getElementById('results');
+  var empty = document.getElementById('empty');
+  var emptyTitle = document.getElementById('empty-title');
+
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function mark(text, term) {
+    if (!term) return text;
+    return text.replace(new RegExp('(' + esc(term) + ')', 'gi'), '<mark class="mark">$1</mark>');
+  }
+  function row(n, term) {
+    return '<a class="list-item state" href="screen-2.html">' +
+      '<span class="list-lead"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M14 3v6h6"/></svg></span>' +
+      '<span class="list-main"><span class="list-title">' + mark(n.t, term) + '</span>' +
+      '<span class="list-sub">' + mark(n.s, term) + '</span></span></a>';
+  }
+  function render() {
+    var term = q.value.trim();
+    clear.classList.toggle('hidden', term === '');
+    if (term === '') {
+      recent.classList.remove('hidden');
+      results.classList.add('hidden');
+      empty.classList.add('hidden');
+      results.innerHTML = '';
+      return;
+    }
+    recent.classList.add('hidden');
+    var hits = notes.filter(function (n) {
+      return (n.t + ' ' + n.s).toLowerCase().indexOf(term.toLowerCase()) !== -1;
+    });
+    if (hits.length === 0) {
+      results.classList.add('hidden');
+      results.innerHTML = '';
+      empty.classList.remove('hidden');
+      emptyTitle.textContent = "'" + term + "' 검색 결과가 없어요";
+      return;
+    }
+    empty.classList.add('hidden');
+    results.classList.remove('hidden');
+    results.className = 'section stagger';
+    results.innerHTML = hits.map(function (n) { return row(n, term); }).join('');
+  }
+  q.addEventListener('input', render);
+  clear.addEventListener('click', function () { q.value = ''; render(); q.focus(); });
+  document.querySelectorAll('#recent .chip-input').forEach(function (c) {
+    c.addEventListener('click', function () {
+      q.value = c.textContent.trim(); render(); q.focus();
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="7" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>계정 설정 · 본부 Bonbu — Quartz 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 설정 (§9-5) */
+.settings-grid { display: grid; grid-template-columns: 200px 1fr; gap: var(--space-6); align-items: start; }
+.settings-panel { max-width: var(--layout-form-max); }
+.subnav { display: flex; flex-direction: column; gap: var(--space-1); }
+.subnav-item { text-align: left; height: var(--size-control-lg); padding: 0 var(--space-3); border: none; background: transparent; border-radius: var(--radius-md); color: var(--color-text-sub); font-size: var(--font-size-body); cursor: pointer; transition: background-color var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out); }
+.subnav-item:hover { background: var(--color-hover); color: var(--color-text); }
+.subnav-item.is-on { background: var(--color-selected); color: var(--color-primary); font-weight: var(--font-weight-medium); }
+.subnav-item.danger.is-on { color: var(--color-danger); background: var(--color-danger-soft); }
+.subnav-item:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--color-focus-ring); }
+.avatar-upload { display: flex; align-items: center; gap: var(--space-4); }
+.card-foot { display: flex; justify-content: flex-end; gap: var(--space-2); padding: var(--space-4) var(--space-6); border-top: var(--border-width) solid var(--color-border-secondary); }
+.notif-label { flex: 1 1 auto; min-width: 0; cursor: pointer; }
+.bill-row { display: flex; padding: var(--space-3) 0; border-bottom: var(--border-width) solid var(--color-border-secondary); }
+.bill-row:last-child { border-bottom: none; }
+.bill-row dt { width: 120px; flex: none; margin: 0; color: var(--color-text-sub); }
+.bill-row dd { margin: 0; }
+@media (max-width: 768px) {
+  .settings-grid { grid-template-columns: 1fr; }
+  .subnav { flex-direction: row; overflow-x: auto; }
+  .subnav-item { white-space: nowrap; }
+}
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="appbar">
+  <button type="button" class="icon-btn hamburger" data-nav-toggle aria-label="메뉴 열기" aria-expanded="false">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+  </button>
+  <a class="appbar-brand" href="screen-1.html">
+    <span class="brand-mark" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M8 1.5 14 5v6L8 14.5 2 11V5z"/></svg></span>
+    본부
+  </a>
+  <nav class="crumbs hide-mobile" aria-label="위치">
+    <a href="screen-1.html">홈</a><span class="sep" aria-hidden="true">/</span>
+    <span class="now">설정</span>
+  </nav>
+  <span class="appbar-spacer"></span>
+  <div class="appbar-actions"><span class="avatar avatar-32" aria-label="김이현 계정" title="김이현">김</span></div>
+</header>
+
+<div class="scrim" aria-hidden="true"></div>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="주 메뉴">
+    <div class="sidenav-group t-caption">운영</div>
+    <a class="sidenav-item" href="screen-1.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="11" y="3" width="6" height="6" rx="1"/><rect x="3" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/></svg>
+      대시보드</a>
+    <a class="sidenav-item" href="screen-3.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3"/><path d="M4 16.5c0-3 2.7-5 6-5s6 2 6 5"/></svg>
+      사용자</a>
+    <a class="sidenav-item" href="screen-1.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h2l1.5 9h8l1.5-6H6"/><circle cx="8" cy="17" r="1"/><circle cx="14" cy="17" r="1"/></svg>
+      주문</a>
+    <a class="sidenav-item" href="screen-5.html" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 3v2m0 10v2m7-7h-2M5 10H3m11.9-4.9-1.4 1.4M6.5 13.5l-1.4 1.4m9.8 0-1.4-1.4M6.5 6.5 5.1 5.1"/></svg>
+      설정</a>
+    <div class="sidenav-foot t-caption">본부 콘솔 v3.2.0 · seoul-1</div>
+  </nav>
+
+  <main class="content" id="main">
+    <div class="content-inner page-enter">
+      <div class="page-head"><h1 class="t-title">설정</h1></div>
+
+      <div class="settings-grid">
+        <nav class="subnav" id="subnav" aria-label="설정 항목">
+          <button type="button" class="subnav-item is-on" data-sp="profile">프로필</button>
+          <button type="button" class="subnav-item" data-sp="security">보안</button>
+          <button type="button" class="subnav-item" data-sp="notif">알림</button>
+          <button type="button" class="subnav-item" data-sp="billing">청구</button>
+          <button type="button" class="subnav-item danger" data-sp="danger">위험 구역</button>
+        </nav>
+
+        <div class="settings-panel">
+          <!-- 프로필 -->
+          <div data-sp-panel="profile">
+            <div class="card">
+              <div class="card-head"><h2 class="t-heading">프로필</h2></div>
+              <div class="card-body">
+                <div class="field">
+                  <span class="field-label">프로필 사진</span>
+                  <div class="avatar-upload">
+                    <span class="avatar avatar-64" aria-hidden="true">김</span>
+                    <div>
+                      <button type="button" class="btn btn-default" onclick="window.quartzToast&&window.quartzToast('이미지 선택 창을 엽니다','info')">사진 변경</button>
+                      <p class="field-help">JPG 또는 PNG, 최대 2MB</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="field"><label class="field-label" for="p-name">이름</label><input class="input" id="p-name" type="text" value="김이현"></div>
+                <div class="field"><label class="field-label" for="p-email">이메일</label><input class="input" id="p-email" type="email" value="hyun.kim@bonbu.co.kr"></div>
+                <div class="field">
+                  <label class="field-label" for="p-lang">언어</label>
+                  <span class="select"><select class="select-native" id="p-lang"><option>한국어</option><option>English</option><option>日本語</option></select><span class="chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg></span></span>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="p-tz">타임존</label>
+                  <span class="select"><select class="select-native" id="p-tz"><option>(GMT+9) 서울</option><option>(GMT+0) 런던</option><option>(GMT-8) 로스앤젤레스</option></select><span class="chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg></span></span>
+                </div>
+              </div>
+              <div class="card-foot">
+                <button type="button" class="btn btn-primary btn-lg" onclick="window.quartzToast&&window.quartzToast('저장했습니다','success')">변경사항 저장</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 보안 -->
+          <div data-sp-panel="security" hidden>
+            <div class="card">
+              <div class="card-head"><h2 class="t-heading">보안</h2></div>
+              <div class="card-body">
+                <div class="field"><label class="field-label" for="s-cur">현재 비밀번호</label><input class="input" id="s-cur" type="password" placeholder="현재 비밀번호"></div>
+                <div class="field"><label class="field-label" for="s-new">새 비밀번호</label><input class="input" id="s-new" type="password" placeholder="8자 이상"><p class="field-help">영문·숫자·기호를 조합하면 더 안전합니다</p></div>
+                <div class="field">
+                  <span class="field-label">2단계 인증</span>
+                  <div class="list-item" style="padding-left:0;padding-right:0;border:none">
+                    <label class="notif-label" for="sw-2fa"><span class="w500">인증 앱 사용</span><br><span class="li-desc t-caption">로그인 시 6자리 코드를 요구합니다</span></label>
+                    <input type="checkbox" class="switch" id="sw-2fa" checked>
+                  </div>
+                </div>
+              </div>
+              <div class="card-foot"><button type="button" class="btn btn-primary btn-lg" onclick="window.quartzToast&&window.quartzToast('저장했습니다','success')">변경사항 저장</button></div>
+            </div>
+          </div>
+
+          <!-- 알림 -->
+          <div data-sp-panel="notif" hidden>
+            <div class="card">
+              <div class="card-head"><h2 class="t-heading">알림</h2></div>
+              <div class="list">
+                <div class="list-item">
+                  <label class="notif-label" for="sw-order"><span class="w500">주문 알림</span><br><span class="li-desc t-caption">새 주문과 상태 변경을 알립니다</span></label>
+                  <input type="checkbox" class="switch" id="sw-order" checked>
+                </div>
+                <div class="list-item">
+                  <label class="notif-label" for="sw-report"><span class="w500">주간 리포트</span><br><span class="li-desc t-caption">매주 월요일 운영 요약을 이메일로 받습니다</span></label>
+                  <input type="checkbox" class="switch" id="sw-report" checked>
+                </div>
+                <div class="list-item">
+                  <label class="notif-label" for="sw-login"><span class="w500">새 기기 로그인</span><br><span class="li-desc t-caption">알 수 없는 기기 접속 시 즉시 알립니다</span></label>
+                  <input type="checkbox" class="switch" id="sw-login">
+                </div>
+                <div class="list-item">
+                  <label class="notif-label" for="sw-mkt"><span class="w500">마케팅 소식</span><br><span class="li-desc t-caption">제품 업데이트와 이벤트 소식</span></label>
+                  <input type="checkbox" class="switch" id="sw-mkt">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 청구 -->
+          <div data-sp-panel="billing" hidden>
+            <div class="card">
+              <div class="card-head"><h2 class="t-heading grow">청구</h2><span class="tag tag-primary">비즈니스 요금제</span></div>
+              <div class="card-body">
+                <dl>
+                  <div class="bill-row"><dt>월 요금</dt><dd class="num">₩ 149,000</dd></div>
+                  <div class="bill-row"><dt>결제 수단</dt><dd class="num">신한카드 ****-4821</dd></div>
+                  <div class="bill-row"><dt>다음 결제일</dt><dd class="num">2026-08-01</dd></div>
+                </dl>
+              </div>
+              <div class="card-foot"><button type="button" class="btn btn-default">요금제 변경</button></div>
+            </div>
+          </div>
+
+          <!-- 위험 구역 -->
+          <div data-sp-panel="danger" hidden>
+            <div class="card danger-zone">
+              <div class="card-head"><h2 class="t-heading dz-title">위험 구역</h2></div>
+              <div class="card-body">
+                <p class="w500">계정 삭제</p>
+                <p class="t-caption sub" style="margin-top:var(--space-1)">계정과 모든 데이터가 영구히 삭제됩니다. 이 작업은 되돌릴 수 없습니다.</p>
+                <button type="button" class="btn btn-danger" style="margin-top:var(--space-4)" data-open="delAccount">계정 삭제</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- 계정 삭제 확인 모달 -->
+<div class="overlay" id="delAccount" role="dialog" aria-modal="true" aria-labelledby="daTitle">
+  <div class="modal">
+    <div class="modal-head">
+      <span style="color:var(--color-danger)" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 2 17h16z"/><path d="M10 8v4"/><path d="M10 14.5h.01"/></svg></span>
+      <h2 class="t-subhead grow" id="daTitle">계정을 삭제할까요?</h2>
+      <button type="button" class="icon-btn" data-close aria-label="닫기"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m4 4 8 8M12 4l-8 8"/></svg></button>
+    </div>
+    <div class="modal-body"><p class="t-body">삭제하면 되돌릴 수 없습니다. 모든 데이터가 영구히 제거됩니다.</p></div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-default" data-close>취소</button>
+      <button type="button" class="btn btn-danger" data-close onclick="window.quartzToast&&window.quartzToast('삭제 요청을 접수했습니다','success')">삭제</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var items = Array.prototype.slice.call(document.querySelectorAll('#subnav .subnav-item'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('[data-sp-panel]'));
+  items.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var id = btn.getAttribute('data-sp');
+      items.forEach(function (x) { x.classList.toggle('is-on', x === btn); });
+      panels.forEach(function (p) {
+        var show = p.getAttribute('data-sp-panel') === id;
+        p.hidden = !show;
+        if (show) { p.classList.remove('tab-panel'); void p.offsetWidth; p.classList.add('tab-panel'); }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

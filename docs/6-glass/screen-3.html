@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="6" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>링 — 알림 설정 · Glass 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="frame">
+
+  <header class="nav" aria-label="상단 바">
+    <span class="nav-slot">
+      <a class="nav-back" href="screen-2.html">
+        <svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 2L2 10l8 8"/></svg>
+        <span class="t-body">설정</span>
+      </a>
+    </span>
+    <span class="nav-title t-headline">알림</span>
+    <span class="nav-slot right"></span>
+  </header>
+
+  <main class="scroll" id="scroll">
+    <div class="large-title">
+      <h1 class="t-title-1">알림</h1>
+    </div>
+
+    <!-- 알림 스타일 -->
+    <section class="group-first" aria-label="알림 스타일">
+      <h2 class="group-header t-footnote">알림 스타일</h2>
+      <div class="list enter">
+        <div class="cell is-static">
+          <span class="cell-main"><span class="t-body">알림 허용</span></span>
+          <button class="switch" type="button" role="switch" aria-checked="true" aria-label="알림 허용"><span class="switch-knob"></span></button>
+        </div>
+        <button class="cell" type="button">
+          <span class="cell-main"><span class="t-body">미리보기</span></span>
+          <span class="cell-trail">
+            <span class="cell-value">항상</span>
+            <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </span>
+        </button>
+      </div>
+      <p class="group-footer t-footnote">잠금 화면과 알림 센터에 미리보기를 표시해요.</p>
+    </section>
+
+    <!-- 배너 -->
+    <section class="group" aria-label="배너">
+      <h2 class="group-header t-footnote">배너</h2>
+      <div class="list enter">
+        <div style="padding: var(--space-3) var(--space-4)">
+          <div class="segment" data-segment role="tablist" aria-label="배너 표시 방식">
+            <span class="segment-pill" aria-hidden="true"></span>
+            <button class="segment-opt is-active" type="button" role="tab">임시</button>
+            <button class="segment-opt" type="button" role="tab">유지</button>
+          </div>
+        </div>
+      </div>
+      <p class="group-footer t-footnote">임시 배너는 잠시 뒤 사라지고, 유지 배너는 확인할 때까지 남아요.</p>
+    </section>
+
+    <!-- 소리 -->
+    <section class="group" aria-label="소리">
+      <h2 class="group-header t-footnote">소리</h2>
+      <div class="list enter">
+        <div class="cell is-static">
+          <span class="t-body" style="flex: none">볼륨</span>
+          <div class="slider" tabindex="0" role="slider" aria-label="알림 볼륨" aria-valuemin="0" aria-valuemax="100" aria-valuenow="65">
+            <div class="slider-track">
+              <div class="slider-fill"></div>
+              <div class="slider-knob"></div>
+            </div>
+          </div>
+        </div>
+        <div class="cell is-static">
+          <span class="cell-main"><span class="t-body">진동</span></span>
+          <button class="switch" type="button" role="switch" aria-checked="true" aria-label="진동"><span class="switch-knob"></span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 파괴적 단독 셀 -->
+    <section class="group" aria-label="알림 끄기">
+      <div class="list enter">
+        <button class="cell" type="button" style="justify-content: center" onclick="gBanner('알림을 껐어요')">
+          <span class="t-body c-danger">이 앱 알림 끄기</span>
+        </button>
+      </div>
+    </section>
+
+    <div class="tail"></div>
+  </main>
+
+  <nav class="tabbar" aria-label="주 메뉴">
+    <a class="tab" href="screen-1.html">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/></svg>
+      <span>요약</span></a>
+    <a class="tab" href="screen-4.html">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h3l2-6 4 14 3-9 2 3h3"/></svg>
+      <span>운동</span></a>
+    <a class="tab" href="screen-2.html" aria-current="page">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
+      <span>설정</span></a>
+    <a class="tab" href="screen-5.html">
+      <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+      <span>알림</span></a>
+  </nav>
+
+</div>
+</body>
+</html>

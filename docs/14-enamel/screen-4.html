@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="14" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>한끼 — 주문하기 · Enamel 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-4 주문 / 결제 (§9) */
+.addr { display: flex; align-items: center; gap: var(--space-3); }
+.addr svg { color: var(--color-primary-vivid); }
+.addr-main { flex: 1; min-width: 0; }
+.addr .btn-ghost { width: auto; padding: 0 var(--space-3); }
+
+.sum-row { display: flex; align-items: center; justify-content: space-between; min-height: var(--size-list-row); padding: var(--space-3) 0; }
+.sum-row .qty { color: var(--color-text-sub); }
+
+.req-input { margin-top: var(--space-2); }
+
+/* 결제 금액 블록 */
+.pay-line { display: flex; align-items: center; justify-content: space-between; padding: var(--space-2) 0; }
+.pay-label { font-size: var(--font-size-body-2); font-weight: var(--font-weight-medium); color: var(--color-text-sub); }
+.pay-val { font-size: var(--font-size-body-2); font-weight: var(--font-weight-bold); font-variant-numeric: tabular-nums; }
+.pay-val.discount { color: var(--color-accent-soft-text); }
+.pay-divider { margin: var(--space-3) 0; }
+.pay-total { display: flex; align-items: baseline; justify-content: space-between; }
+.pay-total .grand { color: var(--color-accent); font-variant-numeric: tabular-nums; }
+
+.pay-methods { display: flex; gap: var(--space-2); margin-top: var(--space-2); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <a class="icon-btn" href="screen-3.html" aria-label="뒤로가기">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <span class="appbar-title static">주문하기</span>
+    <span class="appbar-spacer"></span>
+  </header>
+
+  <main class="scroll scroll-pad-cta page-enter">
+
+    <section class="section" aria-label="배달지" style="margin-top: var(--space-4)">
+      <div class="card addr">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>
+        <div class="addr-main">
+          <p class="t-body1 w700">우리집 · 역삼동</p>
+          <p class="t-caption sub">테헤란로 152, 강남파이낸스센터 3층</p>
+        </div>
+        <button class="btn btn-ghost" type="button" onclick="hkToast('배달지 변경은 준비 중이에요')">변경</button>
+      </div>
+    </section>
+
+    <section class="section" aria-label="주문 메뉴">
+      <div class="section-head"><h2 class="t-title2">고른 메뉴</h2></div>
+      <div class="sum-row">
+        <span class="t-body1"><span class="w700">허니콤보</span> <span class="t-body2 qty num">· 1개</span></span>
+        <span class="t-body1 w700 num">20,000원</span>
+      </div>
+      <div class="sum-row">
+        <span class="t-body1"><span class="w700">콜라 1.25L</span> <span class="t-body2 qty num">· 1개</span></span>
+        <span class="t-body1 w700 num">3,000원</span>
+      </div>
+    </section>
+
+    <section class="section" aria-label="요청사항">
+      <label class="field">
+        <span class="field-label">요청사항</span>
+        <input class="field-input req-input" type="text" placeholder="문 앞에 놓아주세요" value="문 앞에 놓아주세요. 벨은 누르지 말아주세요.">
+      </label>
+    </section>
+
+    <section class="section" aria-label="결제 금액">
+      <div class="card card-raised">
+        <div class="pay-line"><span class="pay-label">메뉴 금액</span><span class="pay-val num">23,000원</span></div>
+        <div class="pay-line"><span class="pay-label">배달비</span><span class="pay-val num">3,000원</span></div>
+        <div class="pay-line"><span class="pay-label">쿠폰 할인</span><span class="pay-val discount num">-3,000원</span></div>
+        <hr class="divider pay-divider">
+        <div class="pay-total">
+          <span class="t-title2">총 결제금액</span>
+          <span class="t-display2 grand" data-count="23000" data-suffix="원">23,000원</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="결제수단">
+      <div class="section-head"><h2 class="t-title2">결제수단</h2></div>
+      <div class="pay-methods" role="radiogroup" aria-label="결제수단 선택">
+        <button class="chip selected" type="button" role="radio" aria-checked="true" onclick="pickPay(this)">카카오페이</button>
+        <button class="chip" type="button" role="radio" aria-checked="false" onclick="pickPay(this)">신용카드</button>
+        <button class="chip" type="button" role="radio" aria-checked="false" onclick="pickPay(this)">만나서 결제</button>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="cta-bar">
+    <a class="btn btn-primary" href="screen-5.html"><span class="num">23,000원 주문할게요</span></a>
+  </div>
+
+</div>
+
+<script>
+function pickPay(el) {
+  document.querySelectorAll('.pay-methods .chip').forEach(function (c) {
+    c.classList.remove('selected'); c.setAttribute('aria-checked', 'false');
+  });
+  el.classList.add('selected'); el.setAttribute('aria-checked', 'true');
+}
+</script>
+</body>
+</html>

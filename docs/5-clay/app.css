@@ -1,0 +1,447 @@
+/* docs/5-clay/app.css — 프리셋 5 "Clay" 데모 "메모리(Memori)" 공용 스타일
+ * 규칙 원본: presets/5-clay/SPEC.md §3~§10 (Material 3 톤 시스템 해석).
+ * 색·간격·radius·shadow·모션은 전부 tokens.css 변수만 사용한다.
+ * 하드코딩 px는 토큰에 없는 순수 레이아웃 치수(너비·아이콘·트랙 크기 등)만 허용. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { height: 100%; }
+
+body {
+  min-height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: none; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+svg { flex: none; display: block; }
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+/* ── 타입 스케일 (§3) — 이 9단계 외 font-size 금지 ─────────────── */
+.t-display  { font-size: var(--font-size-display); font-weight: var(--font-weight-regular); line-height: var(--line-height-display); }
+.t-headline { font-size: var(--font-size-headline); font-weight: var(--font-weight-regular); line-height: var(--line-height-headline); }
+.t-title-lg { font-size: var(--font-size-title-lg); font-weight: var(--font-weight-regular); line-height: var(--line-height-title-lg); }
+.t-title    { font-size: var(--font-size-title); font-weight: var(--font-weight-medium); line-height: var(--line-height-title); letter-spacing: var(--letter-spacing-title); }
+.t-body     { font-size: var(--font-size-body); font-weight: var(--font-weight-regular); line-height: var(--line-height-body); letter-spacing: var(--letter-spacing-body); }
+.t-body-sm  { font-size: var(--font-size-body-sm); font-weight: var(--font-weight-regular); line-height: var(--line-height-body-sm); letter-spacing: var(--letter-spacing-body-sm); }
+.t-label    { font-size: var(--font-size-label); font-weight: var(--font-weight-medium); line-height: var(--line-height-label); letter-spacing: var(--letter-spacing-label); }
+.t-label-sm { font-size: var(--font-size-label-sm); font-weight: var(--font-weight-medium); line-height: var(--line-height-label-sm); letter-spacing: var(--letter-spacing-label-sm); }
+.t-label-xs { font-size: var(--font-size-label-xs); font-weight: var(--font-weight-medium); line-height: var(--line-height-label-xs); letter-spacing: var(--letter-spacing-label-sm); }
+.sub { color: var(--color-text-sub); }
+.tertiary { color: var(--color-text-tertiary); }
+.num { font-variant-numeric: tabular-nums; }
+.primary-text { color: var(--color-primary); }
+.accent-text { color: var(--color-accent); }
+.bold { font-weight: var(--font-weight-bold); }
+
+/* ── 앱 셸: 모바일 = 전면, 데스크톱(768px+) = 중앙 420px 프레임 (§4) ─ */
+.app {
+  position: relative;
+  display: flex; flex-direction: column;
+  height: 100dvh;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+@media (min-width: 768px) {
+  body {
+    display: grid; place-items: center;
+    background: var(--color-frame-backdrop);
+    padding: var(--space-8) 0;
+  }
+  .app {
+    width: var(--layout-frame-width);
+    height: min(880px, calc(100dvh - var(--space-10)));
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-4);
+  }
+}
+
+/* 스크롤 영역 = 콘텐츠. 셸(앱바·내비·툴바)은 고정 */
+.scroll {
+  flex: 1; min-height: 0; overflow-y: auto;
+  scrollbar-width: none;
+}
+.scroll::-webkit-scrollbar { display: none; }
+.pad { padding-left: var(--layout-screen-padding); padding-right: var(--layout-screen-padding); }
+.pad-nav { padding-bottom: calc(var(--size-navbar) + var(--space-16)); }
+.pad-tab { padding-bottom: var(--space-16); }
+
+/* ── 공통 상태 레이어 (§6) — on-color를 알파로 얹어 hover/focus/press 표현 ─ */
+.state { position: relative; overflow: hidden; isolation: isolate; }
+.state::after {
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background: var(--state-color, var(--color-text));
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--motion-short1) var(--ease-standard);
+}
+@media (hover: hover) {
+  .state:hover::after { opacity: var(--state-hover); }
+}
+.state:focus-visible::after { opacity: var(--state-focus); }
+.state:active::after { opacity: var(--state-pressed); }
+.state > * { position: relative; z-index: 1; }
+
+/* 리플 — 클릭 지점에서 on-color @10% 원이 scale(0→1) 퍼진 뒤 페이드 (§7) */
+.ripple {
+  position: absolute; z-index: 0;
+  border-radius: var(--radius-full);
+  background: var(--state-color, var(--color-text));
+  opacity: var(--state-pressed);
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple var(--motion-medium4) var(--ease-legacy) forwards;
+}
+@keyframes ripple { to { transform: scale(1); opacity: 0; } }
+
+/* ── 상단 앱바 (§6.6) ─────────────────────────────────────────── */
+.appbar {
+  flex: none; position: relative; z-index: 10;
+  height: var(--size-appbar);
+  display: flex; align-items: center; gap: var(--space-1);
+  padding: 0 var(--space-1);
+  background: var(--color-bg);
+  transition: background-color var(--motion-short2) var(--ease-standard);
+}
+.appbar.scrolled { background: var(--color-surface); }
+.appbar-lead { margin-left: var(--space-1); }
+.appbar-title {
+  font-size: var(--font-size-title-lg); font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-title-lg);
+  padding-left: var(--space-3);
+}
+.appbar-title.fade { opacity: 0; transition: opacity var(--motion-short2) var(--ease-standard); }
+.appbar.scrolled .appbar-title.fade { opacity: 1; }
+.appbar-actions { margin-left: auto; display: flex; align-items: center; }
+
+/* Large 앱바 확장 헤드라인 (§6.6) — 스크롤 콘텐츠 최상단 */
+.appbar-large { padding: var(--space-2) var(--layout-screen-padding) var(--space-4); }
+.appbar-headline {
+  font-size: var(--font-size-headline); font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-headline);
+}
+
+/* 아이콘 버튼 — 시각 24px, 히트 48px (§4 터치 타깃) */
+.icon-btn {
+  width: var(--size-touch-min); height: var(--size-touch-min);
+  display: grid; place-items: center; flex: none;
+  border-radius: var(--radius-full);
+  color: var(--color-text);
+  --state-color: var(--color-text);
+}
+
+/* ── 버튼 (§6.1) — filled / tonal / outlined / text ───────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  height: var(--size-btn); border-radius: var(--radius-full);
+  padding: 0 var(--space-6);
+  font-size: var(--font-size-label); font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-label); white-space: nowrap;
+  transition: box-shadow var(--motion-short2) var(--ease-standard);
+}
+.btn-filled { background: var(--color-primary); color: var(--color-primary-text); --state-color: var(--color-primary-text); }
+.btn-tonal { background: var(--color-secondary-container); color: var(--color-on-secondary-container); --state-color: var(--color-on-secondary-container); }
+.btn-outlined { background: transparent; border: 1px solid var(--color-outline); color: var(--color-primary); --state-color: var(--color-primary); }
+.btn-text { background: transparent; color: var(--color-primary); padding: 0 var(--space-3); --state-color: var(--color-primary); }
+.btn-danger { color: var(--color-danger); --state-color: var(--color-danger); }
+.btn-cta { height: var(--size-btn-lg); padding: 0 var(--space-6); }
+.btn-block { width: 100%; }
+
+/* ── FAB (§6.2) — 우하단 고정, 내비 위 16px ───────────────────── */
+.fab {
+  position: absolute; z-index: 20;
+  right: var(--space-4); bottom: calc(var(--size-navbar) + var(--space-4));
+  display: inline-flex; align-items: center; gap: var(--space-3);
+  height: var(--size-btn-lg); padding: 0 var(--space-4);
+  border-radius: var(--radius-lg);
+  background: var(--color-primary-container); color: var(--color-on-primary-container);
+  --state-color: var(--color-on-primary-container);
+  box-shadow: var(--shadow-2);
+  font-size: var(--font-size-label); font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-label);
+  transition: box-shadow var(--motion-medium2) var(--ease-emphasized);
+}
+.fab:active { box-shadow: var(--shadow-4); }
+.fab-label { padding-right: var(--space-2); }
+
+/* ── 하단 내비게이션 바 (§6.7) — active indicator pill ────────── */
+.navbar {
+  flex: none; position: relative; z-index: 10;
+  display: flex;
+  height: calc(var(--size-navbar) + env(safe-area-inset-bottom));
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--color-surface);
+}
+.nav-item {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: var(--space-1);
+  color: var(--color-text-sub);
+  --state-color: var(--color-text);
+}
+.nav-ind {
+  position: relative;
+  display: grid; place-items: center;
+  width: 64px; height: 32px;
+  border-radius: var(--radius-full);
+  transition: background-color var(--motion-short4) var(--ease-standard);
+}
+.nav-item[aria-current="page"] { color: var(--color-text); }
+.nav-item[aria-current="page"] .nav-ind {
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  animation: nav-pill var(--motion-short4) var(--ease-standard-decelerate);
+}
+@keyframes nav-pill { from { transform: scaleX(0.6); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
+.nav-label { font-size: var(--font-size-label-xs); font-weight: var(--font-weight-medium); letter-spacing: var(--letter-spacing-label-sm); }
+.nav-item[aria-current="page"] .nav-label { font-weight: var(--font-weight-bold); }
+
+/* ── 카드 (§6.4 filled) — 톤으로만 분리, shadow-0 ─────────────── */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--layout-card-padding);
+  box-shadow: var(--shadow-0);
+}
+
+/* 노트 카드 masonry 2열 staggered (§9 screen-1) */
+.note-grid { column-count: 2; column-gap: var(--space-4); }
+.note-card {
+  display: block; width: 100%;
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  padding: var(--layout-card-padding);
+  margin-bottom: var(--space-4);
+  break-inside: avoid;
+  --state-color: var(--color-text);
+  text-align: left;
+}
+.note-card .note-title { margin-bottom: var(--space-2); }
+.note-card .note-preview {
+  color: var(--color-text-sub);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.note-card .note-date { margin-top: var(--space-3); color: var(--color-text-tertiary); }
+.note-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-2); }
+.note-star { color: var(--color-accent); }
+
+/* ── 칩 (§6.10) ───────────────────────────────────────────────── */
+.chip-row { display: flex; gap: var(--space-2); overflow-x: auto; scrollbar-width: none; padding-bottom: var(--space-1); }
+.chip-row::-webkit-scrollbar { display: none; }
+.chip {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  height: 32px; flex: none;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  border: 1px solid var(--color-outline);
+  color: var(--color-text);
+  font-size: var(--font-size-label); font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-label);
+  --state-color: var(--color-text);
+  transition: background-color var(--motion-medium2) var(--ease-emphasized), border-color var(--motion-medium2) var(--ease-emphasized);
+}
+.chip .chip-check { width: 0; height: 18px; overflow: hidden; transition: width var(--motion-medium2) var(--ease-emphasized); }
+.chip[aria-pressed="true"] {
+  background: var(--color-secondary-container);
+  border-color: transparent;
+  color: var(--color-on-secondary-container);
+  --state-color: var(--color-on-secondary-container);
+}
+.chip[aria-pressed="true"] .chip-check { width: 18px; }
+.chip-input .chip-x { color: var(--color-text-sub); }
+
+/* ── 리스트 아이템 (§6.5) — 행 사이 구분선 금지, 톤·간격으로 분리 ─ */
+.list-item {
+  display: flex; align-items: center; gap: var(--space-4);
+  width: 100%;
+  min-height: 72px; padding: var(--space-2) var(--layout-screen-padding);
+  color: var(--color-text);
+  --state-color: var(--color-text);
+  text-align: left;
+}
+.list-item.oneline { min-height: var(--size-list-row); }
+.list-lead {
+  width: 24px; height: 24px; flex: none;
+  display: grid; place-items: center;
+  color: var(--color-text-sub);
+}
+.list-main { flex: 1; min-width: 0; }
+.list-title { font-size: var(--font-size-body); font-weight: var(--font-weight-regular); }
+.list-sub { font-size: var(--font-size-body-sm); font-weight: var(--font-weight-regular); color: var(--color-text-sub); margin-top: var(--space-1); }
+.list-trail { flex: none; margin-left: auto; display: flex; align-items: center; gap: var(--space-2); color: var(--color-text-tertiary); }
+.list-trail .meta { font-size: var(--font-size-label-sm); font-weight: var(--font-weight-medium); }
+.chevron { color: var(--color-text-tertiary); }
+
+/* 아바타 (이니셜) */
+.avatar {
+  border-radius: var(--radius-full); flex: none;
+  display: grid; place-items: center;
+  background: var(--color-primary-container); color: var(--color-on-primary-container);
+  font-weight: var(--font-weight-medium);
+}
+.avatar-40 { width: 40px; height: 40px; font-size: var(--font-size-title); }
+.avatar-72 { width: 72px; height: 72px; font-size: var(--font-size-headline); font-weight: var(--font-weight-regular); }
+
+/* ── 섹션 리듬 (§4) ───────────────────────────────────────────── */
+.section { margin-top: var(--layout-section-gap); }
+.section-lg { margin-top: var(--space-8); }
+.section-head {
+  padding: 0 var(--layout-screen-padding);
+  margin-bottom: var(--space-2);
+  font-size: var(--font-size-title); font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-title);
+  color: var(--color-primary);
+}
+.group-divider { height: 1px; background: var(--color-border); border: 0; margin: var(--space-2) 0; }
+
+/* ── 스위치 (§6.11) — 트랙 52×32, thumb 크기 변화 ─────────────── */
+.switch {
+  position: relative; flex: none;
+  width: 52px; height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-highest);
+  border: 2px solid var(--color-outline);
+  transition: background-color var(--motion-medium2) var(--ease-emphasized), border-color var(--motion-medium2) var(--ease-emphasized);
+}
+.switch-thumb {
+  position: absolute; top: 50%; left: 4px;
+  width: 16px; height: 16px;
+  border-radius: var(--radius-full);
+  background: var(--color-outline);
+  transform: translateY(-50%);
+  transition: transform var(--motion-medium2) var(--ease-emphasized),
+              width var(--motion-medium2) var(--ease-emphasized),
+              height var(--motion-medium2) var(--ease-emphasized),
+              background-color var(--motion-medium2) var(--ease-emphasized);
+}
+.switch[aria-checked="true"] { background: var(--color-primary); border-color: var(--color-primary); }
+.switch[aria-checked="true"] .switch-thumb {
+  width: 24px; height: 24px; left: 2px;
+  background: var(--color-primary-text);
+  transform: translate(20px, -50%);
+}
+
+/* ── 검색 바 (§9 screen-3) — h56, radius full, surface-highest ── */
+.searchbar {
+  display: flex; align-items: center; gap: var(--space-3);
+  height: var(--size-btn-lg);
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-highest);
+  color: var(--color-text);
+}
+.searchbar svg { color: var(--color-text-sub); }
+.searchbar input {
+  flex: 1; border: 0; background: transparent; outline: none;
+  font-size: var(--font-size-body); letter-spacing: var(--letter-spacing-body);
+  color: var(--color-text);
+}
+.searchbar input::placeholder { color: var(--color-text-sub); }
+.mark { background: var(--color-primary-container); color: var(--color-on-primary-container); border-radius: var(--radius-xs); padding: 0 var(--space-1); }
+
+/* ── 편집 입력 (§9 screen-2) — 무테 텍스트 ────────────────────── */
+.edit-title, .edit-body {
+  width: 100%; border: 0; outline: none; background: transparent;
+  color: var(--color-text); resize: none;
+  font-family: var(--font-family);
+}
+.edit-title { font-size: var(--font-size-title-lg); font-weight: var(--font-weight-regular); line-height: var(--line-height-title-lg); }
+.edit-body { font-size: var(--font-size-body); line-height: var(--line-height-body); letter-spacing: var(--letter-spacing-body); }
+.edit-title::placeholder, .edit-body::placeholder { color: var(--color-text-tertiary); }
+
+/* 서식 툴바 (§9 screen-2) */
+.toolbar {
+  flex: none; position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: var(--space-1) var(--space-2);
+  padding-bottom: calc(var(--space-1) + env(safe-area-inset-bottom));
+  background: var(--color-surface);
+}
+
+/* ── 프로필 헤더 (§9 screen-5) — primary-container 톤 면 ──────── */
+.profile-head {
+  background: var(--color-primary-container); color: var(--color-on-primary-container);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
+.profile-stats { display: flex; gap: var(--space-6); }
+.stat { display: flex; flex-direction: column; gap: var(--space-1); }
+.stat-num { font-size: var(--font-size-title-lg); font-weight: var(--font-weight-regular); font-variant-numeric: tabular-nums; }
+.stat-label { font-size: var(--font-size-label-sm); font-weight: var(--font-weight-medium); }
+
+/* ── 다이얼로그 (§6.8) ────────────────────────────────────────── */
+.scrim {
+  position: absolute; inset: 0; z-index: 40;
+  background: var(--color-scrim);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--motion-short4) var(--ease-standard);
+}
+.scrim.open { opacity: 1; pointer-events: auto; }
+.dialog {
+  position: absolute; z-index: 50;
+  left: 50%; top: 50%;
+  width: min(100% - 48px, 360px);
+  padding: var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-surface-high);
+  box-shadow: var(--shadow-3);
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0; pointer-events: none;
+  transition: opacity var(--motion-medium2) var(--ease-emphasized), transform var(--motion-medium2) var(--ease-emphasized);
+}
+.dialog.open { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+.dialog-title { margin-bottom: var(--space-2); }
+.dialog-body { color: var(--color-text-sub); margin-bottom: var(--space-6); }
+.dialog-actions { display: flex; justify-content: flex-end; gap: var(--space-2); }
+
+/* ── 스낵바 (§6.9) ────────────────────────────────────────────── */
+.snackbar {
+  position: absolute; z-index: 60;
+  left: var(--space-4); right: var(--space-4);
+  bottom: calc(var(--size-navbar) + var(--space-4));
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius-xs);
+  background: var(--color-inverse-surface); color: var(--color-inverse-on-surface);
+  box-shadow: var(--shadow-3);
+  font-size: var(--font-size-body-sm);
+  opacity: 0; transform: translateY(8px); pointer-events: none;
+}
+.snackbar.show { opacity: 1; transform: none; transition: opacity var(--motion-short4) var(--ease-emphasized-decelerate), transform var(--motion-short4) var(--ease-emphasized-decelerate); }
+.snackbar .snack-action { margin-left: auto; color: var(--color-primary); font-weight: var(--font-weight-medium); flex: none; }
+:root[data-theme="dark"] .snackbar .snack-action { color: var(--color-primary); }
+
+/* ── 모션 (§7) — 진입 / 스태거 / 페이지 전환 ─────────────────── */
+@keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.page-enter { animation: enter var(--motion-medium4) var(--ease-emphasized-decelerate) both; }
+
+.stagger > * { animation: enter var(--motion-medium4) var(--ease-emphasized-decelerate) both; }
+.stagger > :nth-child(1) { animation-delay: 30ms; }
+.stagger > :nth-child(2) { animation-delay: 60ms; }
+.stagger > :nth-child(3) { animation-delay: 90ms; }
+.stagger > :nth-child(4) { animation-delay: 120ms; }
+.stagger > :nth-child(5) { animation-delay: 150ms; }
+.stagger > :nth-child(6) { animation-delay: 180ms; }
+.stagger > :nth-child(7) { animation-delay: 210ms; }
+.stagger > :nth-child(8) { animation-delay: 240ms; }
+.stagger > :nth-child(n+9) { animation-delay: 240ms; }
+
+/* ── reduced motion (§7) — transform·리플 제거, opacity만 유지 ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 100ms !important;
+    transition-property: opacity, background-color, color !important;
+    scroll-behavior: auto !important;
+  }
+  .ripple { display: none !important; }
+}

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="12" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>정산소 — 개발자 · Ink 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 API 설정 (§9): 탭(API 키/웹훅/이벤트) + 키 테이블 + 웹훅 + 위험 구역 + 확인 모달 */
+.tabpanel { margin-top: var(--space-24); }
+.token-cell { display: inline-flex; align-items: center; gap: var(--space-8); }
+.token-cell .tok { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.wh-list li { display: flex; align-items: center; gap: var(--space-16); padding: var(--space-16); border-bottom: 1px solid var(--color-border); }
+.wh-list li:last-child { border-bottom: 0; }
+.wh-list .wh-url { flex: 1; min-width: 0; }
+.wh-list .wh-url .u { font-family: var(--font-mono); word-break: break-all; }
+.danger-zone { border-color: var(--color-danger); }
+.stagger-rows tr:nth-child(1){animation-delay:0ms}.stagger-rows tr:nth-child(2){animation-delay:30ms}.stagger-rows tr:nth-child(3){animation-delay:60ms}
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+
+  <aside class="sidenav" aria-label="주 메뉴">
+    <div class="sidenav-brand">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span>
+      <span class="t-subheading">정산소</span>
+    </div>
+    <div class="sidenav-scroll">
+      <div class="nav-group">
+        <span class="nav-group-label t-label">워크스페이스</span>
+        <a class="nav-item" href="screen-1.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h6V4H4zM14 20h6V4h-6zM4 20h6v-4H4z"/></svg><span class="t-body">개요</span></a>
+        <a class="nav-item" href="screen-2.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg><span class="t-body">결제</span></a>
+        <a class="nav-item" href="screen-4.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v11H3zM3 11h18M7 15h4"/></svg><span class="t-body">정산</span></a>
+      </div>
+      <div class="nav-group">
+        <span class="nav-group-label t-label">개발</span>
+        <a class="nav-item" href="screen-5.html" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M14 6l-4 12"/></svg><span class="t-body-strong">개발자</span></a>
+      </div>
+    </div>
+    <div class="sidenav-foot"><div class="user-chip"><span class="avatar" aria-hidden="true">한</span><span class="stack-8" style="gap:0"><span class="t-body-strong">한지우</span><span class="t-caption tert">코스모스페이</span></span></div></div>
+  </aside>
+
+  <div class="main-col">
+    <header class="appbar">
+      <button class="hamburger" type="button" aria-label="메뉴 열기" onclick="inkToggleNav()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <div class="env-switch" data-envswitch role="group" aria-label="환경 전환">
+        <button type="button" class="env-live is-on">Live</button>
+        <button type="button" class="env-test">Test</button>
+      </div>
+      <div class="appbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+        <input type="search" placeholder="결제·고객·정산 검색" aria-label="검색">
+      </div>
+      <span class="appbar-spacer"></span>
+      <button class="icon-btn" type="button" aria-label="알림" onclick="inkToast('새 알림이 없어요', 'info')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></button>
+      <span class="avatar" aria-hidden="true">한</span>
+    </header>
+
+    <main class="content page-enter">
+      <div class="page-head">
+        <div>
+          <h1 class="t-title">개발자</h1>
+          <p class="t-body sub">API 키와 웹훅을 안전하게 관리해요.</p>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="개발자 설정">
+        <button class="tab" role="tab" aria-selected="true" id="tab-keys" onclick="inkTab('keys')">API 키</button>
+        <button class="tab" role="tab" aria-selected="false" id="tab-hooks" onclick="inkTab('hooks')">웹훅</button>
+        <button class="tab" role="tab" aria-selected="false" id="tab-events" onclick="inkTab('events')">이벤트</button>
+      </div>
+
+      <!-- API 키 -->
+      <section class="tabpanel" id="panel-keys" role="tabpanel" aria-labelledby="tab-keys">
+        <section class="panel" aria-labelledby="s5-keys-h">
+          <div class="panel-head panel-head-bordered">
+            <div>
+              <h2 id="s5-keys-h" class="t-heading">API 키</h2>
+              <p class="t-caption tert" style="margin-top:var(--space-4)">시크릿 키(sk_)는 서버에서만 사용하세요. 노출되면 즉시 새로 발급해야 해요.</p>
+            </div>
+            <button class="btn btn-secondary" type="button" onclick="inkToast('새 API 키를 만들었어요', 'success')">키 생성</button>
+          </div>
+          <div class="table-wrap" style="border:0;box-shadow:var(--shadow-0)">
+            <table class="tbl">
+              <thead>
+                <tr><th>이름</th><th>토큰</th><th>권한</th><th>마지막 사용</th><th class="num-col">환경</th></tr>
+              </thead>
+              <tbody class="stagger-rows">
+                <tr>
+                  <td><span class="t-body-strong">운영 서버</span></td>
+                  <td>
+                    <span class="token-cell">
+                      <span class="tok" data-secret="sk_live_51NqAx4Qm29fbe" data-shown="false">sk_live_••••••••9fbe</span>
+                      <button class="copy-btn" type="button" aria-label="토큰 표시 전환" onclick="inkMask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.5"/></svg></button>
+                      <button class="copy-btn" type="button" aria-label="토큰 복사" onclick="inkCopy('sk_live_51NqAx4Qm29fbe','API 키를 복사했어요')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg></button>
+                    </span>
+                  </td>
+                  <td><span class="badge badge-danger"><span class="badge-dot" aria-hidden="true"></span>전체 권한</span></td>
+                  <td><span class="t-body num">2026-07-10</span></td>
+                  <td class="num-col"><span class="badge badge-info"><span class="badge-dot" aria-hidden="true"></span>Live</span></td>
+                </tr>
+                <tr>
+                  <td><span class="t-body-strong">정산 배치</span></td>
+                  <td>
+                    <span class="token-cell">
+                      <span class="tok" data-secret="sk_live_51NqBd7Lp02c1a" data-shown="false">sk_live_••••••••2c1a</span>
+                      <button class="copy-btn" type="button" aria-label="토큰 표시 전환" onclick="inkMask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.5"/></svg></button>
+                      <button class="copy-btn" type="button" aria-label="토큰 복사" onclick="inkCopy('sk_live_51NqBd7Lp02c1a','API 키를 복사했어요')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg></button>
+                    </span>
+                  </td>
+                  <td><span class="badge badge-warning"><span class="badge-dot" aria-hidden="true"></span>읽기 전용</span></td>
+                  <td><span class="t-body num">2026-07-08</span></td>
+                  <td class="num-col"><span class="badge badge-info"><span class="badge-dot" aria-hidden="true"></span>Live</span></td>
+                </tr>
+                <tr>
+                  <td><span class="t-body-strong">스테이징 테스트</span></td>
+                  <td>
+                    <span class="token-cell">
+                      <span class="tok" data-secret="sk_test_51NqCe9Fa1a7d3" data-shown="false">sk_test_••••••••a7d3</span>
+                      <button class="copy-btn" type="button" aria-label="토큰 표시 전환" onclick="inkMask(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="2.5"/></svg></button>
+                      <button class="copy-btn" type="button" aria-label="토큰 복사" onclick="inkCopy('sk_test_51NqCe9Fa1a7d3','API 키를 복사했어요')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg></button>
+                    </span>
+                  </td>
+                  <td><span class="badge badge-warning"><span class="badge-dot" aria-hidden="true"></span>읽기 전용</span></td>
+                  <td><span class="t-body num">2026-06-30</span></td>
+                  <td class="num-col"><span class="badge badge-warning"><span class="badge-dot" aria-hidden="true"></span>Test</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel danger-zone section" aria-labelledby="s5-danger-h">
+          <div class="row-between">
+            <div>
+              <h2 id="s5-danger-h" class="t-heading">위험 구역</h2>
+              <p class="t-caption tert" style="margin-top:var(--space-4)">키를 삭제하면 그 키를 쓰는 연동이 즉시 중단돼요.</p>
+            </div>
+            <button class="btn btn-danger" type="button" onclick="inkOpenModal()">키 삭제</button>
+          </div>
+        </section>
+      </section>
+
+      <!-- 웹훅 -->
+      <section class="tabpanel" id="panel-hooks" role="tabpanel" aria-labelledby="tab-hooks" hidden>
+        <section class="panel" aria-labelledby="s5-hooks-h">
+          <div class="panel-head panel-head-bordered">
+            <div>
+              <h2 id="s5-hooks-h" class="t-heading">웹훅 엔드포인트</h2>
+              <p class="t-caption tert" style="margin-top:var(--space-4)">웹훅은 결제 상태가 바뀔 때 지정한 주소로 이벤트를 보내는 알림이에요.</p>
+            </div>
+            <button class="btn btn-secondary" type="button" onclick="inkToast('엔드포인트 추가 창을 열었어요', 'info')">엔드포인트 추가</button>
+          </div>
+          <ul class="wh-list">
+            <li>
+              <span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>정상</span>
+              <span class="wh-url"><span class="u t-body">https://api.cosmospay.example/hooks/payments</span><br><span class="t-caption tert">payment.succeeded · payment.failed</span></span>
+              <span class="t-caption tert num">최근 전송 200 · 2분 전</span>
+            </li>
+            <li>
+              <span class="badge badge-danger"><span class="badge-dot" aria-hidden="true"></span>오류</span>
+              <span class="wh-url"><span class="u t-body">https://api.cosmospay.example/hooks/payouts</span><br><span class="t-caption tert">payout.paid · payout.failed</span></span>
+              <span class="t-caption tert num">최근 전송 500 · 1시간 전</span>
+            </li>
+            <li>
+              <span class="badge badge-warning"><span class="badge-dot" aria-hidden="true"></span>대기</span>
+              <span class="wh-url"><span class="u t-body">https://hooks.slack.example/services/T0/B0</span><br><span class="t-caption tert">refund.created</span></span>
+              <span class="t-caption tert num">아직 전송 없음</span>
+            </li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- 이벤트 -->
+      <section class="tabpanel" id="panel-events" role="tabpanel" aria-labelledby="tab-events" hidden>
+        <div class="table-wrap">
+          <table class="tbl responsive">
+            <thead><tr><th>이벤트</th><th>대상</th><th>결과</th><th>시각</th></tr></thead>
+            <tbody>
+              <tr><td data-mlabel="이벤트"><span class="id-cell">payment.succeeded</span></td><td class="hide-mobile" data-mlabel="대상"><span class="id-cell">py_3Rk9Ax4Qm2</span></td><td data-mlabel="결과"><span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>200</span></td><td class="hide-mobile" data-mlabel="시각"><span class="t-body num">14:22:11</span></td></tr>
+              <tr><td data-mlabel="이벤트"><span class="id-cell">payment.failed</span></td><td class="hide-mobile" data-mlabel="대상"><span class="id-cell">py_3Rk8Zt7Lp0</span></td><td data-mlabel="결과"><span class="badge badge-success"><span class="badge-dot" aria-hidden="true"></span>200</span></td><td class="hide-mobile" data-mlabel="시각"><span class="t-body num">13:58:44</span></td></tr>
+              <tr><td data-mlabel="이벤트"><span class="id-cell">payout.failed</span></td><td class="hide-mobile" data-mlabel="대상"><span class="id-cell">po_5Ug9Jh8</span></td><td data-mlabel="결과"><span class="badge badge-danger"><span class="badge-dot" aria-hidden="true"></span>500</span></td><td class="hide-mobile" data-mlabel="시각"><span class="t-body num">11:40:02</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- 확인 모달 (§6.7 · §8 위험 카피) -->
+<div class="modal-root" id="del-modal" hidden>
+  <div class="scrim" onclick="inkCloseModal()"></div>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="dm-title">
+    <h2 id="dm-title" class="t-heading modal-title">이 API 키를 삭제할까요?</h2>
+    <p class="modal-body t-body">이 키를 쓰는 연동이 즉시 중단돼요. 삭제 후에는 되돌릴 수 없어요.</p>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" type="button" onclick="inkCloseModal()" data-esc-close>취소</button>
+      <button class="btn btn-danger" type="button" onclick="inkCloseModal(); inkToast('API 키를 삭제했어요', 'success')">삭제하기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function inkTab(name) {
+    ['keys','hooks','events'].forEach(function (n) {
+      document.getElementById('panel-' + n).hidden = (n !== name);
+      document.getElementById('tab-' + n).setAttribute('aria-selected', n === name ? 'true' : 'false');
+    });
+  }
+  function inkMask(btn) {
+    var el = btn.closest('.token-cell').querySelector('.tok');
+    var shown = el.getAttribute('data-shown') === 'true';
+    if (shown) {
+      var s = el.getAttribute('data-secret');
+      el.textContent = s.slice(0, 8) + '••••••••' + s.slice(-4);
+      el.setAttribute('data-shown', 'false');
+    } else {
+      el.textContent = el.getAttribute('data-secret');
+      el.setAttribute('data-shown', 'true');
+    }
+  }
+  function inkOpenModal() { document.getElementById('del-modal').hidden = false; }
+  function inkCloseModal() { document.getElementById('del-modal').hidden = true; }
+</script>
+</body>
+</html>

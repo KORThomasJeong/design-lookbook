@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="10" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>#123 지상국 핸드오버 유실 · Slate 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 이슈 상세 (§9) */
+.issue-head { padding-top: var(--space-6); }
+.issue-head .title-line { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
+.issue-head .num { font-size: var(--text-title-1); font-weight: var(--fw-normal); color: var(--color-text-sub); }
+.issue-sub { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-3); flex-wrap: wrap; }
+.comment-body ul { list-style: disc; padding-left: var(--space-6); margin-top: var(--space-2); }
+.comment-body li { margin-top: var(--space-1); }
+.comment-form-foot { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-3); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="appbar-inner">
+    <a class="appbar-path" href="screen-1.html">
+      <span class="appbar-mark" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H19a1 1 0 0 1 1 1v13H6a2 2 0 0 0-2 2z"/><path d="M6 18a2 2 0 0 0-2 2"/></svg>
+      </span>
+      <span class="mono appbar-org">octo</span>
+      <span class="appbar-sep mono">/</span>
+      <span class="mono appbar-repo">starship</span>
+    </a>
+    <span class="appbar-spacer"></span>
+    <div class="appbar-actions">
+      <button class="icon-btn" type="button" aria-label="알림" onclick="gToast('새 알림이 없습니다')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+      </button>
+      <button class="icon-btn avatar-btn" type="button" aria-label="내 계정: 강민준">
+        <span class="avatar avatar-24 av-1" aria-hidden="true">강</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<nav class="subnav" aria-label="저장소 메뉴">
+  <div class="subnav-inner">
+    <a class="tab" href="screen-1.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 8-4 4 4 4M15 8l4 4-4 4"/></svg>
+      코드
+    </a>
+    <a class="tab" href="screen-2.html" aria-current="page">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/></svg>
+      이슈 <span class="count counter">42</span>
+    </a>
+    <a class="tab" href="screen-4.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="2.5"/><circle cx="7" cy="17" r="2.5"/><circle cx="17" cy="17" r="2.5"/><path d="M7 9.5v5M17 14.5V11a2 2 0 0 0-2-2h-3l2-2m-2 2 2 2"/></svg>
+      풀 리퀘스트 <span class="count counter">7</span>
+    </a>
+    <span class="tab" aria-disabled="true" style="cursor: default;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      액션
+    </span>
+    <a class="tab" href="screen-5.html">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M5 5l1.5 1.5M17.5 17.5 19 19M3 12h2M19 12h2M5 19l1.5-1.5M17.5 6.5 19 5"/></svg>
+      설정
+    </a>
+  </div>
+</nav>
+
+<main class="page-enter">
+  <div class="container">
+    <div class="issue-head">
+      <div class="title-line">
+        <h1 class="t-title-1">고흥 지상국 핸드오버 중 텔레메트리 유실</h1>
+        <span class="num mono">#123</span>
+      </div>
+      <div class="issue-sub">
+        <span class="state-badge open">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/></svg>
+          Open
+        </span>
+        <span class="t-small sub"><span class="t-body-strong" style="color: var(--color-text);">이서연</span> 님이 2일 전 열었습니다 · 코멘트 <span class="mono">8</span></span>
+      </div>
+    </div>
+    <hr class="divider" style="margin-top: var(--space-4);">
+
+    <div class="two-col section">
+      <div class="main-col container-narrow" style="padding-left:0; padding-right:0;">
+        <div class="timeline" id="timeline">
+          <div class="tl-item">
+            <span class="tl-node avatar avatar-24 av-2" aria-hidden="true">이</span>
+            <div class="comment-card">
+              <div class="comment-head">
+                <span class="author">이서연</span>
+                <span>2일 전</span>
+                <span class="spacer"></span>
+                <span class="label label-neutral">작성자</span>
+              </div>
+              <div class="comment-body">
+                <p>고흥 지상국에서 제주로 핸드오버가 일어나는 순간, 약 <span class="mono">1.2초</span> 구간의 텔레메트리 프레임이 수신되지 않습니다. 재현 로그를 첨부합니다.</p>
+                <p>핸드오버 트리거는 <code>src/handover.ts</code>의 <code>switchStation()</code>이며, 이전 소켓을 닫기 전에 새 소켓 버퍼가 비어 있는 문제로 보입니다.</p>
+                <ul>
+                  <li>재현 빈도: 핸드오버 <span class="mono">10</span>회 중 <span class="mono">7</span>회</li>
+                  <li>영향: 궤도 예측 보정값 <span class="mono">2</span>스텝 누락</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-node icon-node" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h6l2-4 2 8 2-4h4"/></svg>
+            </span>
+            <div class="tl-event"><span class="t-body-strong" style="color: var(--color-text);">박도윤</span> 님이 <span class="label label-danger">bug</span> 라벨을 추가했습니다 · 1일 전</div>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-node avatar avatar-24 av-3" aria-hidden="true">박</span>
+            <div class="comment-card">
+              <div class="comment-head">
+                <span class="author">박도윤</span>
+                <span>1일 전</span>
+              </div>
+              <div class="comment-body">
+                <p>확인했습니다. <code>switchStation()</code>에서 기존 소켓의 <code>drain</code> 이벤트를 기다리지 않고 <code>close()</code>를 호출하는 게 원인입니다. 새 소켓이 <span class="mono">READY</span> 상태가 된 뒤 전환하도록 순서를 바꾸면 됩니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-node icon-node" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+            </span>
+            <div class="tl-event"><span class="t-body-strong" style="color: var(--color-text);">최지우</span> 님이 <span class="mono">고흥-핸드오버</span> 마일스톤에 추가했습니다 · 1일 전</div>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-node avatar avatar-24 av-5" aria-hidden="true">강</span>
+            <div class="comment-card">
+              <div class="comment-head">
+                <span class="author">강민준</span>
+                <span>5시간 전</span>
+              </div>
+              <div class="comment-body">
+                <p>수정 PR을 <span class="mono">#88</span>로 올렸습니다. 새 소켓 <code>READY</code> 대기 후 전환하도록 바꿨고 회귀 테스트 <span class="mono">3</span>건을 추가했습니다. 리뷰 부탁드립니다.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="tl-item">
+            <span class="tl-node icon-node" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-done)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7" cy="7" r="2.5"/><circle cx="7" cy="17" r="2.5"/><circle cx="17" cy="17" r="2.5"/><path d="M7 9.5v5"/></svg>
+            </span>
+            <div class="tl-event"><span class="t-body-strong" style="color: var(--color-text);">강민준</span> 님이 이 이슈를 참조하는 <a class="link mono" href="screen-4.html">#88</a> 을(를) 열었습니다 · 5시간 전</div>
+          </div>
+        </div>
+
+        <form class="comment-card section" id="comment-form" style="margin-top: var(--space-6);">
+          <div class="comment-head">
+            <span class="avatar avatar-24 av-1" aria-hidden="true">강</span>
+            <span class="author">강민준</span>
+            <span>코멘트 작성</span>
+          </div>
+          <div class="comment-body">
+            <label class="field-label" for="cbox">코멘트</label>
+            <textarea class="input" id="cbox" rows="4" placeholder="이 이슈에 대한 코멘트를 입력합니다. 마크다운과 코드 블록을 지원합니다."></textarea>
+            <div class="comment-form-foot">
+              <button class="btn" type="button" onclick="gToast('이슈를 닫았습니다')">이슈 닫기</button>
+              <button class="btn btn-primary" type="submit">코멘트</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <aside class="side-col">
+        <div class="side-box">
+          <h3>담당자</h3>
+          <div class="bar">
+            <span class="avatar avatar-20 av-5" aria-hidden="true">강</span>
+            <span class="t-small" style="color: var(--color-text);">강민준</span>
+          </div>
+        </div>
+        <hr class="divider" style="margin-top: var(--space-4);">
+        <div class="side-box">
+          <h3>라벨</h3>
+          <div class="labels-wrap">
+            <span class="label label-danger">bug</span>
+            <span class="label label-attention">priority: high</span>
+          </div>
+        </div>
+        <hr class="divider" style="margin-top: var(--space-4);">
+        <div class="side-box">
+          <h3>프로젝트</h3>
+          <p>관제 안정화 · <span class="t-small" style="color: var(--color-text);">In progress</span></p>
+        </div>
+        <hr class="divider" style="margin-top: var(--space-4);">
+        <div class="side-box">
+          <h3>마일스톤</h3>
+          <p style="color: var(--color-text);"><span class="mono">고흥-핸드오버</span></p>
+          <p style="margin-top: var(--space-1);">완료 <span class="mono">62%</span> · <span class="mono">8</span>건 중 <span class="mono">5</span>건</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite">
+  <svg class="toast-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+  <span class="toast-msg"></span>
+</div>
+
+</body>
+</html>

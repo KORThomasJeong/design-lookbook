@@ -5,7 +5,7 @@ inspired-by: Kakao (kakaocorp.com) — 서술 참조만, 상표는 파일/클래
 mood: 친근한 한국 메신저·플랫폼. 밝은 앰버 노랑 포인트에 검정 텍스트, 둥근 말풍선과 리스트, 누구나 쉽게 읽는 대중적 명료함
 best-for: 소비자용 메신저·커뮤니티·생활 플랫폼 앱, 넓은 연령층 대상 모바일 서비스
 variants: [a, b]
-status: spec-draft
+status: complete
 ---
 
 # 15 · Amber

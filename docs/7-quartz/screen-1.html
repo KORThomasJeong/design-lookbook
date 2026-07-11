@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="7" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>대시보드 · 본부 Bonbu — Quartz 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-1 대시보드 (§9) — KPI + 차트 + 최근 활동/주문 */
+.dash-lower { display: grid; grid-template-columns: 2fr 1fr; gap: var(--space-6); }
+.chart-svg { width: 100%; height: 220px; display: block; }
+.chart-legend { display: flex; gap: var(--space-4); margin-top: var(--space-4); }
+.leg { display: inline-flex; align-items: center; gap: var(--space-2); color: var(--color-text-sub); }
+.leg .swatch { width: 10px; height: 10px; border-radius: var(--radius-xs); flex: none; }
+.act-time { color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 768px) { .dash-lower { grid-template-columns: 1fr; } }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="appbar">
+  <button type="button" class="icon-btn hamburger" data-nav-toggle aria-label="메뉴 열기" aria-expanded="false">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+  </button>
+  <a class="appbar-brand" href="screen-1.html">
+    <span class="brand-mark" aria-hidden="true">
+      <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M8 1.5 14 5v6L8 14.5 2 11V5z"/></svg>
+    </span>
+    본부
+  </a>
+  <nav class="crumbs hide-mobile" aria-label="위치">
+    <a href="screen-1.html">홈</a>
+    <span class="sep" aria-hidden="true">/</span>
+    <span class="now">대시보드</span>
+  </nav>
+  <span class="appbar-spacer"></span>
+  <div class="appbar-actions">
+    <button type="button" class="icon-btn" aria-label="검색">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="m17 17-3.5-3.5"/></svg>
+    </button>
+    <button type="button" class="icon-btn" aria-label="알림 3건"><span class="badge-dot" aria-hidden="true"></span>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3a4.5 4.5 0 0 0-4.5 4.5c0 3-1.5 5-1.5 5h12s-1.5-2-1.5-5A4.5 4.5 0 0 0 10 3z"/><path d="M8.5 15.5a1.5 1.5 0 0 0 3 0"/></svg>
+    </button>
+    <span class="avatar avatar-32" aria-label="김이현 계정" title="김이현">김</span>
+  </div>
+</header>
+
+<div class="scrim" aria-hidden="true"></div>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="주 메뉴">
+    <div class="sidenav-group t-caption">운영</div>
+    <a class="sidenav-item" href="screen-1.html" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="11" y="3" width="6" height="6" rx="1"/><rect x="3" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/></svg>
+      대시보드</a>
+    <a class="sidenav-item" href="screen-3.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3"/><path d="M4 16.5c0-3 2.7-5 6-5s6 2 6 5"/></svg>
+      사용자</a>
+    <a class="sidenav-item" href="screen-1.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h2l1.5 9h8l1.5-6H6"/><circle cx="8" cy="17" r="1"/><circle cx="14" cy="17" r="1"/></svg>
+      주문</a>
+    <a class="sidenav-item" href="screen-5.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 3v2m0 10v2m7-7h-2M5 10H3m11.9-4.9-1.4 1.4M6.5 13.5l-1.4 1.4m9.8 0-1.4-1.4M6.5 6.5 5.1 5.1"/></svg>
+      설정</a>
+    <div class="sidenav-foot t-caption">본부 콘솔 v3.2.0 · seoul-1</div>
+  </nav>
+
+  <main class="content" id="main">
+    <div class="content-inner page-enter">
+      <div class="page-head">
+        <h1 class="t-title grow">대시보드</h1>
+        <div class="segmented" role="group" aria-label="기간 선택">
+          <button type="button" aria-pressed="false">오늘</button>
+          <button type="button" class="is-on" aria-pressed="true">7일</button>
+          <button type="button" aria-pressed="false">30일</button>
+        </div>
+      </div>
+
+      <!-- KPI 4열 (§9-1) -->
+      <div class="kpi-grid">
+        <div class="card card-pad">
+          <div class="kpi-label t-caption">총 매출</div>
+          <div class="kpi-value t-stat">₩ 128,450,000</div>
+          <span class="tag tag-success delta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3"/><path d="M3 5.5 6 2.5 9 5.5"/></svg>12.4%</span>
+        </div>
+        <div class="card card-pad">
+          <div class="kpi-label t-caption">신규 사용자</div>
+          <div class="kpi-value t-stat">1,284</div>
+          <span class="tag tag-success delta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3"/><path d="M3 5.5 6 2.5 9 5.5"/></svg>8.1%</span>
+        </div>
+        <div class="card card-pad">
+          <div class="kpi-label t-caption">주문 건수</div>
+          <div class="kpi-value t-stat">3,902</div>
+          <span class="tag tag-danger delta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v6"/><path d="M3 6.5 6 9.5 9 6.5"/></svg>2.3%</span>
+        </div>
+        <div class="card card-pad">
+          <div class="kpi-label t-caption">환불율</div>
+          <div class="kpi-value t-stat">0.87<span class="unit">%</span></div>
+          <span class="tag tag-neutral delta"><span class="dot" aria-hidden="true"></span>변동 없음</span>
+        </div>
+      </div>
+
+      <!-- 차트 + 최근 활동 (§9-1) -->
+      <section class="section dash-lower">
+        <div class="card">
+          <div class="card-head">
+            <h2 class="t-heading grow">주간 매출 추이</h2>
+            <span class="t-caption sub num">2026-07-04 ~ 07-10</span>
+          </div>
+          <div class="card-body">
+            <svg class="chart-svg" viewBox="0 0 640 220" role="img" aria-label="주간 매출 추이 라인 차트. 매출과 목표 2계열, 7월 4일부터 10일까지 우상향">
+              <!-- 격자선 -->
+              <g stroke="var(--color-border-secondary)" stroke-width="1">
+                <line x1="40" y1="30" x2="620" y2="30"/>
+                <line x1="40" y1="80" x2="620" y2="80"/>
+                <line x1="40" y1="130" x2="620" y2="130"/>
+                <line x1="40" y1="180" x2="620" y2="180"/>
+              </g>
+              <!-- 목표(accent) -->
+              <polyline fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round" stroke-linejoin="round"
+                points="40,140 137,132 233,125 330,118 427,110 523,102 620,95"/>
+              <!-- 매출(primary-vivid) -->
+              <polyline fill="none" stroke="var(--color-primary-vivid)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                points="40,160 137,148 233,155 330,120 427,128 523,88 620,60"/>
+              <g fill="var(--color-primary-vivid)">
+                <circle cx="40" cy="160" r="3"/><circle cx="137" cy="148" r="3"/><circle cx="233" cy="155" r="3"/><circle cx="330" cy="120" r="3"/><circle cx="427" cy="128" r="3"/><circle cx="523" cy="88" r="3"/><circle cx="620" cy="60" r="3.5"/>
+              </g>
+              <g fill="var(--color-text-tertiary)" font-size="12" text-anchor="middle" font-family="var(--font-family)">
+                <text x="40" y="205">04</text><text x="137" y="205">05</text><text x="233" y="205">06</text><text x="330" y="205">07</text><text x="427" y="205">08</text><text x="523" y="205">09</text><text x="620" y="205">10</text>
+              </g>
+            </svg>
+            <div class="chart-legend t-caption">
+              <span class="leg"><span class="swatch" style="background:var(--color-primary-vivid)"></span>매출</span>
+              <span class="leg"><span class="swatch" style="background:var(--color-accent)"></span>목표</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h2 class="t-heading grow">최근 활동</h2><a class="btn-link t-body" href="screen-4.html">전체 보기</a></div>
+          <div class="list">
+            <div class="list-item">
+              <span class="avatar avatar-32" aria-hidden="true">박</span>
+              <span class="grow"><span class="w500">박서준</span>님이 주문을 승인했습니다<br><span class="li-desc t-caption">주문 #ORD-24817</span></span>
+              <span class="act-time t-caption">14:32</span>
+            </div>
+            <div class="list-item">
+              <span class="avatar avatar-32" aria-hidden="true">이</span>
+              <span class="grow"><span class="w500">이하은</span>님이 새 계정을 만들었습니다<br><span class="li-desc t-caption">운영팀 · 서울</span></span>
+              <span class="act-time t-caption">13:07</span>
+            </div>
+            <div class="list-item">
+              <span class="avatar avatar-32" aria-hidden="true">정</span>
+              <span class="grow"><span class="w500">정우진</span>님이 환불을 처리했습니다<br><span class="li-desc t-caption">₩ 48,000 · 주문 #ORD-24790</span></span>
+              <span class="act-time t-caption">11:51</span>
+            </div>
+            <div class="list-item">
+              <span class="avatar avatar-32" aria-hidden="true">최</span>
+              <span class="grow"><span class="w500">최유나</span>님이 권한을 변경했습니다<br><span class="li-desc t-caption">뷰어 → 편집자</span></span>
+              <span class="act-time t-caption">10:24</span>
+            </div>
+            <div class="list-item">
+              <span class="avatar avatar-32" aria-hidden="true">한</span>
+              <span class="grow"><span class="w500">한지민</span>님이 로그인했습니다<br><span class="li-desc t-caption">부산 · 신규 기기</span></span>
+              <span class="act-time t-caption">09:48</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 최근 주문 테이블 (§9-1) -->
+      <section class="section">
+        <div class="card">
+          <div class="card-head"><h2 class="t-heading grow">최근 주문</h2><a class="btn-link t-body" href="screen-3.html">전체 보기</a></div>
+          <div class="table-scroll">
+            <table class="table">
+              <thead>
+                <tr><th>주문번호</th><th>고객</th><th>지역</th><th>상태</th><th class="num">금액</th><th class="num">주문일</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="num"><a class="cell-link" href="screen-4.html">ORD-24817</a></td><td>박서준</td><td>서울 강남구</td><td><span class="tag tag-success"><span class="dot" aria-hidden="true"></span>완료</span></td><td class="num">₩ 128,000</td><td class="num sub">2026-07-10</td></tr>
+                <tr><td class="num"><a class="cell-link" href="screen-4.html">ORD-24816</a></td><td>이하은</td><td>경기 성남시</td><td><span class="tag tag-warning"><span class="dot" aria-hidden="true"></span>대기</span></td><td class="num">₩ 54,500</td><td class="num sub">2026-07-10</td></tr>
+                <tr><td class="num"><a class="cell-link" href="screen-4.html">ORD-24815</a></td><td>정우진</td><td>부산 해운대구</td><td><span class="tag tag-success"><span class="dot" aria-hidden="true"></span>완료</span></td><td class="num">₩ 312,900</td><td class="num sub">2026-07-09</td></tr>
+                <tr><td class="num"><a class="cell-link" href="screen-4.html">ORD-24814</a></td><td>최유나</td><td>대구 수성구</td><td><span class="tag tag-danger"><span class="dot" aria-hidden="true"></span>취소</span></td><td class="num">₩ 47,000</td><td class="num sub">2026-07-09</td></tr>
+                <tr><td class="num"><a class="cell-link" href="screen-4.html">ORD-24813</a></td><td>한지민</td><td>인천 연수구</td><td><span class="tag tag-success"><span class="dot" aria-hidden="true"></span>완료</span></td><td class="num">₩ 89,900</td><td class="num sub">2026-07-08</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

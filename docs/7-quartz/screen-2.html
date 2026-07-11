@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="7" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>새 사용자 · 본부 Bonbu — Quartz 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-2 다단계 폼 (§9-2) */
+.form-shell { max-width: var(--layout-form-max); margin: 0 auto; }
+.steps-card { margin-bottom: var(--space-6); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+.summary-item { display: flex; padding: var(--space-3) 0; border-bottom: var(--border-width) solid var(--color-border-secondary); }
+.summary-item:last-child { border-bottom: none; }
+.summary-item dt { width: 140px; flex: none; color: var(--color-text-sub); margin: 0; }
+.summary-item dd { margin: 0; flex: 1 1 auto; }
+.form-foot { display: flex; justify-content: flex-end; gap: var(--space-2); padding: var(--space-4) var(--space-6); border-top: var(--border-width) solid var(--color-border-secondary); }
+.form-foot .grow { flex: 1 1 auto; }
+@media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .steps .step-label { display: none; } }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="appbar">
+  <button type="button" class="icon-btn hamburger" data-nav-toggle aria-label="메뉴 열기" aria-expanded="false">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+  </button>
+  <a class="appbar-brand" href="screen-1.html">
+    <span class="brand-mark" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M8 1.5 14 5v6L8 14.5 2 11V5z"/></svg></span>
+    본부
+  </a>
+  <nav class="crumbs hide-mobile" aria-label="위치">
+    <a href="screen-1.html">홈</a><span class="sep" aria-hidden="true">/</span>
+    <a href="screen-3.html">사용자</a><span class="sep" aria-hidden="true">/</span>
+    <span class="now">새 사용자</span>
+  </nav>
+  <span class="appbar-spacer"></span>
+  <div class="appbar-actions">
+    <span class="avatar avatar-32" aria-label="김이현 계정" title="김이현">김</span>
+  </div>
+</header>
+
+<div class="scrim" aria-hidden="true"></div>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="주 메뉴">
+    <div class="sidenav-group t-caption">운영</div>
+    <a class="sidenav-item" href="screen-1.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="11" y="3" width="6" height="6" rx="1"/><rect x="3" y="11" width="6" height="6" rx="1"/><rect x="11" y="11" width="6" height="6" rx="1"/></svg>
+      대시보드</a>
+    <a class="sidenav-item" href="screen-3.html" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="6.5" r="3"/><path d="M4 16.5c0-3 2.7-5 6-5s6 2 6 5"/></svg>
+      사용자</a>
+    <a class="sidenav-item" href="screen-1.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h2l1.5 9h8l1.5-6H6"/><circle cx="8" cy="17" r="1"/><circle cx="14" cy="17" r="1"/></svg>
+      주문</a>
+    <a class="sidenav-item" href="screen-5.html">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="2.5"/><path d="M10 3v2m0 10v2m7-7h-2M5 10H3m11.9-4.9-1.4 1.4M6.5 13.5l-1.4 1.4m9.8 0-1.4-1.4M6.5 6.5 5.1 5.1"/></svg>
+      설정</a>
+    <div class="sidenav-foot t-caption">본부 콘솔 v3.2.0 · seoul-1</div>
+  </nav>
+
+  <main class="content" id="main">
+    <div class="content-inner page-enter">
+      <div class="form-shell">
+        <div class="page-head"><h1 class="t-title">새 사용자</h1></div>
+
+        <!-- 스텝바 (§6.12) -->
+        <div class="card card-pad steps-card">
+          <div class="steps" id="stepbar" aria-label="진행 단계">
+            <div class="step is-current" data-step="1"><span class="step-num">1</span><span class="step-label">계정</span></div>
+            <div class="step-line"></div>
+            <div class="step" data-step="2"><span class="step-num">2</span><span class="step-label">권한</span></div>
+            <div class="step-line"></div>
+            <div class="step" data-step="3"><span class="step-num">3</span><span class="step-label">확인</span></div>
+          </div>
+        </div>
+
+        <form class="card" id="userForm" novalidate>
+          <!-- 스텝 1: 계정 -->
+          <div class="card-body" data-panel-step="1">
+            <div class="form-row">
+              <div class="field">
+                <label class="field-label" for="f-name"><span class="req" aria-hidden="true">*</span>이름</label>
+                <input class="input" id="f-name" name="name" type="text" placeholder="예: 김이현" autocomplete="off">
+                <p class="field-help" data-help="name">실명 또는 표시 이름을 입력합니다</p>
+              </div>
+              <div class="field">
+                <label class="field-label" for="f-email"><span class="req" aria-hidden="true">*</span>이메일</label>
+                <input class="input" id="f-email" name="email" type="email" placeholder="예: hyun@bonbu.co.kr" autocomplete="off">
+                <p class="field-help" data-help="email">로그인 및 알림에 사용됩니다</p>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="field">
+                <label class="field-label" for="f-dept">부서</label>
+                <span class="select">
+                  <select class="select-native" id="f-dept" name="dept">
+                    <option>운영팀</option><option>영업팀</option><option>고객지원팀</option><option>재무팀</option><option>개발팀</option>
+                  </select>
+                  <span class="chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg></span>
+                </span>
+              </div>
+              <div class="field">
+                <label class="field-label" for="f-phone">전화</label>
+                <input class="input" id="f-phone" name="phone" type="tel" placeholder="010-0000-0000" autocomplete="off">
+                <p class="field-help">선택 입력입니다</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 스텝 2: 권한 -->
+          <div class="card-body" data-panel-step="2" hidden>
+            <div class="field">
+              <label class="field-label">역할</label>
+              <label class="choice"><input type="radio" name="role" value="관리자"><span class="choice-main"><span class="choice-title">관리자</span><span class="choice-desc t-caption">모든 설정과 사용자 관리 권한</span></span></label>
+              <label class="choice"><input type="radio" name="role" value="편집자" checked><span class="choice-main"><span class="choice-title">편집자</span><span class="choice-desc t-caption">데이터 생성·수정 가능, 설정 변경 불가</span></span></label>
+              <label class="choice"><input type="radio" name="role" value="뷰어"><span class="choice-main"><span class="choice-title">뷰어</span><span class="choice-desc t-caption">읽기 전용 접근</span></span></label>
+            </div>
+            <div class="field">
+              <label class="field-label">추가 권한</label>
+              <label class="choice"><input type="checkbox" name="perm" value="주문 환불" checked><span class="choice-main"><span class="choice-title">주문 환불 승인</span></span></label>
+              <label class="choice"><input type="checkbox" name="perm" value="리포트 내보내기"><span class="choice-main"><span class="choice-title">리포트 내보내기</span></span></label>
+              <label class="choice"><input type="checkbox" name="perm" value="사용자 초대"><span class="choice-main"><span class="choice-title">사용자 초대</span></span></label>
+            </div>
+            <div class="field">
+              <label class="field-label" for="f-scope">접근 범위</label>
+              <span class="select">
+                <select class="select-native" id="f-scope" name="scope">
+                  <option>전체 지역</option><option>수도권</option><option>영남권</option><option>호남권</option>
+                </select>
+                <span class="chevron" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4 6 4 4 4-4"/></svg></span>
+              </span>
+            </div>
+          </div>
+
+          <!-- 스텝 3: 확인 -->
+          <div class="card-body" data-panel-step="3" hidden>
+            <h2 class="t-subhead" style="margin-bottom:var(--space-3)">입력 내용 확인</h2>
+            <dl class="summary" id="summary">
+              <div class="summary-item"><dt>이름</dt><dd data-sum="name">—</dd></div>
+              <div class="summary-item"><dt>이메일</dt><dd data-sum="email">—</dd></div>
+              <div class="summary-item"><dt>부서</dt><dd data-sum="dept">—</dd></div>
+              <div class="summary-item"><dt>전화</dt><dd data-sum="phone">—</dd></div>
+              <div class="summary-item"><dt>역할</dt><dd data-sum="role">—</dd></div>
+              <div class="summary-item"><dt>추가 권한</dt><dd data-sum="perm">—</dd></div>
+              <div class="summary-item"><dt>접근 범위</dt><dd data-sum="scope">—</dd></div>
+            </dl>
+          </div>
+
+          <div class="form-foot">
+            <a class="btn btn-text grow" href="screen-3.html" style="flex:none">취소</a>
+            <button type="button" class="btn btn-default" id="btnPrev" hidden>이전</button>
+            <button type="button" class="btn btn-primary" id="btnNext">다음</button>
+            <button type="button" class="btn btn-primary" id="btnSubmit" hidden>만들기</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('userForm');
+  var steps = 3, cur = 1;
+  var stepEls = Array.prototype.slice.call(document.querySelectorAll('#stepbar .step'));
+  var lines = Array.prototype.slice.call(document.querySelectorAll('#stepbar .step-line'));
+  var panels = { 1: form.querySelector('[data-panel-step="1"]'), 2: form.querySelector('[data-panel-step="2"]'), 3: form.querySelector('[data-panel-step="3"]') };
+  var btnPrev = document.getElementById('btnPrev'), btnNext = document.getElementById('btnNext'), btnSubmit = document.getElementById('btnSubmit');
+
+  function setError(name, msg) {
+    var input = form.querySelector('[name="' + name + '"]');
+    var help = form.querySelector('[data-help="' + name + '"]');
+    if (input) input.classList.add('is-error');
+    if (help) { help.classList.add('error'); help.textContent = msg; }
+  }
+  function clearError(name, orig) {
+    var input = form.querySelector('[name="' + name + '"]');
+    var help = form.querySelector('[data-help="' + name + '"]');
+    if (input) input.classList.remove('is-error');
+    if (help) { help.classList.remove('error'); help.textContent = orig; }
+  }
+  function validateStep1() {
+    var ok = true;
+    var name = form.name.value.trim(), email = form.email.value.trim();
+    if (!name) { setError('name', '이름을 입력해 주세요'); ok = false; } else { clearError('name', '실명 또는 표시 이름을 입력합니다'); }
+    if (!email) { setError('email', '이메일을 입력해 주세요'); ok = false; }
+    else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { setError('email', '이메일 형식이 올바르지 않습니다'); ok = false; }
+    else { clearError('email', '로그인 및 알림에 사용됩니다'); }
+    return ok;
+  }
+  function render() {
+    for (var i = 1; i <= steps; i++) panels[i].hidden = (i !== cur);
+    stepEls.forEach(function (el) {
+      var n = +el.getAttribute('data-step');
+      el.classList.toggle('is-current', n === cur);
+      el.classList.toggle('is-done', n < cur);
+    });
+    lines.forEach(function (l, idx) { l.classList.toggle('is-done', idx + 1 < cur); });
+    btnPrev.hidden = cur === 1;
+    btnNext.hidden = cur === steps;
+    btnSubmit.hidden = cur !== steps;
+    if (cur === 3) fillSummary();
+  }
+  function fillSummary() {
+    var s = document.getElementById('summary');
+    s.querySelector('[data-sum="name"]').textContent = form.name.value.trim() || '—';
+    s.querySelector('[data-sum="email"]').textContent = form.email.value.trim() || '—';
+    s.querySelector('[data-sum="dept"]').textContent = form.dept.value;
+    s.querySelector('[data-sum="phone"]').textContent = form.phone.value.trim() || '입력 안 함';
+    s.querySelector('[data-sum="role"]').textContent = (form.querySelector('input[name="role"]:checked') || {}).value || '—';
+    var perms = Array.prototype.slice.call(form.querySelectorAll('input[name="perm"]:checked')).map(function (c) { return c.value; });
+    s.querySelector('[data-sum="perm"]').textContent = perms.length ? perms.join(', ') : '없음';
+    s.querySelector('[data-sum="scope"]').textContent = form.scope.value;
+  }
+  btnNext.addEventListener('click', function () {
+    if (cur === 1 && !validateStep1()) return;
+    if (cur < steps) { cur++; render(); }
+  });
+  btnPrev.addEventListener('click', function () { if (cur > 1) { cur--; render(); } });
+  btnSubmit.addEventListener('click', function () {
+    btnSubmit.innerHTML = '<span class="btn-spinner" aria-hidden="true"></span>만드는 중';
+    btnSubmit.setAttribute('aria-disabled', 'true');
+    setTimeout(function () {
+      if (window.quartzToast) window.quartzToast('사용자를 만들었습니다', 'success');
+      setTimeout(function () { window.location.href = 'screen-3.html'; }, 900);
+    }, 700);
+  });
+  render();
+})();
+</script>
+</body>
+</html>

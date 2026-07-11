@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="14" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>한끼 — 주문 현황 · Enamel 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-5 주문 현황 (§9) */
+.status-hero { text-align: center; padding-top: var(--space-6); }
+.status-art {
+  width: 96px; height: 96px; margin: 0 auto var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--color-primary-soft); color: var(--color-primary-vivid);
+  display: grid; place-items: center;
+}
+.status-art.done {
+  background: var(--color-success-soft); color: var(--color-success);
+  animation: pop var(--motion-slow) var(--ease-bounce);
+}
+.status-art.done path { stroke-dasharray: 40; stroke-dashoffset: 40; animation: draw var(--motion-base) var(--ease-standard) 0.1s forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.status-title { margin-bottom: var(--space-2); }
+
+/* 진행 스텝 (세로) */
+.steps { margin: 0; }
+.step { display: flex; gap: var(--space-3); }
+.step-rail { flex: none; width: 24px; display: flex; flex-direction: column; align-items: center; }
+.step-dot {
+  width: 20px; height: 20px; flex: none; border-radius: var(--radius-full);
+  background: var(--color-border); color: transparent;
+  display: grid; place-items: center;
+  transition: background-color var(--motion-fast) var(--ease-standard);
+}
+.step-line { width: 2px; flex: 1; background: var(--color-border); transition: background-color var(--motion-base) var(--ease-standard); }
+.step:last-child .step-line { display: none; }
+.step-body { flex: 1; padding-bottom: var(--space-6); }
+.step-label { font-size: var(--font-size-body-1); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); }
+.step-time { margin-top: var(--space-1); }
+
+.step.done .step-dot { background: var(--color-success); color: #fff; }
+.step.done .step-line { background: var(--color-success); }
+.step.done .step-label { color: var(--color-text-sub); }
+.step.current .step-dot { background: var(--color-primary-vivid); animation: dot-beat var(--motion-slow) var(--ease-bounce); }
+.step.current .step-label { color: var(--color-text); font-weight: var(--font-weight-heavy); }
+@keyframes dot-beat { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+.order-card { display: flex; flex-direction: column; gap: var(--space-1); }
+.help-actions { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-6); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="appbar">
+    <a class="icon-btn" href="screen-4.html" aria-label="뒤로가기">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </a>
+    <span class="appbar-title static">주문 현황</span>
+    <span class="appbar-spacer"></span>
+  </header>
+
+  <main class="scroll scroll-pad-tab page-enter">
+
+    <section class="status-hero" aria-live="polite">
+      <div id="art" class="status-art" role="img" aria-label="조리 중">
+        <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v3a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5z"/><path d="M3 11h18"/><path d="M9 7c-.5-1 .5-2 0-3M12 7c-.5-1 .5-2 0-3M15 7c-.5-1 .5-2 0-3"/></svg>
+      </div>
+      <h1 id="status-title" class="t-display2 status-title">요리하고 있어요</h1>
+      <p id="status-desc" class="t-caption sub num">약 25분 뒤 도착 예정</p>
+    </section>
+
+    <section class="section" aria-label="진행 상황">
+      <div class="steps" id="steps">
+        <div class="step done" data-step="0">
+          <div class="step-rail"><span class="step-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg></span><span class="step-line"></span></div>
+          <div class="step-body"><p class="step-label">주문 접수</p><p class="t-caption tertiary step-time num">오후 7:14</p></div>
+        </div>
+        <div class="step current" data-step="1">
+          <div class="step-rail"><span class="step-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg></span><span class="step-line"></span></div>
+          <div class="step-body"><p class="step-label">조리 중</p><p class="t-caption tertiary step-time">사장님이 요리하고 있어요</p></div>
+        </div>
+        <div class="step" data-step="2">
+          <div class="step-rail"><span class="step-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg></span><span class="step-line"></span></div>
+          <div class="step-body"><p class="step-label">배달 출발</p><p class="t-caption tertiary step-time">라이더가 픽업하면 알려드려요</p></div>
+        </div>
+        <div class="step" data-step="3">
+          <div class="step-rail"><span class="step-dot"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4 4 10-10"/></svg></span><span class="step-line"></span></div>
+          <div class="step-body"><p class="step-label">도착 완료</p><p class="t-caption tertiary step-time">문 앞에 놓이면 완료돼요</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="주문 내역">
+      <div class="card order-card">
+        <p class="t-body1 w700">역삼 교촌치킨 본점</p>
+        <p class="t-caption sub">허니콤보 · 콜라 1.25L</p>
+        <p class="t-caption sub num">주문번호 A7-20260711-0342</p>
+      </div>
+
+      <div class="help-actions">
+        <button class="btn btn-secondary" type="button" onclick="hkToast('가게로 연결하고 있어요')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h3l2 5-2 1a10 10 0 0 0 5 5l1-2 5 2v3a2 2 0 0 1-2 2A15 15 0 0 1 4 6a2 2 0 0 1 2-2z"/></svg>
+          가게에 전화
+        </button>
+        <button class="btn btn-ghost" type="button" onclick="hkSheet.open('cancel')">주문 취소</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 주문 취소 확인 모달 (파괴적 확인, §6.7) -->
+  <div id="cancel-dim" class="dim" onclick="hkSheet.close('cancel')"></div>
+  <div id="cancel" class="modal" role="alertdialog" aria-modal="true" aria-labelledby="cancel-title" aria-describedby="cancel-desc">
+    <h2 id="cancel-title" class="t-title2">이 주문을 취소할까요?</h2>
+    <p id="cancel-desc" class="t-body2 sub" style="margin-top: var(--space-2)">지금은 조리 전이라 바로 취소할 수 있어요.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" type="button" onclick="hkSheet.close('cancel')">그냥 둘게요</button>
+      <button class="btn btn-danger" type="button" onclick="hkSheet.close('cancel'); hkToast('주문을 취소했어요');">취소할게요</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var steps = Array.prototype.slice.call(document.querySelectorAll('#steps .step'));
+  var titleEl = document.getElementById('status-title');
+  var descEl = document.getElementById('status-desc');
+  var artEl = document.getElementById('art');
+  var cur = 1;
+
+  var copy = [
+    null,
+    { title: '요리하고 있어요', desc: '약 25분 뒤 도착 예정' },
+    { title: '배달 출발했어요', desc: '5분 뒤 도착!' },
+    { title: '주문 완료! 맛있게 드세요 🎉', desc: '' }
+  ];
+
+  function advance() {
+    if (cur >= steps.length - 1) return;
+    steps[cur].classList.remove('current');
+    steps[cur].classList.add('done');
+    cur += 1;
+    steps[cur].classList.add('current');
+    var c = copy[cur];
+    titleEl.textContent = c.title;
+    descEl.textContent = c.desc;
+    descEl.style.display = c.desc ? '' : 'none';
+
+    if (cur === steps.length - 1) {
+      steps[cur].classList.remove('current');
+      steps[cur].classList.add('done');
+      artEl.setAttribute('aria-label', '주문 완료');
+      artEl.className = 'status-art done';
+      artEl.innerHTML = '<svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l5 5 9-11"/></svg>';
+    }
+  }
+
+  if (!hkReduce) {
+    setTimeout(advance, 2800);
+    setTimeout(advance, 5600);
+  }
+})();
+</script>
+</body>
+</html>

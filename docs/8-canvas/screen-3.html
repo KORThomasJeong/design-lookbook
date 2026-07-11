@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="8" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>상점 — 주문 #1042 · Canvas 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 주문 상세 (§9) — 목록 위 우측 드로어(480px). 모바일은 전체 폭. */
+.col-order { width: 96px; }
+.col-date { width: 116px; }
+.opt { color: var(--color-text-sub); font-size: var(--fs-caption); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="topbar-wordmark"><span class="topbar-mark" aria-hidden="true">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h16l-1 3H5z"/><path d="M5 12v7h14v-7"/><path d="M4 9l1.5-4h13L20 9"/></svg>
+  </span>상점</span>
+  <label class="topbar-search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
+    <input type="search" placeholder="주문·상품·고객 검색" aria-label="검색">
+  </label>
+  <span class="topbar-spacer"></span>
+  <div class="topbar-actions">
+    <button class="icon-btn" type="button" aria-label="알림" data-toast="아직 새 알림이 없어요">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4a5 5 0 0 0-5 5c0 4-1.5 5.5-2 6h14c-.5-.5-2-2-2-6a5 5 0 0 0-5-5z"/><path d="M10 20a2 2 0 0 0 4 0"/></svg>
+    </button>
+    <span class="avatar" aria-hidden="true">상</span>
+  </div>
+</header>
+
+<aside class="sidebar" aria-label="주 메뉴">
+  <div class="nav-group">
+    <a class="nav-item" href="screen-1.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+      <span>홈</span></a>
+    <a class="nav-item is-active" href="screen-2.html" aria-current="page">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>
+      <span>주문</span></a>
+    <a class="nav-item" href="screen-4.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>
+      <span>상품</span></a>
+  </div>
+  <div class="nav-group">
+    <p class="nav-group-title t-micro">계정</p>
+    <a class="nav-item" href="screen-5.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.2-1.3L14 2h-4l-.4 2.4a7 7 0 0 0-2.2 1.3L5 4.8l-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.2 1.3L10 22h4l.4-2.4a7 7 0 0 0 2.2-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></svg>
+      <span>설정</span></a>
+  </div>
+</aside>
+
+<!-- 뒤에 깔린 주문 목록(맥락) -->
+<main class="content">
+  <div class="content-inner">
+    <div class="page-head">
+      <h1 class="t-title">주문</h1>
+    </div>
+    <section class="card" aria-label="주문 목록">
+      <div class="table-wrap table-desktop">
+        <table class="index">
+          <thead><tr><th class="col-order">주문번호</th><th>고객</th><th class="col-date">날짜</th><th>상태</th><th class="right">금액</th></tr></thead>
+          <tbody>
+            <tr style="background: var(--color-surface-hover);"><td class="w600">#1042</td><td>김서연</td><td class="num sub">2026. 7. 10.</td><td><span class="badge badge-warning"><span class="dot"></span>배송 준비</span></td><td class="right cell-amt">₩48,000</td></tr>
+            <tr onclick="location.href='screen-3.html'"><td class="w600">#1041</td><td>이준호</td><td class="num sub">2026. 7. 10.</td><td><span class="badge badge-success"><span class="dot"></span>배송 완료</span></td><td class="right cell-amt">₩126,500</td></tr>
+            <tr onclick="location.href='screen-3.html'"><td class="w600">#1040</td><td>박지민</td><td class="num sub">2026. 7. 9.</td><td><span class="badge badge-info"><span class="dot"></span>결제 완료</span></td><td class="right cell-amt">₩32,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="rlist list-mobile">
+        <li><a class="ritem" href="screen-2.html"><span class="ritem-main"><span class="ritem-title">주문 목록으로</span><span class="ritem-sub">전체 주문 보기</span></span></a></li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<!-- 우측 상세 드로어 (§6.7) — 기본 열림 -->
+<div class="drawer-scrim open" id="order-drawer">
+  <aside class="drawer open" role="dialog" aria-modal="true" aria-label="주문 #1042 상세">
+    <header class="drawer-head">
+      <a class="icon-btn" href="screen-2.html" aria-label="닫고 목록으로">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </a>
+      <h1 class="t-title" style="flex:1;">주문 #1042</h1>
+      <span class="badge badge-warning"><span class="dot"></span>배송 준비</span>
+    </header>
+
+    <div class="drawer-body">
+      <div class="stack">
+        <!-- 결제 대기 배너 예시는 결제 완료 상태라 정보 배너로 대체 -->
+        <div class="banner banner-info">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg>
+          <div><p class="banner-title">결제가 완료됐어요</p><p class="banner-body t-caption">배송 준비를 마치면 송장을 등록해 주세요</p></div>
+        </div>
+
+        <!-- 상품 카드 -->
+        <section class="card" aria-label="주문 상품">
+          <div class="card-head"><h2 class="t-heading">상품</h2><span class="t-caption sub">2개</span></div>
+          <ul class="rlist">
+            <li><div class="ritem">
+              <span class="ritem-thumb" aria-hidden="true">헤</span>
+              <span class="ritem-main"><span class="ritem-title">면 헨리넥 반팔 티셔츠</span><span class="opt">색상: 차콜 · 사이즈: L · 1개 × ₩24,000</span></span>
+              <span class="ritem-amt">₩24,000</span>
+            </div></li>
+            <li><div class="ritem">
+              <span class="ritem-thumb" aria-hidden="true">양</span>
+              <span class="ritem-main"><span class="ritem-title">코튼 크루삭스 3켤레 세트</span><span class="opt">색상: 아이보리 · 2세트 × ₩12,000</span></span>
+              <span class="ritem-amt">₩24,000</span>
+            </div></li>
+          </ul>
+          <hr class="card-divider">
+          <div class="sum-row"><span class="label">소계</span><span class="val num">₩48,000</span></div>
+          <div class="sum-row"><span class="label">배송비</span><span class="val num">₩3,000</span></div>
+          <div class="sum-row"><span class="label">할인 (첫 구매)</span><span class="val num" style="color: var(--color-danger);">-₩3,000</span></div>
+          <hr class="card-divider">
+          <div class="sum-row total"><span class="label">합계</span><span class="val num">₩48,000</span></div>
+        </section>
+
+        <!-- 배송 카드 -->
+        <section class="card" aria-label="배송">
+          <div class="card-head"><h2 class="t-heading">배송</h2></div>
+          <p class="t-body">김서연</p>
+          <p class="t-caption sub">서울특별시 마포구 양화로 45, 3층 · 04043</p>
+          <p class="t-caption sub num">010-2841-7720</p>
+          <hr class="card-divider">
+          <ul class="timeline">
+            <li class="tl-item done"><p class="tl-title">주문 접수</p><p class="tl-time num">2026. 7. 10. 09:12</p></li>
+            <li class="tl-item done"><p class="tl-title">결제 완료</p><p class="tl-time num">2026. 7. 10. 09:13</p></li>
+            <li class="tl-item"><p class="tl-title">배송 준비 중</p><p class="tl-time num">진행 중</p></li>
+            <li class="tl-item"><p class="tl-title">배송 완료</p><p class="tl-time num">-</p></li>
+          </ul>
+        </section>
+
+        <!-- 고객 카드 -->
+        <section class="card" aria-label="고객">
+          <div class="card-head"><h2 class="t-heading">고객</h2></div>
+          <div class="ritem" style="padding: 0;">
+            <span class="ritem-thumb round" aria-hidden="true">김</span>
+            <span class="ritem-main"><span class="ritem-title">김서연</span><span class="ritem-sub">seoyeon.kim@example.com</span></span>
+            <span class="badge badge-neutral">주문 7건</span>
+          </div>
+        </section>
+
+        <!-- 메모 카드 -->
+        <section class="card" aria-label="메모">
+          <div class="card-head"><h2 class="t-heading">메모</h2></div>
+          <div class="field">
+            <label class="field-label" for="memo">내부 메모 <span class="sub">· 고객에게 보이지 않아요</span></label>
+            <textarea class="textarea" id="memo" placeholder="예: 부재 시 경비실에 맡겨 달라고 요청함"></textarea>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer class="drawer-foot">
+      <button class="btn btn-secondary" type="button" data-toast="환불 요청을 접수했어요">환불</button>
+      <button class="btn btn-primary" type="button" data-toast="배송 준비를 완료로 표시했어요">배송 준비 완료</button>
+    </footer>
+  </aside>
+</div>
+
+<nav class="tabbar" aria-label="주 메뉴">
+  <a class="tab" href="screen-1.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11.5 12 5l8 6.5"/><path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5"/></svg>
+    <span>홈</span></a>
+  <a class="tab is-active" href="screen-2.html" aria-current="page">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>
+    <span>주문</span></a>
+  <a class="tab" href="screen-4.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg>
+    <span>상품</span></a>
+  <a class="tab" href="screen-5.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.3l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2.2-1.3L14 2h-4l-.4 2.4a7 7 0 0 0-2.2 1.3L5 4.8l-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .9.1 1.3l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2.2 1.3L10 22h4l.4-2.4a7 7 0 0 0 2.2-1.3l2.3.9 2-3.4-2-1.5c.1-.4.1-.9.1-1.3z"/></svg>
+    <span>설정</span></a>
+</nav>
+
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko" data-preset="14" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>한끼 — 교촌치킨 · Enamel 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-3 메뉴 · 장바구니 (§9) */
+.hero {
+  position: relative;
+  width: 100%; height: 200px;
+  background: var(--color-surface);
+  display: grid; place-items: center; color: var(--color-primary-vivid);
+}
+.hero-back {
+  position: absolute; top: var(--space-3); left: var(--space-3);
+  width: var(--size-touch-min); height: var(--size-touch-min);
+  display: grid; place-items: center;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-raised); color: var(--color-text);
+  box-shadow: var(--shadow-2);
+  transition: transform var(--motion-base) var(--ease-bounce);
+}
+.hero-back:active { transform: scale(0.97); transition: transform var(--motion-quick) var(--ease-exit); }
+
+.info {
+  position: relative; margin-top: -20px;
+  background: var(--color-surface-raised);
+  border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+  padding: var(--space-5) var(--layout-screen-padding) var(--space-4);
+}
+.info-meta { display: flex; align-items: center; gap: var(--space-1); margin-top: var(--space-2); color: var(--color-text-sub); }
+.info-meta svg { color: var(--color-accent); }
+.dot-sep { color: var(--color-text-tertiary); }
+
+.menu-wrap { padding: 0 var(--layout-screen-padding); }
+.menu-head { margin-top: var(--space-6); margin-bottom: var(--space-2); }
+
+.mrow {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  width: 100%; text-align: left;
+  padding: var(--space-4) 0; min-height: 88px;
+  border-radius: var(--radius-lg);
+  transition: transform var(--motion-base) var(--ease-bounce), background-color var(--motion-quick) linear;
+}
+.mrow:active { transform: scale(0.99); background: var(--color-surface); transition: transform var(--motion-quick) var(--ease-exit); }
+:root[data-theme="dark"] .mrow:active { background: var(--color-surface); }
+.mrow-body { flex: 1; min-width: 0; }
+.mrow-desc { margin-top: var(--space-1); }
+.mrow-price { margin-top: var(--space-2); display: flex; align-items: baseline; gap: var(--space-2); }
+.mrow-thumb { width: 64px; height: 64px; flex: none; }
+
+/* 옵션 시트 */
+.opt-line { display: flex; align-items: center; justify-content: space-between; min-height: var(--size-touch-min); padding: var(--space-2) 0; }
+.opt-check {
+  display: flex; align-items: center; gap: var(--space-3);
+  width: 100%; padding: var(--space-2) 0;
+  font-size: var(--font-size-body-1); font-weight: var(--font-weight-medium); color: var(--color-text);
+}
+.opt-box {
+  width: 24px; height: 24px; flex: none; border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border); display: grid; place-items: center; color: transparent;
+  transition: background-color var(--motion-fast) linear, border-color var(--motion-fast) linear;
+}
+.opt-check[aria-pressed="true"] .opt-box { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-primary-text); }
+.opt-price { margin-left: auto; font-size: var(--font-size-body-2); font-weight: var(--font-weight-bold); font-variant-numeric: tabular-nums; }
+.sheet-cta { margin-top: var(--space-5); }
+.stepper-row { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3) 0 var(--space-4); }
+
+/* 장바구니 담기 pop (§7) */
+.cart-btn.bump { animation: pop var(--motion-slow) var(--ease-bounce); }
+.cart-count.grow { animation: badge-pop var(--motion-base) var(--ease-bounce); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <main class="scroll scroll-flush page-enter">
+    <div class="hero">
+      <a class="hero-back" href="screen-2.html" aria-label="뒤로가기">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </a>
+      <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20M12 14.5 11 20"/></svg>
+    </div>
+
+    <div class="info">
+      <h1 class="t-title1">역삼 교촌치킨 본점</h1>
+      <p class="t-caption num info-meta">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l2.7 5.5 6 .9-4.3 4.2 1 6-5.4-2.8-5.4 2.8 1-6L4.3 9.4l6-.9z"/></svg>
+        4.8 <span class="dot-sep">·</span> 25분 <span class="dot-sep">·</span> 배달 3,000원 <span class="dot-sep">·</span> 최소 15,000원
+      </p>
+    </div>
+
+    <div class="menu-wrap scroll-pad-cta">
+      <div class="menu-head"><h2 class="t-title2">대표 메뉴</h2></div>
+
+      <div class="stagger">
+        <button class="mrow" type="button" onclick="openMenu('허니콤보', 20000, 0)">
+          <span class="mrow-body">
+            <span class="t-body1 w700" style="display:block">허니콤보</span>
+            <span class="t-caption sub mrow-desc clamp2" style="display:block">벌집꿀 소스에 콤보(순살+뼈), 국내산 닭 사용. 부드럽고 달콤해요.</span>
+            <span class="mrow-price"><span class="t-body1 w700 num">20,000원</span></span>
+          </span>
+          <span class="thumb mrow-thumb" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20M12 14.5 11 20"/></svg></span>
+        </button>
+
+        <button class="mrow" type="button" onclick="openMenu('레드콤보', 18000, 3000)">
+          <span class="mrow-body">
+            <span class="t-body1 w700" style="display:block">레드콤보</span>
+            <span class="t-caption sub mrow-desc clamp2" style="display:block">매콤한 홍고추 소스 콤보. 알싸한 뒷맛이 매력이에요.</span>
+            <span class="mrow-price"><span class="t-caption num price-strike">21,000원</span><span class="t-body1 w700 num price-accent">18,000원</span></span>
+          </span>
+          <span class="thumb mrow-thumb" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20M12 14.5 11 20"/></svg></span>
+        </button>
+
+        <button class="mrow" type="button" onclick="openMenu('레드윙', 19000, 0)">
+          <span class="mrow-body">
+            <span class="t-body1 w700" style="display:block">레드윙</span>
+            <span class="t-caption sub mrow-desc clamp2" style="display:block">윙과 봉으로만 구성한 매운맛. 맥주 안주로 딱이에요.</span>
+            <span class="mrow-price"><span class="t-body1 w700 num">19,000원</span></span>
+          </span>
+          <span class="thumb mrow-thumb" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 8.5a4 4 0 1 0-7.5 2c-2 .5-3 2-3 4h11z"/><path d="M9 14.5 6 20M12 14.5 11 20"/></svg></span>
+        </button>
+
+        <button class="mrow" type="button" onclick="openMenu('교촌 콜라 1.25L', 3000, 0)">
+          <span class="mrow-body">
+            <span class="t-body1 w700" style="display:block">콜라 1.25L</span>
+            <span class="t-caption sub mrow-desc clamp2" style="display:block">시원하게 즐기는 대용량 콜라.</span>
+            <span class="mrow-price"><span class="t-body1 w700 num">3,000원</span></span>
+          </span>
+          <span class="thumb mrow-thumb" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l-1 4H9zM8 7h8v12a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2z"/></svg></span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- 플로팅 장바구니 바 (§9 screen-3) — 민트 위 먹색(E1) -->
+  <div class="cart-bar">
+    <a id="cart" class="cart-btn" href="screen-4.html" aria-label="장바구니 보기, 총 14,000원">
+      <span class="cart-count num" id="cart-count">2</span>
+      <span class="t-body2 w700">담음</span>
+      <span class="cart-total"><span id="cart-total" class="num" data-count="20000" data-suffix="원">20,000원</span> · 장바구니 보기</span>
+    </a>
+  </div>
+
+  <!-- 메뉴 옵션 바텀시트 (§6.7) -->
+  <div id="menu-dim" class="dim" onclick="hkSheet.close('menu')"></div>
+  <div id="menu" class="sheet" role="dialog" aria-modal="true" aria-labelledby="menu-title">
+    <div class="sheet-grab" aria-hidden="true"></div>
+    <h2 id="menu-title" class="t-title2 sheet-title">허니콤보</h2>
+
+    <div role="group" aria-label="추가 옵션">
+      <button class="opt-check" type="button" aria-pressed="false" onclick="toggleOpt(this, 2000)">
+        <span class="opt-box" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg></span>
+        치즈볼 추가 <span class="opt-price num">+2,000원</span>
+      </button>
+      <button class="opt-check" type="button" aria-pressed="false" onclick="toggleOpt(this, 1000)">
+        <span class="opt-box" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4 4 10-10"/></svg></span>
+        교촌 소스 추가 <span class="opt-price num">+1,000원</span>
+      </button>
+    </div>
+
+    <div class="stepper-row">
+      <span class="t-body1 w700">수량</span>
+      <div class="stepper">
+        <button type="button" id="qty-minus" aria-label="수량 줄이기" onclick="stepQty(-1)" disabled>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 12h12"/></svg>
+        </button>
+        <span class="qty num" id="qty" aria-live="polite">1</span>
+        <button type="button" aria-label="수량 늘리기" onclick="stepQty(1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn btn-primary sheet-cta" type="button" id="menu-cta" onclick="addToCart()">
+      <span id="menu-cta-label" class="num">20,000원 담기</span>
+    </button>
+  </div>
+
+  <script>
+  (function () {
+    var basePrice = 20000, optSum = 0, qty = 1, cartCount = 2, cartTotal = 20000;
+
+    window.openMenu = function (name, price, discount) {
+      basePrice = discount > 0 ? discount : price;
+      optSum = 0; qty = 1;
+      document.getElementById('menu-title').textContent = name;
+      document.querySelectorAll('#menu .opt-check').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
+      document.getElementById('qty').textContent = '1';
+      document.getElementById('qty-minus').disabled = true;
+      paintCta();
+      hkSheet.open('menu');
+    };
+    window.toggleOpt = function (el, delta) {
+      var on = el.getAttribute('aria-pressed') === 'true';
+      el.setAttribute('aria-pressed', on ? 'false' : 'true');
+      optSum += on ? -delta : delta;
+      paintCta();
+    };
+    window.stepQty = function (d) {
+      qty = Math.max(1, Math.min(20, qty + d));
+      document.getElementById('qty').textContent = qty;
+      document.getElementById('qty-minus').disabled = qty <= 1;
+      paintCta();
+    };
+    function lineTotal() { return (basePrice + optSum) * qty; }
+    function paintCta() {
+      document.getElementById('menu-cta-label').textContent = hkFmt(lineTotal()) + '원 담기';
+    }
+
+    window.addToCart = function () {
+      var add = lineTotal();
+      cartCount += qty;
+      var prev = cartTotal; cartTotal += add;
+      hkSheet.close('menu');
+
+      var countEl = document.getElementById('cart-count');
+      var btn = document.getElementById('cart');
+      var totalEl = document.getElementById('cart-total');
+      countEl.textContent = cartCount;
+      if (!hkReduce) {
+        btn.classList.remove('bump'); countEl.classList.remove('grow');
+        void btn.offsetWidth;
+        btn.classList.add('bump'); countEl.classList.add('grow');
+      }
+      totalEl.setAttribute('data-from', prev);
+      totalEl.setAttribute('data-count', cartTotal);
+      hkCountUp(totalEl);
+      btn.setAttribute('aria-label', '장바구니 보기, 총 ' + hkFmt(cartTotal) + '원');
+      hkToast('장바구니에 담았어요');
+    };
+  })();
+  </script>
+
+</div>
+</body>
+</html>

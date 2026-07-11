@@ -1,0 +1,89 @@
+<html lang="ko" data-preset="16" data-variants="a,b" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>누리 — 로그인 · Jade 데모</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<style>
+/* screen-4 로그인 (§9) */
+.login-mark { text-align: center; margin-top: var(--space-8); color: var(--color-primary); }
+:root[data-theme="dark"] .login-mark { color: var(--color-primary-soft-text); }
+.login-form { margin-top: var(--space-7); }
+.login-cta { margin-top: var(--space-5); }
+.social { margin-top: var(--space-4); }
+.social + .social { margin-top: var(--space-3); }
+.social .btn { justify-content: flex-start; padding: 0 var(--space-4); gap: var(--space-3); }
+.or-wrap { margin: var(--space-5) 0; }
+.signup { text-align: center; margin-top: var(--space-6); font-size: var(--font-size-label); color: var(--color-text-sub); }
+</style>
+<script src="../assets/preset-loader.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<div class="app">
+
+  <header class="gnb">
+    <a class="icon-btn" href="screen-5.html" aria-label="닫기">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+    </a>
+    <span class="gnb-spacer"></span>
+  </header>
+
+  <main class="scroll pad-cta page-enter">
+
+    <p class="t-num-md login-mark">누리</p>
+
+    <form class="login-form" onsubmit="return nLogin(event)">
+      <div class="field">
+        <label class="field-label" for="login-id">아이디</label>
+        <div class="input-wrap">
+          <input class="input" id="login-id" type="text" data-id placeholder="아이디를 입력하세요" autocomplete="username">
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label" for="login-pw">비밀번호</label>
+        <div class="input-wrap">
+          <input class="input" id="login-pw" type="password" data-pw placeholder="비밀번호를 입력하세요" autocomplete="current-password">
+          <button class="input-eye" type="button" aria-label="비밀번호 표시" aria-pressed="false" onclick="nEye(this)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.5"/></svg>
+          </button>
+        </div>
+        <p class="field-help">아이디 또는 비밀번호를 다시 확인해 주세요</p>
+      </div>
+
+      <div class="check-line">
+        <span class="check" role="checkbox" aria-checked="false" tabindex="0" onclick="nCheck(this)" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();nCheck(this);}">
+          <span class="check-box" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4 4 10-10"/></svg></span>
+          <span>로그인 상태 유지</span>
+        </span>
+        <a class="t-label link" href="screen-4.html" onclick="event.preventDefault(); nToast('비밀번호 찾기로 이동해요')">비밀번호 찾기</a>
+      </div>
+
+      <div class="login-cta">
+        <button class="btn btn-primary" type="submit">로그인</button>
+      </div>
+    </form>
+
+    <div class="or-wrap or-line"><span>또는</span></div>
+
+    <div class="social">
+      <button class="btn btn-secondary" type="button" onclick="nToast('일회용 로그인 번호를 보냈어요')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 18h4"/></svg>
+        <span>일회용 로그인 번호로 로그인</span>
+      </button>
+    </div>
+    <div class="social">
+      <button class="btn btn-secondary" type="button" onclick="nToast('QR코드를 표시해요')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h3v3M20 14v6M17 20h3"/></svg>
+        <span>QR코드로 로그인</span>
+      </button>
+    </div>
+
+    <p class="signup">아직 회원이 아니세요? <a class="link w600" href="screen-4.html" onclick="event.preventDefault(); nToast('회원가입으로 이동해요')">회원가입</a></p>
+
+  </main>
+
+</div>
+</body>
+</html>
